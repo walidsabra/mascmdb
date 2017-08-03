@@ -1,0 +1,18 @@
+﻿@model IEnumerable<CMDB01.Models.comment>
+
+@{
+    ViewBag.Title = "Comments";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Comments</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@foreach (var item in Model)
+{
+    @item.Id <br />
+    @item.Comment <br /> <br />
+}

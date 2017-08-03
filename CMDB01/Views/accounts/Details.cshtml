@@ -1,0 +1,128 @@
+﻿@model CMDB01.Models.account
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="color:dodgerblue">@Html.DisplayFor(model => model.Name)</h2>
+
+<div class="row">
+
+    <div class="col-md-4">
+        <h4 style="color:lightcoral">Account Details</h4>
+        <dl class="dl-horizontal">
+
+            <dt>
+                @Html.DisplayNameFor(model => model.UltimateId)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.UltimateId)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ContractDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ContractDate)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Status)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Status)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Opportunity)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Opportunity)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ProjectorProject)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ProjectorProject)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Billable)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Billable)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.RequestIMS)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.RequestIMS)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.LinktoC4S)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.LinktoC4S)
+            </dd>
+        </dl>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <h4 style="color:lightcoral">Account Servers</h4>
+        <p class="card-text" style="margin-left: 20px; margin-right: 20px;  padding-left:1em">
+
+            @foreach (var srv in Model.servers)
+            {
+                <a class="glyphicon glyphicon-th-large" href="/servers/details/@srv.Id"></a> <b>@srv.Name</b> <br />
+                foreach (var ds in @srv.datasources)
+                {
+                    <a style="padding-left:1em" class="glyphicon glyphicon-list-alt" href="/datasources/details/@ds.Id"></a>  @ds.Name <br />
+                }
+                <br />
+            }
+            <br />
+        </p>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <h4 style="color:lightcoral">Account Contacts</h4>
+
+        <p class="card-text" style="margin-left: 20px; margin-right: 20px;  padding-left:1em">
+
+
+            @foreach (var cn in Model.contacts)
+            {
+                <a title="Email" href="mailto:@cn.email">
+                    <i class="glyphicon glyphicon-envelope"></i>
+                </a>
+                <i class="glyphicon glyphicon-phone"></i>
+                @cn.Name
+                <br />
+            }
+
+        </p>
+
+
+    </div>
+</div>
+<hr />
+<div class="row">
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</div>

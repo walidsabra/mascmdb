@@ -1,0 +1,103 @@
+﻿@model IEnumerable<CMDB01.Models.account>
+
+@{
+    ViewBag.Title = "Home Page";
+}
+<style>
+    .hero-widget {
+        text-align: center;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+        .hero-widget .icon {
+            display: block;
+            font-size: 96px;
+            line-height: 96px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .hero-widget var {
+            display: block;
+            height: 64px;
+            font-size: 64px;
+            line-height: 64px;
+            font-style: normal;
+        }
+
+        .hero-widget label {
+            font-size: 17px;
+        }
+
+        .hero-widget .options {
+            margin-top: 10px;
+        }
+</style>
+
+<div class="">
+    <h1>CMDB</h1>
+</div>
+
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="hero-widget well well-sm">
+                <div class="icon">
+                    <i class="glyphicon glyphicon-th-list"></i>
+                </div>
+                <div class="text">
+                    <var>@ViewBag.accounts</var>
+                    <label class="text-muted">Accounts</label>
+                </div>
+                <div class="options">
+                    <a href="/accounts/" class="btn btn-default "><i class="glyphicon glyphicon-search"></i> View accounts</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="hero-widget well well-sm">
+                <div class="icon">
+                    <i class="glyphicon glyphicon-globe"></i>
+                </div>
+                <div class="text">
+                    <var>@ViewBag.servers</var>
+                    <label class="text-muted">Server Farms</label>
+                </div>
+                <div class="options">
+                    <a href="/servers/" class="btn btn-default "><i class="glyphicon glyphicon-search"></i> View servers</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="hero-widget well well-sm">
+                <div class="icon">
+                    <i class="glyphicon glyphicon-tags"></i>
+                </div>
+                <div class="text">
+                    <var>@ViewBag.datasources</var>
+                    <label class="text-muted">Data Sources</label>
+                </div>
+                <div class="options">
+                    <a href="/datasources/" class="btn btn-default "><i class="glyphicon glyphicon-search"></i> View datasources</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="hero-widget well well-sm">
+                <div class="icon">
+                    <i class="glyphicon glyphicon-user"></i>
+                </div>
+                <div class="text">
+                    <var>@ViewBag.contacts</var>
+                    <label class="text-muted">Contacts</label>
+                </div>
+                <div class="options">
+                    <a href="/contacts/" class="btn btn-default"><i class="glyphicon glyphicon-search"></i> View contacts</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

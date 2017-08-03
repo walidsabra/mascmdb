@@ -1,0 +1,101 @@
+﻿@model CMDB01.Models.datasource
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="color:dodgerblue">@Html.DisplayFor(model => model.Name)</h2>
+
+<div class="row">
+    
+    <hr />
+    <dl class="dl-horizontal">
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GUID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GUID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BeingMonitored)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BeingMonitored)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Server Farm")
+        </dt>
+        <dd>
+            <a href="/servers/details/@Html.DisplayFor(model => model.server.Id)">  @Html.DisplayFor(model => model.serverName)</a>
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.server.DeployedVersion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.server.DeployedVersion)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.server.DataCenter)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.server.DataCenter)
+        </dd>
+        <dt>
+            @Html.DisplayName("Account")
+        </dt>
+        <dd>
+            <a href="/accounts/details/@Html.DisplayFor(model => model.server.account.Id)">  @Html.DisplayFor(model => model.AccountName)</a>
+        </dd>
+     
+
+    </dl>
+
+
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+
+        <h4 style="color:lightcoral">Datasource Contacts</h4>
+        <p class="card-text" style="margin-left: 20px; margin-right: 20px;  padding-left:1em">
+
+            @foreach (var cn in Model.contacts)
+            {
+                <span></span>
+                                    <a title="Email" href="mailto:@cn.email">
+                                        <i class="glyphicon glyphicon-envelope"></i>
+                                    </a>
+                                    <i class="glyphicon glyphicon-phone"></i>
+                                        @cn.Name
+                                        <br />
+            }
+        </p>
+    </div>
+    @*<div class="col-md-4">
+        <h4 style="color:lightcoral">Server Datasources</h4>
+        <p class="card-text" style="margin-left: 20px; margin-right: 20px;  padding-left:1em">
+        </p>
+    </div>*@
+</div>
+<hr />
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>

@@ -1,0 +1,180 @@
+﻿@model IEnumerable<CMDB01.Models.datasource>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/flipCards.css" rel="stylesheet" />
+
+<h2>Datasources</h2>
+
+<div class="row">
+    <form class="navbar-form navbar-left">
+        <p>
+            @Html.ActionLink("Create New", "Create")
+        </p>
+    </form>
+    <form class="navbar-form navbar-right" role="search">
+        <div class="form-group form-inline">
+            <input type="text" id="txtSearch" class="form-control" placeholder="Search ...">
+        </div>
+        <a class="btn btn-primary glyphicon glyphicon-search" id="btnSearch"></a>
+        <a class="btn btn-danger glyphicon glyphicon-refresh" id="btnReset"></a>
+        <br />
+        <br />
+        @foreach (var item in Model.OrderBy(x => x.Name).Select(a => a.Name.Substring(0, 1).ToUpper()).Distinct())
+        {
+            <a href="/datasources/index?StartWith=@item">@item</a>
+        }
+        <a href="/datasources/index">...</a>
+    </form>
+    <br />
+</div>
+<hr />
+
+<div class="col-md-2">
+    <h4>Data Center</h4>
+    @foreach (var dc in Model.OrderBy(r => r.DataCenter).Select(a => a.DataCenter).Distinct())
+    {
+        if (!string.IsNullOrEmpty(dc))
+        {
+            <a href="/datasources/index?dc=@dc">@dc</a> <br />
+        }
+        else
+        {
+            <a href="/datasources/index?dc=null">null</a><br />
+        }
+
+    }
+    <hr />
+
+    <h4>Deployed Version</h4>
+    @foreach (var ver in Model.OrderBy(r => r.DeployedVersion).Select(a => a.DeployedVersion).Distinct())
+    {
+        if (!string.IsNullOrEmpty(ver))
+        {
+            <a href="/datasources/index?dv=@ver">@ver</a> <br />
+        }
+        else
+        {
+            <a href="/datasources/index?dv=null">null</a><br />
+        }
+    }
+    <hr />
+    <h4>Account</h4>
+    @foreach (var acc in Model.OrderBy(r => r.AccountName).Select(a => a.AccountName).Distinct())
+    {
+        if (!string.IsNullOrEmpty(acc))
+        {
+            <a href="/datasources/index?acc=@acc">@acc</a> <br />
+        }
+        else
+        {
+            <a href="/datasources/index?acc=null">null</a><br />
+        }
+    }
+
+</div>
+
+
+
+
+<div class="col-md-10">
+    @foreach (var item in Model.OrderBy(a => a.Name))
+            {
+        <div>
+            <div class="col-md-3">
+                <div class="card-container manual-flip">
+                    <div class="card">
+                        <div class="front">
+                            <div class="card-block" style="margin-left: 10px; margin-right: 10px;">
+                                <button class="btn btn-simple" rel="tooltip" title="Flip Card" onclick="rotateCard(this)">
+                                    <i class="glyphicon glyphicon-refresh"></i>
+                                </button>
+                                <a class="btn btn-simple" rel="tooltip" title="Edit" href="@Url.Action("Edit", "datasources", new { id = item.Id})">
+                                    <i class="glyphicon glyphicon-edit"></i>
+                                </a>
+                                <a class="btn btn-simple" rel="tooltip" title="Delete" href="@Url.Action("Delete", "datasources", new { id = item.Id })">
+                                    <i class="glyphicon glyphicon-remove"></i>
+                                </a>
+                                <a class="btn btn-simple" rel="tooltip" title="Comment" href="@Url.Action("Comment", "datasources", new { id = item.Id })">
+                                    <i class="glyphicon glyphicon-comment"></i>
+                                </a>
+                                <br />
+                                <a class="card-title" style="color:cornflowerblue" href="/datasources/details/@item.Id" target="_blank">@item.Name</a>
+                                <p class="card-text">
+                                    @item.Description <br />
+                                    <b>GUID:</b> <br /> @item.GUID <br />
+                                    <b>Monitored?:</b> @item.BeingMonitored <br />
+                                </p>
+                            </div>
+                            <br />
+                            <div class="card-block" style="margin-left: 10px; margin-right: 10px; overflow-y:auto">
+                                <p class="card-text" style="padding:1em">
+                                    <b>Datasource Contacts:</b> <br />
+
+                                    @foreach (var cn in @item.contacts)
+                                    {
+                                        <span></span>
+                                        <a title="Email" href="mailto:@cn.email">
+                                            <i class="glyphicon glyphicon-envelope"></i>
+                                        </a>
+                                        <i class="glyphicon glyphicon-phone"></i>
+                                        @cn.Name
+                                        <br />
+                                    }
+
+                                </p>
+                            </div>
+                        </div>
+                        <div class="back">
+                            <button class="btn btn-simple" rel="tooltip" title="Flip Card" onclick="rotateCard(this)">
+                                <i class="glyphicon glyphicon-refresh"></i>
+                            </button>
+
+                            <div style="overflow-y:auto">
+
+                                <p class="card-text" style="margin-left: 20px; margin-right: 20px;">
+                                    <b>Server Name:</b> <br /> <a href="servers/details/@item.server.Id">@item.serverName </a> <br />
+                                    <b>FQDN:</b> @item.FQDN <br />
+                                    <b>Data Center:</b> @item.DataCenter <br />
+                                    <b>Deployed Version:</b> @item.DeployedVersion <br />
+
+                                    <br />
+                                </p>
+                                <p class="card-text" style="margin-left: 20px; margin-right: 20px;">
+                                    <b>Account Name:</b> <a href="/accounts/details/@item.server.account.Id">@item.AccountName<br /></a>
+                                    <br />
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+            </div>
+        </div>
+    }
+</div>
+<div class="row"></div>
+
+<script>
+    $("#btnSearch").click(function () {
+        window.location = "/datasources/index?SearchValue=" + $("#txtSearch").val();
+    });
+
+
+    $("#btnReset").click(function () {
+        window.location = "/datasources/index";
+    });
+
+    function rotateCard(btn) {
+        var $card = $(btn).closest('.card-container');
+        console.log($card);
+        if ($card.hasClass('hover')) {
+            $card.removeClass('hover');
+        } else {
+            $card.addClass('hover');
+        }
+    };
+</script>
+

@@ -1,0 +1,185 @@
+﻿@model CMDB01.Models.server
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="color:dodgerblue">@Html.DisplayFor(model => model.Name)</h2>
+
+<div class="row">
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DataCenter)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DataCenter)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeployedVersion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeployedVersion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FQDN)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FQDN)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Role)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Role)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NonTypicalArchitecture)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NonTypicalArchitecture)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomSLA)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CustomSLA)
+        </dd>
+        <dt>
+            @Html.DisplayName("Account Name")
+        </dt>
+        <dd>
+            <a href="/accounts/details/@Html.DisplayFor(model => model.account.Id)">@Html.DisplayFor(model => model.account.Name)<br /></a>
+        </dd>
+    </dl>
+
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <p class="card-text">
+            <b>Active Users:</b> <br />
+        </p>
+        <table>
+            <col width="50">
+            <col width="50">
+            <col width="50">
+            <col width="50">
+            <tr>
+                <td><a style="color:darkred">@Model.ActiveUsers7Days <br /><p style="font-size:6px; color:cornflowerblue">7 Days</p></a></td>
+                <td><a style="color:darkred">@Model.ActiveUsers30Days <br /><p style="font-size:6px; color:cornflowerblue">30 Days</p></a></td>
+                <td><a style="color:darkred">@Model.ActiveUsers90Days <br /><p style="font-size:6px; color:cornflowerblue">90 Days</p></a></td>
+                <td><a style="color:darkred">@Model.ActiveUsers120Days <br /><p style="font-size:6px; color:cornflowerblue">120 Days</p></a></td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-md-4">
+        <p class="card-text">
+            <b>Storage:</b> <br />
+        </p>
+        <table>
+            <col width="65">
+            <col width="70">
+            <col width="65">
+
+            <tr>
+                <td><a>@Model.ActiveUsers7Days <br /> <p style="font-size:6px">File Space</p></a></td>
+                <td><a>@Model.ActiveUsers30Days <br /><p style="font-size:6px">Provisioned Space</p></a></td>
+                <td><a>@Model.ActiveUsers90Days <br /><p style="font-size:6px">Free Space %</p></a></td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-md-4">
+        <p class="card-text">
+            <b>URLS:</b> <br />
+        </p>
+        <div class="card-text" style="color:coral">
+            <a rel="tooltip" title="Server Farm IP Address" href="@Model.ServerFarmIPAddress" target="_blank">
+                <i class="glyphicon glyphicon-certificate"></i>
+            </a>
+            <a rel="tooltip" title="Web Server URL" href="@Model.WebServerURL" target="_blank">
+                <i class="glyphicon glyphicon-globe"></i>
+            </a>
+            <a rel="tooltip" title="Web Service Gateway URL" href="@Model.WebServiceGatewayURL" target="_blank">
+                <i class="glyphicon glyphicon-link"></i>
+            </a>
+        </div>
+    </div>
+</div>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+
+        <h4 style="color:lightcoral">Server Datasources</h4>
+        <p class="card-text" style="margin-left: 20px; margin-right: 20px;  padding-left:1em">
+
+
+            @foreach (var ds in Model.datasources)
+
+        {
+                <a title="Datasource Details" href="/datasources/details/@ds.Id">
+                    <i class="glyphicon glyphicon-info-sign"></i>
+                </a>
+
+                @ds.Name
+                <br />
+
+        }
+
+        </p>
+
+    </div>
+    <div class="col-md-4">
+
+        <h4 style="color:lightcoral">Server Contacts</h4>
+        <p class="card-text" style="margin-left: 20px; margin-right: 20px;  padding-left:1em">
+
+
+            @foreach (var cn in Model.contacts)
+        {
+                <a title="Email" href="mailto:@cn.email">
+                    <i class="glyphicon glyphicon-envelope"></i>
+                </a>
+                <i class="glyphicon glyphicon-phone"></i>
+                @cn.Name
+                <br />
+        }
+
+        </p>
+
+    </div>
+</div>
+<hr />
+<div class="row">
+    <h4 style="color:lightcoral">Server Comments</h4>
+    <p class="card-text" style="margin-left: 20px; margin-right: 20px;  padding-left:1em">
+
+
+        @*@foreach (var cm in )
+
+        {
+            <a title="Datasource Details" href="/datasources/details/@ds.Id">
+                <i class="glyphicon glyphicon-info-sign"></i>
+            </a>
+
+                @ds.Name
+                <br />
+
+        }*@
+
+    </p>
+</div>
+<hr />
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

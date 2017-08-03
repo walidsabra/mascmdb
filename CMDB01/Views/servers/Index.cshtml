@@ -1,0 +1,263 @@
+﻿@model IEnumerable<CMDB01.Models.server>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/flipCardS.css" rel="stylesheet" />
+<h2>Server Farms</h2>
+
+<div class="row">
+    <form class="navbar-form navbar-left">
+        <p>
+            @Html.ActionLink("Create New", "Create")
+        </p>
+    </form>
+    <form class="navbar-form navbar-right" role="search">
+        <div class="form-group form-inline">
+            <input type="text" id="txtSearch" class="form-control" placeholder="Search ...">
+        </div>
+        <a class="btn btn-primary glyphicon glyphicon-search" id="btnSearch"></a>
+        <a class="btn btn-danger glyphicon glyphicon-refresh" id="btnReset"></a>
+        <br />
+        <br />
+        @foreach (var item in Model.OrderBy(x => x.Name).Select(a => a.Name.Substring(0, 1).ToUpper()).Distinct())
+        {
+            <a href="/servers/index?StartWith=@item">@item</a>
+        }
+        <a href="/servers/index">...</a>
+    </form>
+    <br />
+</div>
+<hr />
+
+
+    <div class="col-md-2">
+        <h4>Data Center</h4>
+        @foreach (var dc in Model.OrderBy(r => r.DataCenter).Select(a => a.DataCenter).Distinct())
+        {
+            if (!string.IsNullOrEmpty(dc))
+            {
+                <a href="/servers/index?dc=@dc">@dc</a> <br />
+            }
+            else
+            {
+                <a href="/servers/index?dc=null">null</a><br />
+            }
+
+        }
+        <hr />
+
+        <h4>Deployed Version</h4>
+        @foreach (var ver in Model.OrderBy(r => r.DeployedVersion).Select(a => a.DeployedVersion).Distinct())
+        {
+            if (!string.IsNullOrEmpty(ver))
+            {
+                <a href="/servers/index?dv=@ver">@ver</a> <br />
+            }
+            else
+            {
+                <a href="/servers/index?dv=null">null</a><br />
+            }
+        }
+        <hr />
+        <h4>Role</h4>
+        @foreach (var role in Model.OrderBy(r => r.Role).Select(a => a.Role).Distinct())
+        {
+            if (!string.IsNullOrEmpty(role))
+            {
+                <a href="/servers/index?rl=@role">@role</a> <br />
+            }
+            else
+            {
+                <a href="/servers/index?rl=null">null</a> <br />
+            }
+        }
+        <hr />
+        <h4>Account</h4>
+        @foreach (var acc in Model.OrderBy(r => r.account.Name).Select(a => a.account.Name).Distinct())
+        {
+            if (!string.IsNullOrEmpty(acc))
+            {
+                <a href="/servers/index?acc=@acc">@acc</a> <br />
+            }
+            else
+            {
+                <a href="/servers/index?acc=null">null</a><br />
+            }
+        }
+        
+    </div>
+    <div class="col-md-10">
+
+        @foreach (var item in Model.OrderBy(a => a.Name))
+            {
+                <div class="col-md-3">
+                    <div class="card-container manual-flip">
+                        <div class="card">
+                            <div class="front">
+                                <div class="card-block" style="margin-left: 10px; margin-right: 10px;">
+                                    <button class="btn btn-simple" rel="tooltip" title="Flip Card" onclick="rotateCard(this)">
+                                        <i class="glyphicon glyphicon-refresh"></i>
+                                    </button>
+                                    <a class="btn btn-simple" rel="tooltip" title="Edit" href="@Url.Action("Edit", "servers", new { id = item.Id})">
+                                        <i class="glyphicon glyphicon-edit"></i>
+                                    </a>
+                                    <a class="btn btn-simple" rel="tooltip" title="Delete" href="@Url.Action("Delete", "servers", new { id = item.Id })">
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </a>
+                                    <a class="btn btn-simple" rel="tooltip" title="Delete" href="@Url.Action("Comments", "servers", new { srvId = item.Id })">
+                                        <i class="glyphicon glyphicon-comment"></i>
+                                    </a>
+                                    <br />
+                                    <a class="card-title" style="color:cornflowerblue" href="/servers/details/@item.Id" target="_blank">@item.Name</a>
+                                    <div style="margin-left: 10px; margin-right: 10px;">
+                                        <p class="card-text">
+                                            <b>Data Center:</b> @item.DataCenter <br />
+
+                                            <b>Deployed Version:</b> @item.DeployedVersion <br />
+
+                                            <b>FQDN:</b> @item.FQDN <br />
+
+                                            <b>Role:</b> @item.Role <br />
+                                            <b>Architecture:</b> @item.NonTypicalArchitecture <br />
+                                            <b>Custom SLA:</b> @item.CustomSLA <br />
+                                        </p>
+                                    </div>
+                                    <div class="text-center">
+
+                                        @*<p class="card-text">
+                                            <b>Active Users:</b> <br />
+                                        </p>
+                                        <table>
+                                            <col width="50">
+                                            <col width="50">
+                                            <col width="50">
+                                            <col width="50">
+                                            <tr>
+                                                <td><a  style="color:darkred">@item.ActiveUsers7Days <br /><p style="font-size:6px; color:cornflowerblue">7 Days</p></a></td>
+                                                <td><a  style="color:darkred">@item.ActiveUsers30Days <br /><p style="font-size:6px; color:cornflowerblue">30 Days</p></a></td>
+                                                <td><a  style="color:darkred">@item.ActiveUsers90Days <br /><p style="font-size:6px; color:cornflowerblue">90 Days</p></a></td>
+                                                <td><a  style="color:darkred">@item.ActiveUsers120Days <br /><p style="font-size:6px; color:cornflowerblue">120 Days</p></a></td>
+                                            </tr>
+                                        </table>
+
+                                        <p class="card-text">
+                                            <b>Storage:</b> <br />
+                                        </p>
+                                        <table>
+                                            <col width="65">
+                                            <col width="70">
+                                            <col width="65">
+
+                                            <tr>
+                                                <td><a>@item.ActiveUsers7Days <br /> <p style="font-size:6px">File Space</p></a></td>
+                                                <td><a>@item.ActiveUsers30Days <br /><p style="font-size:6px">Provisioned Space</p></a></td>
+                                                <td><a>@item.ActiveUsers90Days <br /><p style="font-size:6px">Free Space %</p></a></td>
+                                            </tr>
+                                        </table>
+                                        <br />*@
+                                        
+                                        <div class="card-text" style="color:coral">
+                                            <a rel="tooltip" title="Server Farm IP Address" href="@item.ServerFarmIPAddress" target="_blank">
+                                                <i class="glyphicon glyphicon-certificate"></i>
+                                            </a>
+                                            <a rel="tooltip" title="Web Server URL" href="@item.WebServerURL" target="_blank">
+                                                <i class="glyphicon glyphicon-globe"></i>
+                                            </a>
+                                            <a rel="tooltip" title="Web Service Gateway URL" href="@item.WebServiceGatewayURL" target="_blank">
+                                                <i class="glyphicon glyphicon-link"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <br />
+                            </div>
+                            <div class="back" style="overflow-y:auto">
+                                <button class="btn btn-simple" rel="tooltip" title="Flip Card" onclick="rotateCard(this)">
+                                    <i class="glyphicon glyphicon-refresh"></i>
+                                </button>
+
+
+
+                                <p class="card-text" style="margin-left: 20px; margin-right: 20px;">
+                                    <b>Account Name:</b> <br />
+                                    <a href="/accounts/details/@item.account.Id">@item.account.Name<br /></a>
+                                    <br />
+
+                                    <b>Server Contacts:</b> <br />
+
+                                    @foreach (var cn in @item.contacts)
+                                    {
+                                        <span></span>
+                                            <a title="Email" href="mailto:@cn.email">
+                                                <i class="glyphicon glyphicon-envelope"></i>
+                                            </a>
+                                            <i class="glyphicon glyphicon-phone"></i>
+                                            @cn.Name
+                                            <br />
+                                    }
+                                    <br />
+
+                        
+
+
+                                    <b>Server Data Sources:</b> <br />
+
+                                    @foreach (var ds in @item.datasources)
+
+                                    {
+                                        <a title="Datasource Details" href="datasources/details/@ds.Id">
+                                            <i class="glyphicon glyphicon-info-sign"></i>
+                                        </a>
+
+                                        @ds.Name
+                                        <br />
+
+                                    }
+
+
+                                </p>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+        }
+    </div>
+<div class="row"></div>
+
+<script>
+    $("#btnSearch").click(function () {
+        window.location = "/servers/index?SearchValue=" + $("#txtSearch").val();
+    });
+
+
+    $("#btnReset").click(function () {
+        window.location = "/servers/index";
+    });
+
+    function rotateCard(btn) {
+        var $card = $(btn).closest('.card-container');
+        console.log($card);
+        if ($card.hasClass('hover')) {
+            $card.removeClass('hover');
+        } else {
+            $card.addClass('hover');
+        }
+    };
+</script>
+<style>
+    .circle-multiline {
+        display: table-cell;
+        height: 40px;
+        width: 40px;
+        text-align: center;
+        /*vertical-align: middle;*/
+        border-radius: 50%;
+        background: coral;
+        color: white;
+    }
+</style>
