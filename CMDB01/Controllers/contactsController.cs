@@ -46,7 +46,7 @@ namespace CMDB01.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,email,phone")] contact contact)
+        public ActionResult Create([Bind(Include = "Id,Name,email,phone,company")] contact contact)
         {
             if (ModelState.IsValid)
             {
@@ -78,7 +78,7 @@ namespace CMDB01.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,email,phone")] contact contact)
+        public ActionResult Edit([Bind(Include = "Id,Name,email,phone,company")] contact contact)
         {
             if (ModelState.IsValid)
             {
