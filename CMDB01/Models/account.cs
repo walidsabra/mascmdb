@@ -20,8 +20,12 @@ namespace CMDB01.Models
         public string Opportunity { get; set; }
         [Display(Name = "Projector Project")]
         public string ProjectorProject { get; set; } //Projector Code
-        public bool RequestIMS { get; set; }
+        [Display(Name = "Request IMS?")]
+        public string RequestIMS { get; set; }  //yes, No, completed
+
+        [Display(Name = "Success Admin Level")]
         public string SuccessAdminLevel { get; set; }
+        [Display(Name = "Link to C4S")]
         public string LinktoC4S { get; set; }
         public bool Billable { get; set; }
 
