@@ -30,9 +30,9 @@ namespace CMDB01.Models
         public bool Billable { get; set; }
 
         public virtual List<contact> contacts { get; set; }
-        //public virtual List<contract> contracts { get; set; }
-
+        
         public virtual List<server> servers { get; set; }
+
         //public virtual List<comment> comments { get; set; }
     }
 }

@@ -158,6 +158,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\accountsController.cs" />
+    <Compile Include="Controllers\commentsController.cs" />
     <Compile Include="Controllers\contactsController.cs" />
     <Compile Include="Controllers\datasourcesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -216,6 +217,14 @@
     <Compile Include="Migrations\201708070753402_imsstring.cs" />
     <Compile Include="Migrations\201708070753402_imsstring.Designer.cs">
       <DependentUpon>201708070753402_imsstring.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708080650199_commentsLink.cs" />
+    <Compile Include="Migrations\201708080650199_commentsLink.Designer.cs">
+      <DependentUpon>201708080650199_commentsLink.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708080652570_commentsLinkrem.cs" />
+    <Compile Include="Migrations\201708080652570_commentsLinkrem.Designer.cs">
+      <DependentUpon>201708080652570_commentsLinkrem.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\account.cs" />
@@ -333,7 +342,11 @@
     <Content Include="Views\accounts\Details.cshtml" />
     <Content Include="Views\accounts\Edit.cshtml" />
     <Content Include="Views\accounts\Index.cshtml" />
-    <Content Include="Views\servers\Comments.cshtml" />
+    <Content Include="Views\comments\Create.cshtml" />
+    <Content Include="Views\comments\Delete.cshtml" />
+    <Content Include="Views\comments\Details.cshtml" />
+    <Content Include="Views\comments\Edit.cshtml" />
+    <Content Include="Views\comments\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -389,6 +402,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201708070753402_imsstring.resx">
       <DependentUpon>201708070753402_imsstring.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708080650199_commentsLink.resx">
+      <DependentUpon>201708080650199_commentsLink.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708080652570_commentsLinkrem.resx">
+      <DependentUpon>201708080652570_commentsLinkrem.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

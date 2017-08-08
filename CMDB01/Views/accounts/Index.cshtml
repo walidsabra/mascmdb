@@ -5,6 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link href="~/Content/flipCard1.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-1.12.4.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery-1.12.4.min.js"></script>
 
 <h2>Accounts</h2>
 
@@ -52,9 +55,9 @@
                                 <a class="btn btn-simple" rel="tooltip" title="Delete" href="@Url.Action("Delete", "accounts", new { id = item.Id })">
                                     <i class="glyphicon glyphicon-remove" ></i>
                                 </a>
-                                <a class="btn btn-simple" rel="tooltip" title="Comment" href="@Url.Action("Comment", "accounts", new { id = item.Id })">
+                                <button class="btn btn-simple openComment" rel="tooltip" title="Comments" data-toggle="modal" data-target="#myModal" data-id=@item.Id data-name=@item.Name>
                                     <i class="glyphicon glyphicon-comment"></i>
-                                </a>
+                                </button>
                                 <br />
 
                                 <a class="card-title" style="color:cornflowerblue" href="/accounts/details/@item.Id" target="_blank">@item.Name</a>
@@ -125,12 +128,42 @@
     }
 </div>
 
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Account Comments</h4>
+            </div>
+            <div class="modal-body">
+                <div id="aaa">
+
+                </div>
+                <table id="ccc" class="table table-bordered">
+                    <tr>
+                        <th>Time</th>
+                        <th>User</th>
+                        <th>Comment</th>
+                    </tr>
+
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
 
 <script>
     $("#btnSearch").click(function () {
         window.location = "/accounts/index?SearchValue=" + $("#txtSearch").val();
     });
-
 
     $("#btnReset").click(function () {
         window.location = "/accounts/index";
@@ -145,5 +178,35 @@
             $card.addClass('hover');
         }
     };
+
+    $(document).on("click", ".openComment", function () {
+        var AccountId = $(this).data('id');
+        var AccountName = $(this).data('name');
+        
+        $(".modal-title").text("Account " + AccountName + " Comments");
+        var url = "@Url.Action("Create", "comments", new { entity_id = "js-id", entity = "Account" })".replace("js-id", encodeURIComponent(AccountId));
+
+        $("#aaa").empty();
+        $("#aaa").append("<a href=" + url + " class=\"btn btn- simple\"><i class=\"glyphicon glyphicon-plus\"></i></a>");
+
+        $.ajax({
+            datatype: 'json',
+            type: "POST",
+            url: '@Url.Action("GetComments")',
+            data: { AccountId: AccountId },
+            success: function (returndata) {
+                if (returndata.ok) {
+                    var items = "";
+                    items += "<tr> <th>Time</th> <th>User</th> <th>Comment</th> </tr>";
+                    $.each(returndata.data, function (i, itemdata) {
+                        var date = new Date(parseInt(itemdata.timestamp.substr(6))).toDateString();
+                        items += '<tr> <td>' + date + "</td> <td>" + itemdata.user + "</td> <td>" + itemdata.Comment + '</td>';
+                    });
+                    $("#ccc").empty();
+                    $("#ccc").append(items);
+                }
+            }
+        });
+    });
 </script>
 

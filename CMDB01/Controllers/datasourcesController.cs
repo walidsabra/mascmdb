@@ -280,6 +280,23 @@ namespace CMDB01.Controllers
 				throw;
 			}
 		}
+        [HttpPost]
+        public JsonResult GetComments(int DSId)
+        {
+            if (DSId > 0)
+            {
+                var comments = db.comments
+                               .Where(x => x.entity_Id == DSId && x.entity == "Datasource")
+                               .ToList();
 
-	}
+                return Json(new { ok = true, data = comments, message = "ok" });
+            }
+            else
+            {
+                return null;
+            }
+
+        }
+
+    }
 }

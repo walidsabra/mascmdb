@@ -174,5 +174,22 @@ namespace CMDB01.Controllers
             }
             base.Dispose(disposing);
         }
+        [HttpPost]
+        public JsonResult GetComments(int AccountId)
+        {
+            if (AccountId > 0)
+            {
+                var comments = db.comments
+                               .Where(x => x.entity_Id == AccountId && x.entity == "Account")
+                               .ToList();
+
+                return Json(new { ok = true, data = comments, message = "ok" });
+            }
+            else
+            {
+                return null;
+            }
+
+        }
     }
 }

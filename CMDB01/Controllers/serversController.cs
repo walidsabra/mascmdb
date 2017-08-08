@@ -14,12 +14,6 @@ namespace CMDB01.Controllers
     {
         private CMDB db = new CMDB();
 
-        //GET: Comments
-        public ActionResult Comments(string comment, int srvId)
-        {
-            List<comment> comments = db.comments.Where(a => a.entity_Id == srvId && a.entity == "Server").ToList();
-            return PartialView(comments);
-        }
 
         // GET: servers
         public ActionResult Index(string SearchValue, string dc, string dv, string rl, string acc, string StartWith)
@@ -271,5 +265,24 @@ namespace CMDB01.Controllers
             }
             base.Dispose(disposing);
         }
+
+        [HttpPost]
+        public JsonResult GetComments(int ServerId)
+        {
+            if (ServerId > 0)
+            {
+                var comments = db.comments
+                               .Where(x => x.entity_Id == ServerId && x.entity == "Server")
+                               .ToList();
+
+                return Json(new { ok = true, data = comments, message = "ok" });
+            }
+            else
+            {
+                return null;
+            }
+
+        }
+       
     }
 }
