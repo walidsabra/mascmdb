@@ -226,6 +226,10 @@
     <Compile Include="Migrations\201708080652570_commentsLinkrem.Designer.cs">
       <DependentUpon>201708080652570_commentsLinkrem.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201708090704022_roleOfferingPurpose.cs" />
+    <Compile Include="Migrations\201708090704022_roleOfferingPurpose.Designer.cs">
+      <DependentUpon>201708090704022_roleOfferingPurpose.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\account.cs" />
     <Compile Include="Models\CMDB.cs" />
@@ -292,6 +296,8 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Properties\PublishProfiles\mascmdb - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\mascmdb - Web Deploy %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\MaScmdb - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
@@ -408,6 +414,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201708080652570_commentsLinkrem.resx">
       <DependentUpon>201708080652570_commentsLinkrem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708090704022_roleOfferingPurpose.resx">
+      <DependentUpon>201708090704022_roleOfferingPurpose.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

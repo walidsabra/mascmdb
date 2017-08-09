@@ -18,9 +18,9 @@ namespace CMDB01.Models
         public string NonTypicalArchitecture { get; set; }
         public string CustomSLA { get; set; }
         //GoLiveDateSubmitted
-        //Role?ServerPurpose
-        //Offering
         public string Role { get; set; } //ICS, PW, SQL, Admin
+        public string Offering { get; set; } //ICS, PW, SQL, Admin
+        public string Purpose { get; set; } //ICS, PW, SQL, Admin
 
 
         //Stats -----------------------------------------------------------

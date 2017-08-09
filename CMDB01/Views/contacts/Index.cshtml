@@ -4,13 +4,140 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<link href="~/Content/flipCardS.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-1.12.4.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery-1.12.4.min.js"></script>
 <h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
+<div class="row">
+    <form class="navbar-form navbar-left">
+        <p>
+            @Html.ActionLink("Create New", "Create")
+        </p>
+    </form>
+    <form class="navbar-form navbar-right" role="search">
+        <div class="form-group form-inline">
+            <input type="text" id="txtSearch" class="form-control" placeholder="Search ...">
+        </div>
+        <a class="btn btn-primary glyphicon glyphicon-search" id="btnSearch"></a>
+        <a class="btn btn-danger glyphicon glyphicon-refresh" id="btnReset"></a>
+        <br />
+        <br />
+        @foreach (var item in Model.OrderBy(x => x.Name).Select(a => a.Name.Substring(0, 1).ToUpper()).Distinct())
+        {
+            <a href="/contacts/index?StartWith=@item">@item</a>
+        }
+        <a href="/contacts/index">...</a>
+    </form>
+    <br />
+</div>
+<hr />
+
+
+<div class="row">
+    @foreach (var item in Model.OrderBy(a => a.Name))
+            {
+        <div class="col-md-3">
+            <div class="card-container manual-flip">
+                <div class="card">
+                    <div class="front">
+                        <div class="card-block" style="margin-left: 10px; margin-right: 10px;">
+                            <button class="btn btn-simple" rel="tooltip" title="Flip Card" onclick="rotateCard(this)">
+                                <i class="glyphicon glyphicon-refresh"></i>
+                            </button>
+                            <a class="btn btn-simple" rel="tooltip" title="Edit" href="@Url.Action("Edit", "contacts", new { id = item.Id})">
+                                <i class="glyphicon glyphicon-edit"></i>
+                            </a>
+                            <a class="btn btn-simple" rel="tooltip" title="Delete" href="@Url.Action("Delete", "contacts", new { id = item.Id })">
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </a>
+
+
+                            <br />
+                            <a class="card-title" style="color:cornflowerblue" href="/servers/details/@item.Id" target="_blank">@item.Name</a>
+                            <div style="margin-left: 10px; margin-right: 10px;">
+                                <p class="card-text">
+                                    <b>Email:</b><br /> @item.email <br /><br />
+
+                                    <b>Phone:</b><br /> @item.phone <br /><br />
+
+                                    <b>Company:</b><br /> @item.company <br /><br />
+
+                                </p>
+                            </div>
+
+
+
+
+
+                        </div>
+                        <br />
+                    </div>
+                    <div class="back" style="overflow-y:auto">
+                        <button class="btn btn-simple" rel="tooltip" title="Flip Card" onclick="rotateCard(this)">
+                            <i class="glyphicon glyphicon-refresh"></i>
+                        </button>
+
+
+
+                        <p class="card-text" style="margin-left: 20px; margin-right: 20px;">
+                            <b>Account(s):</b> <br />
+                            @foreach (var ac in @item.accounts)
+                            {
+                                <a style="padding-left:1em" href="/accounts/details/@ac.Id">@ac.Name<br /></a>
+                            }
+
+                            <br />
+
+                            <b>Server(s):</b> <br />
+
+                            @foreach (var srv in @item.servers)
+                            {
+                                <a style="padding-left:1em" class="glyphicon glyphicon-th-large" href="/servers/details/@srv.Id"></a> <b>@srv.Name</b> <br />
+                            }
+                            <br />
+
+                            <b>Datasource(s):</b> <br />
+
+                            @foreach (var ds in @item.datasources)
+                            {
+
+                                    <a style="padding-left:1em" class="glyphicon glyphicon-list-alt" href="/datasources/details/@ds.Id"></a>  @ds.Name <br />
+                                
+                                
+                            }
+                            <br />
+                     
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<script>
+    $("#btnSearch").click(function () {
+        window.location = "/contacts/index?SearchValue=" + $("#txtSearch").val();
+    });
+
+
+    $("#btnReset").click(function () {
+        window.location = "/contacts/index";
+    });
+
+    function rotateCard(btn) {
+        var $card = $(btn).closest('.card-container');
+        console.log($card);
+        if ($card.hasClass('hover')) {
+            $card.removeClass('hover');
+        } else {
+            $card.addClass('hover');
+        }
+    };
+</script>
+@*<table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Name)
@@ -49,4 +176,4 @@
     </tr>
 }
 
-</table>
+</table>*@

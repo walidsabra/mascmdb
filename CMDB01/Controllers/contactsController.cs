@@ -15,9 +15,27 @@ namespace CMDB01.Controllers
         private CMDB db = new CMDB();
 
         // GET: contacts
-        public ActionResult Index()
+        public ActionResult Index(string SearchValue, string StartWith)
         {
-            return View(db.contacts.ToList());
+            IQueryable<contact> lscontacts;
+
+            if (!string.IsNullOrEmpty(SearchValue))
+            {
+                lscontacts = db.contacts.Where(x => x.Name.Contains(SearchValue));
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(StartWith))
+                {
+                    lscontacts = db.contacts.Where(x => x.Name.StartsWith(StartWith)).AsQueryable();
+                }
+                else
+                {
+                    lscontacts = db.contacts;
+                }
+
+            }
+            return View(lscontacts.ToList());
         }
 
         // GET: contacts/Details/5

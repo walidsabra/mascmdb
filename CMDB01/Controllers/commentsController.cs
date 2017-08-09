@@ -88,7 +88,7 @@ namespace CMDB01.Controllers
             {
                 db.Entry(comment).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index","Home");
             }
             return View(comment);
         }
@@ -116,7 +116,7 @@ namespace CMDB01.Controllers
             comment comment = db.comments.Find(id);
             db.comments.Remove(comment);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index","Home");
         }
 
         protected override void Dispose(bool disposing)

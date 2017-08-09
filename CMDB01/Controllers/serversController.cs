@@ -174,7 +174,7 @@ namespace CMDB01.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,DataCenter,DeployedVersion,FQDN,Role")] server server, List<int> contactId, int accountId)
+        public ActionResult Create([Bind(Include = "Id,Name,DataCenter,DeployedVersion,FQDN,Role,Purpose,Offering")] server server, List<int> contactId, int accountId)
         {
             if (ModelState.IsValid)
             {
@@ -220,7 +220,7 @@ namespace CMDB01.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,DataCenter,DeployedVersion,FQDN,Role")] server server)
+        public ActionResult Edit([Bind(Include = "Id,Name,DataCenter,DeployedVersion,FQDN,Role,Purpose,Offering")] server server)
         {
             if (ModelState.IsValid)
             {
