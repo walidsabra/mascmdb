@@ -94,17 +94,17 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="back">
+                        <div class="back" style="overflow-y:auto">
                             <button class="btn btn-simple" rel="tooltip" title="Flip Card" onclick="rotateCard(this)">
                                 <i class="glyphicon glyphicon-refresh"></i>
                             </button>
 
 
-                            <div style="overflow:auto">
-                                <p class="card-text" style="margin-left: 20px; margin-right: 20px;">
+                            <div>
+                                <p class="card-text" style="margin-left: 10px; margin-right: 10px;">
                                     <b>Account Servers:</b>
                                 </p>
-                                <p class="card-text" style="margin-left: 20px; margin-right: 20px;  padding-left:1em">
+                                <p class="card-text" style="margin-left: 10px; margin-right: 10px;  padding-left:0.5em">
 
                                     @foreach (var srv in @item.servers)
                                     {

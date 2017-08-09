@@ -27,8 +27,7 @@ namespace CMDB01.Models
         public string SuccessAdminLevel { get; set; }
         [Display(Name = "Link to C4S")]
         public string LinktoC4S { get; set; }
-        public bool Billable { get; set; }
-
+        public string Billable { get; set; }
         public virtual List<contact> contacts { get; set; }
         
         public virtual List<server> servers { get; set; }
