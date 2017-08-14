@@ -104,13 +104,13 @@
         <p class="card-text" style="margin-left: 20px; margin-right: 20px;  padding-left:1em">
 
 
-            @foreach (var cn in Model.contacts)
+            @foreach (var cn in Model.AccountContacts)
             {
-                <a title="Email" href="mailto:@cn.email">
+                <a title="Email" href="mailto:@cn.contact.email">
                     <i class="glyphicon glyphicon-envelope"></i>
                 </a>
                 <i class="glyphicon glyphicon-phone"></i>
-                @cn.Name
+                @cn.contact.Name
                 <br />
             }
 
@@ -118,6 +118,32 @@
 
 
     </div>
+</div>
+<hr />
+<div class="row">
+    <h4 style="color:lightcoral">Account Comments</h4>
+    <p class="card-text" style="margin-left: 20px; margin-right: 20px;  padding-left:1em">
+        <table id="ccc" class="table table-bordered table-striped">
+            <tr>
+                <th>Time</th>
+                <th>User</th>
+                <th>Comment</th>
+            </tr>
+            @foreach (var cm in ViewBag.AccountCMs)
+
+            {
+                <tr>
+                    <th>@cm.timestamp</th>
+                    <th>@cm.user</th>
+                    <th>@cm.Comment</th>
+                </tr>
+
+            }
+        </table>
+
+
+
+    </p>
 </div>
 <hr />
 <div class="row">

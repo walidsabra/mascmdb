@@ -88,11 +88,32 @@
             }
         </p>
     </div>
-    @*<div class="col-md-4">
-        <h4 style="color:lightcoral">Server Datasources</h4>
-        <p class="card-text" style="margin-left: 20px; margin-right: 20px;  padding-left:1em">
-        </p>
-    </div>*@
+</div>
+<hr />
+<div class="row">
+    <h4 style="color:lightcoral">Datasource Comments</h4>
+    <p class="card-text" style="margin-left: 20px; margin-right: 20px;  padding-left:1em">
+        <table id="ccc" class="table table-bordered table-striped">
+            <tr>
+                <th>Time</th>
+                <th>User</th>
+                <th>Comment</th>
+            </tr>
+            @foreach (var cm in ViewBag.DSCMs)
+
+            {
+                <tr>
+                    <th>@cm.timestamp</th>
+                    <th>@cm.user</th>
+                    <th>@cm.Comment</th>
+                </tr>
+
+            }
+        </table>
+
+
+
+    </p>
 </div>
 <hr />
     <p>

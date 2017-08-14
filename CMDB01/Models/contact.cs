@@ -14,7 +14,7 @@ namespace CMDB01.Models
         public string company { get; set; }
 
 
-        public virtual List<account> accounts { get; set; }
+        public virtual List<ContactLinks> AccountContacts { get; set; }
         public virtual List<datasource> datasources { get; set; }
         public virtual List<server> servers { get; set; }
         public virtual List<contract> contracts { get; set; }

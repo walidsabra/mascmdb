@@ -26,10 +26,10 @@
         <a class="btn btn-danger glyphicon glyphicon-refresh" id="btnReset"></a>
         <br />
         <br />
-        @foreach (var item in Model.OrderBy(x => x.Name).Select(a => a.Name.Substring(0, 1).ToUpper()).Distinct())
+        @*@foreach (var item in Model.OrderBy(x => x.Name).Select(a => a.Name.Substring(0, 1).ToUpper()).Distinct())
         {
             <a href="/accounts/index?StartWith=@item">@item</a>
-        }
+        }*@
         <a href="/accounts/index">...</a>
     </form>
     <br />
@@ -80,14 +80,14 @@
                                 <p class="card-text">
                                     <b>Account Contacts:</b> <br />
 
-                                    @foreach (var cn in @item.contacts)
+                                    @foreach (var cn in @item.AccountContacts)
                                     {
                                         <span></span>
-                                        <a title="Email" href="mailto:@cn.email">
+                                        <a title="Email" href="mailto:@cn.contact.email">
                                             <i class="glyphicon glyphicon-envelope"></i>
                                         </a>
                                         <i class="glyphicon glyphicon-phone"></i>
-                                        @cn.Name
+                                        @cn.contact.Name
                                         <br />
                                     }
 

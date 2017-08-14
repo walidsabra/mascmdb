@@ -174,19 +174,25 @@
 <div class="row">
     <h4 style="color:lightcoral">Server Comments</h4>
     <p class="card-text" style="margin-left: 20px; margin-right: 20px;  padding-left:1em">
+        <table id="ccc" class="table table-bordered table-striped">
+            <tr>
+                <th>Time</th>
+                <th>User</th>
+                <th>Comment</th>
+            </tr>
+            @foreach (var cm in ViewBag.ServerCMs)
 
+            {
+                <tr>
+                    <th>@cm.timestamp</th>
+                    <th>@cm.user</th>
+                    <th>@cm.Comment</th>
+                </tr>
 
-        @*@foreach (var cm in )
+            }
+        </table>
 
-        {
-            <a title="Datasource Details" href="/datasources/details/@ds.Id">
-                <i class="glyphicon glyphicon-info-sign"></i>
-            </a>
-
-                @ds.Name
-                <br />
-
-        }*@
+  
 
     </p>
 </div>

@@ -28,7 +28,7 @@ namespace CMDB01.Models
         [Display(Name = "Link to C4S")]
         public string LinktoC4S { get; set; }
         public string Billable { get; set; }
-        public virtual List<contact> contacts { get; set; }
+        public virtual List<ContactLinks> AccountContacts {get; set;}
         
         public virtual List<server> servers { get; set; }
 

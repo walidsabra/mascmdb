@@ -83,8 +83,16 @@ namespace CMDB01.Controllers
 			datasource datasource = db.datasources.Find(id);
 
 			GetDataSourceContacts(datasource);
+            //Get DS Comments --------------------------------------------------
+            List<comment> cmlistSelectListItems = new List<comment>();
+            foreach (comment cm in db.comments.Where(a => a.entity_Id == id && a.entity == "Datasource"))
+            {
+                cmlistSelectListItems.Add(cm);
+            }
+            ViewBag.DSCMs = cmlistSelectListItems;
+            //-----------------------------------------------------------------------
 
-			if (datasource == null)
+            if (datasource == null)
 			{
 				return HttpNotFound();
 			}

@@ -123,6 +123,14 @@ namespace CMDB01.Controllers
             ViewBag.ServerDSs = dslistSelectListItems;
             //-----------------------------------------------------------------------
 
+            //Get Server Comments --------------------------------------------------
+            List<comment> cmlistSelectListItems = new List<comment>();
+            foreach (comment cm in db.comments.Where(a=>a.entity_Id == id && a.entity == "Server"))
+            {
+                cmlistSelectListItems.Add(cm);
+            }
+            ViewBag.ServerCMs = cmlistSelectListItems;
+            //-----------------------------------------------------------------------
 
             if (server == null)
             {

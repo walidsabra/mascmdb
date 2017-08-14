@@ -238,11 +238,24 @@
     <Compile Include="Migrations\201708091135346_billString.Designer.cs">
       <DependentUpon>201708091135346_billString.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201708140658283_contactLinks.cs" />
+    <Compile Include="Migrations\201708140658283_contactLinks.Designer.cs">
+      <DependentUpon>201708140658283_contactLinks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708140706243_contactLinks2.cs" />
+    <Compile Include="Migrations\201708140706243_contactLinks2.Designer.cs">
+      <DependentUpon>201708140706243_contactLinks2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708140715464_contactLinks3.cs" />
+    <Compile Include="Migrations\201708140715464_contactLinks3.Designer.cs">
+      <DependentUpon>201708140715464_contactLinks3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\account.cs" />
     <Compile Include="Models\CMDB.cs" />
     <Compile Include="Models\comment.cs" />
     <Compile Include="Models\contact.cs" />
+    <Compile Include="Models\ContactLinks.cs" />
     <Compile Include="Models\contract.cs" />
     <Compile Include="Models\datasource.cs" />
     <Compile Include="Models\PickList.cs" />
@@ -433,6 +446,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201708091135346_billString.resx">
       <DependentUpon>201708091135346_billString.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708140658283_contactLinks.resx">
+      <DependentUpon>201708140658283_contactLinks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708140706243_contactLinks2.resx">
+      <DependentUpon>201708140706243_contactLinks2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708140715464_contactLinks3.resx">
+      <DependentUpon>201708140715464_contactLinks3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

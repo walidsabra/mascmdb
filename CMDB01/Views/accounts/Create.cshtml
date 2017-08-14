@@ -4,11 +4,12 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<script src="~/Scripts/jquery-1.12.4.min.js"></script>
+<script src="~/Scripts/jquery-1.12.4.js"></script>
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("Create", "accounts", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "myform", role = "form" }))
 {
     @Html.AntiForgeryToken()
     
@@ -141,8 +142,25 @@
             @Html.Label("Account Contacts", htmlAttributes: new { @class = "control-label col-md-2" })
 
             <div class="col-md-10">
-                @Html.ListBox("contactId", (List<SelectListItem>)ViewBag.contacts, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("contactId", (List<SelectListItem>)ViewBag.contacts, "<<< Select >>>", htmlAttributes: new { @class = "form-control" })
+
+                <input type="button" class="btn" onclick="AddRecord()" name="add" value="Add"/>
+
+                <table id="myTable" class="table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Contact Name</th>
+                            <th>Outage</th>
+                            <th>Configuration</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cntRows">
+
+                    </tbody>
+                    
+                </table>
             </div>
+            <input type="hidden" name="hdContactsArray" id="hdContactsArray" />
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -159,3 +177,47 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+
+<script>
+
+    function AddRecord()
+    {
+        var selectedContactId = $('#contactId').val();
+        var selectedContactName = $("#contactId option:selected").text();
+
+        $('#cntRows').append('<tr>' +
+            "<td><label id='lblContactName'>" + selectedContactName + "</label><input type='hidden' id='hdnContactID' value=" + selectedContactId + "></td>" +
+            "<td><input type=\"checkbox\" name=\"name1\" id='chkOutage' /></td>" +
+            "<td><input type=\"checkbox\" name=\"name2\"id='chkConfiguration' /></td></tr>");
+
+       
+    }
+
+    $(document).ready(function () {
+      //  debugger;
+        $('#myform').submit(function () {
+          //  alert('sdsd');
+            var contacts = new Array();
+
+            //get all of the values except the header
+            $("#myTable tbody tr").each(function () {
+                debugger;
+                var tds = $(this).find("td");
+                var contactID = $(tds[0]).find('#lblContactName').html();
+                var outage = $(tds[1]).find('#chkOutage').is(":checked");
+                var Configuration = $(tds[2]).find('#chkConfiguration').is(":checked");
+
+                var contact = { contactId: contactID, isOutage: outage, isConfiguration: Configuration };
+                contacts.push(contact);
+            });
+
+           // alert(JSON.stringify(contacts));
+            $('#hdContactsArray').val(JSON.stringify(contacts));
+
+            // DO STUFF...
+            //  return false; // return false to cancel form action
+        });
+
+    });
+
+</script>

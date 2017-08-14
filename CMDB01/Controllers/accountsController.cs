@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CMDB01.Models;
+using Newtonsoft.Json;
 
 namespace CMDB01.Controllers
 {
@@ -38,7 +39,7 @@ namespace CMDB01.Controllers
                 {
                     lstAccounts = db.accounts;
                 }
-                
+
 
             }
             return View(lstAccounts.ToList());
@@ -52,6 +53,16 @@ namespace CMDB01.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             account account = db.accounts.Find(id);
+
+            //Get account Comments --------------------------------------------------
+            List<comment> cmlistSelectListItems = new List<comment>();
+            foreach (comment cm in db.comments.Where(a => a.entity_Id == id && a.entity == "account"))
+            {
+                cmlistSelectListItems.Add(cm);
+            }
+            ViewBag.AccountCMs = cmlistSelectListItems;
+            //-----------------------------------------------------------------------
+
             if (account == null)
             {
                 return HttpNotFound();
@@ -86,12 +97,37 @@ namespace CMDB01.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,UltimateId,ContractDate,Status,Opportunity,ProjectorProject,RequestIMS,SuccessAdminLevel,LinktoC4S,Billable")] account account, List<int> contactId)
+        public ActionResult Create([Bind(Include = "Id,Name,UltimateId,ContractDate,Status,Opportunity,ProjectorProject,RequestIMS,SuccessAdminLevel,LinktoC4S,Billable")] account account, List<int> contactId, string hdContactsArray)
         {
             if (ModelState.IsValid)
             {
-                if(contactId != null)
-                {               
+                List<ContactLinks> contactLinks = new List<ContactLinks>();
+                var items = JsonConvert.DeserializeObject<List<contactrec>>(hdContactsArray);
+                foreach (var item in items)
+                {
+                    if (item.isConfiguration)
+                    {
+                        ContactLinks con = new ContactLinks();
+                        con.account = account;
+                        con.contact.Id = item.contactId;
+                        con.entityType = "Account";
+                        con.entityCategory = "Configuration";
+                        contactLinks.Add(con);
+                    }
+                    else if (item.isOutage)
+                    {
+                        ContactLinks con = new ContactLinks();
+                        con.account = account;
+                        con.contact.Id = item.contactId;
+                        con.entityType = "Account";
+                        con.entityCategory = "Outage";
+                        contactLinks.Add(con);
+                    }
+                }
+
+                if (contactId != null)
+                {
+
                     List<contact> contacts = new List<contact>();
                     foreach (int x in contactId)
                     {
@@ -99,7 +135,7 @@ namespace CMDB01.Controllers
                     }
 
 
-                    account.contacts = contacts;
+                    //account.AccountContacts = contacts;
                 }
                 db.accounts.Add(account);
                 db.SaveChanges();
@@ -191,5 +227,11 @@ namespace CMDB01.Controllers
             }
 
         }
+    }
+ public class contactrec
+    {
+        public int contactId { get; set; }
+        public bool isOutage { get; set; }
+        public bool isConfiguration { get; set; }
     }
 }
