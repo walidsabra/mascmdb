@@ -24,6 +24,10 @@
         <a class="btn btn-danger glyphicon glyphicon-refresh" id="btnReset"></a>
         <br />
         <br />
+        @*@foreach (var item in Model.OrderBy(x => x.company).Select(a => a.company.ToUpper()).Distinct())
+        {
+            <a href="/contacts/index?company=@item">@item </a> 
+        }*@
         @foreach (var item in Model.OrderBy(x => x.Name).Select(a => a.Name.Substring(0, 1).ToUpper()).Distinct())
         {
             <a href="/contacts/index?StartWith=@item">@item</a>

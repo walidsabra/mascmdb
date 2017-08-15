@@ -109,7 +109,7 @@ namespace CMDB01.Controllers
                     {
                         ContactLinks con = new ContactLinks();
                         con.account = account;
-                        con.contact.Id = item.contactId;
+                        con.contact = db.contacts.Where(a => a.Id == item.contactId).FirstOrDefault();
                         con.entityType = "Account";
                         con.entityCategory = "Configuration";
                         contactLinks.Add(con);
@@ -118,25 +118,26 @@ namespace CMDB01.Controllers
                     {
                         ContactLinks con = new ContactLinks();
                         con.account = account;
-                        con.contact.Id = item.contactId;
+                        con.contact = db.contacts.Where(a => a.Id == item.contactId).FirstOrDefault();
                         con.entityType = "Account";
                         con.entityCategory = "Outage";
                         contactLinks.Add(con);
                     }
                 }
+                account.AccountContacts = contactLinks;
 
-                if (contactId != null)
-                {
+                //if (contactId != null)
+                //{
 
-                    List<contact> contacts = new List<contact>();
-                    foreach (int x in contactId)
-                    {
-                        contacts.Add(db.contacts.Where(ex => ex.Id == x).FirstOrDefault());
-                    }
+                //    List<contact> contacts = new List<contact>();
+                //    foreach (int x in contactId)
+                //    {
+                //        contacts.Add(db.contacts.Where(ex => ex.Id == x).FirstOrDefault());
+                //    }
 
 
-                    //account.AccountContacts = contacts;
-                }
+                //    account.AccountContacts = contactLinks;
+                //}
                 db.accounts.Add(account);
                 db.SaveChanges();
                 return RedirectToAction("Index");

@@ -14,5 +14,6 @@ namespace CMDB01.Models
         public DbSet<datasource> datasources { get; set; }
         public DbSet<server> servers { get; set; }
         public DbSet<comment> comments { get; set; }
+        public DbSet<ContactLinks> contactlinks { get; set; }
     }
 }

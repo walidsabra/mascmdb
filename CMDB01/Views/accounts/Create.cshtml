@@ -201,9 +201,9 @@
 
             //get all of the values except the header
             $("#myTable tbody tr").each(function () {
-                debugger;
+                //debugger;
                 var tds = $(this).find("td");
-                var contactID = $(tds[0]).find('#lblContactName').html();
+                var contactID = $(tds[0]).find('#hdnContactID').val();
                 var outage = $(tds[1]).find('#chkOutage').is(":checked");
                 var Configuration = $(tds[2]).find('#chkConfiguration').is(":checked");
 
@@ -211,7 +211,7 @@
                 contacts.push(contact);
             });
 
-           // alert(JSON.stringify(contacts));
+            alert(JSON.stringify(contacts));
             $('#hdContactsArray').val(JSON.stringify(contacts));
 
             // DO STUFF...
