@@ -14,6 +14,7 @@ namespace CMDB01.Models
         public string entityCategory { get; set; }
 
         public virtual account account { get; set; }
+        public virtual server server { get; set; }
         public virtual contact contact { get; set; }
 
     }

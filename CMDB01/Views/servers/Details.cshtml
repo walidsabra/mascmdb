@@ -154,17 +154,25 @@
 
         <h4 style="color:lightcoral">Server Contacts</h4>
         <p class="card-text" style="margin-left: 20px; margin-right: 20px;  padding-left:1em">
+            @if (Model.ServerContacts.Count > 0)
+            {
+                <table class="table table-bordered table-striped">
+                    <tr>
+                        <th>Contact Name</th>
+                        <th>Comms</th>
+                    </tr>
+                    @foreach (var cn in Model.ServerContacts)
+                    {
+                        <tr>
+                            <td><a title="Email" href="mailto:@cn.contact.email"> <i class="glyphicon glyphicon-envelope"></i></a> @cn.contact.Name</td>
+                            <td>@if (@cn.entityCategory == "Outage")
+                            { <a style="text-decoration:none">Outage</a> } @if (@cn.entityCategory == "Change")
+                            { <a style="text-decoration:none">Change</a> }</td>
+                        </tr>
 
-
-            @foreach (var cn in Model.contacts)
-        {
-                <a title="Email" href="mailto:@cn.email">
-                    <i class="glyphicon glyphicon-envelope"></i>
-                </a>
-                <i class="glyphicon glyphicon-phone"></i>
-                @cn.Name
-                <br />
-        }
+                    }
+                </table>
+            }
 
         </p>
 

@@ -26,10 +26,10 @@
         <a class="btn btn-danger glyphicon glyphicon-refresh" id="btnReset"></a>
         <br />
         <br />
-        @*@foreach (var item in Model.OrderBy(x => x.Name).Select(a => a.Name.Substring(0, 1).ToUpper()).Distinct())
+        @foreach (var item in Model.OrderBy(x => x.Name).Select(a => a.Name.Substring(0, 1).ToUpper()).Distinct())
         {
             <a href="/accounts/index?StartWith=@item">@item</a>
-        }*@
+        }
         <a href="/accounts/index">...</a>
     </form>
     <br />

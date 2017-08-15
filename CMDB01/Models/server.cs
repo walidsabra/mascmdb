@@ -45,7 +45,8 @@ namespace CMDB01.Models
 
 
         public virtual List<datasource> datasources { get; set; }
-        public virtual List<contact> contacts { get; set; }
+        public virtual List<ContactLinks> ServerContacts { get; set; }
+        //public virtual List<contact> contacts { get; set; }
         //public virtual contract contract { get; set; }
 
         public virtual account account { get; set; }

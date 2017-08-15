@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CMDB01.Models;
+using Newtonsoft.Json;
 
 namespace CMDB01.Controllers
 {
@@ -93,24 +94,24 @@ namespace CMDB01.Controllers
             }
             server server = db.servers.Find(id);
 
-            //Get Server Contacts --------------------------------------------------
-            List<SelectListItem> listSelectListItems = new List<SelectListItem>();
-            foreach (contact contact in server.contacts)
-            {
-                SelectListItem selectList = new SelectListItem()
-                {
-                    Text = contact.Name,
-                    Value = contact.Id.ToString(),
-                    Selected = false
-                };
-                listSelectListItems.Add(selectList);
-            }
-            ViewBag.ServerContacts = listSelectListItems;
-            //-----------------------------------------------------------------------
+            ////Get Server Contacts --------------------------------------------------
+            //List<SelectListItem> listSelectListItems = new List<SelectListItem>();
+            //foreach (contact contact in server.contacts.OrderBy(a=>a.Name))
+            //{
+            //    SelectListItem selectList = new SelectListItem()
+            //    {
+            //        Text = contact.Name,
+            //        Value = contact.Id.ToString(),
+            //        Selected = false
+            //    };
+            //    listSelectListItems.Add(selectList);
+            //}
+            //ViewBag.ServerContacts = listSelectListItems;
+            ////-----------------------------------------------------------------------
 
             //Get Server Datasources --------------------------------------------------
             List<SelectListItem> dslistSelectListItems = new List<SelectListItem>();
-            foreach (datasource ds in server.datasources)
+            foreach (datasource ds in server.datasources.OrderBy(a => a.Name))
             {
                 SelectListItem selectList = new SelectListItem()
                 {
@@ -145,7 +146,7 @@ namespace CMDB01.Controllers
             //Get Accounts
             List<SelectListItem> alistSelectListItems = new List<SelectListItem>();
 
-            foreach (account account in db.accounts)
+            foreach (account account in db.accounts.OrderBy(a=>a.Name))
             {
                 SelectListItem selectList = new SelectListItem()
                 {
@@ -161,7 +162,7 @@ namespace CMDB01.Controllers
             //Get List of Contacts ----------------------------------------------
             List<SelectListItem> listSelectListItems = new List<SelectListItem>();
 
-            foreach (contact contact in db.contacts)
+            foreach (contact contact in db.contacts.OrderBy(a=>a.Name))
             {
                 SelectListItem selectList = new SelectListItem()
                 {
@@ -182,24 +183,51 @@ namespace CMDB01.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,DataCenter,DeployedVersion,FQDN,Role,Purpose,Offering")] server server, List<int> contactId, int accountId)
+        public ActionResult Create([Bind(Include = "Id,Name,DataCenter,DeployedVersion,FQDN,Role,Purpose,Offering")] server server, string hdContactsArray, int accountId)
         {
             if (ModelState.IsValid)
             {
-
                 account account = db.accounts.Where(x => x.Id == accountId).FirstOrDefault();
                 server.account = account;
 
-                if (contactId != null) { 
-                    List<contact> contacts = new List<contact>();
-                    foreach(int x in contactId)
+                if (!string.IsNullOrEmpty(hdContactsArray))
+                {
+                    List<ContactLinks> contactLinks = new List<ContactLinks>();
+                    var items = JsonConvert.DeserializeObject<List<contactRec>>(hdContactsArray);
+                    foreach (var item in items)
                     {
-                        contacts.Add(db.contacts.Where(ex => ex.Id == x).FirstOrDefault());
+                        if (item.isOutage)
+                        {
+                            ContactLinks con = new ContactLinks();
+                            con.server = server;
+                            con.contact = db.contacts.Where(a => a.Id == item.contactId).FirstOrDefault();
+                            con.entityType = "Server";
+                            con.entityCategory = "Outage";
+                            contactLinks.Add(con);
+                        }
+                        if (item.isChange)
+                        {
+                            ContactLinks con = new ContactLinks();
+                            con.server = server;
+                            con.contact = db.contacts.Where(a => a.Id == item.contactId).FirstOrDefault();
+                            con.entityType = "Server";
+                            con.entityCategory = "Change";
+                            contactLinks.Add(con);
+                        }
                     }
+                    server.ServerContacts = contactLinks;
+                }  
+
+                //if (contactId != null) { 
+                //    List<contact> contacts = new List<contact>();
+                //    foreach(int x in contactId)
+                //    {
+                //        contacts.Add(db.contacts.Where(ex => ex.Id == x).FirstOrDefault());
+                //    }
 
 
-                    server.contacts = contacts;
-                }
+                //    server.contacts = contacts;
+                //}
                 db.servers.Add(server);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -259,9 +287,19 @@ namespace CMDB01.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            server server = db.servers.Find(id);
-            db.servers.Remove(server);
-            db.SaveChanges();
+            try
+            {
+                db.contactlinks.RemoveRange(db.contactlinks.Where(a => a.server.Id == id));
+                db.datasources.RemoveRange(db.datasources.Where(a => a.server.Id == id));
+                server server = db.servers.Find(id);
+                db.servers.Remove(server);
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
             return RedirectToAction("Index");
         }
 
@@ -292,5 +330,12 @@ namespace CMDB01.Controllers
 
         }
        
+    }
+
+    public class contactRecS
+    {
+        public int contactId { get; set; }
+        public bool isAll { get; set; }
+        public bool isInform { get; set; }
     }
 }

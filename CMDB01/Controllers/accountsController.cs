@@ -37,10 +37,8 @@ namespace CMDB01.Controllers
                 }
                 else
                 {
-                    lstAccounts = db.accounts;
+                    lstAccounts = db.accounts.OrderBy(a=>a.Name);
                 }
-
-
             }
             return View(lstAccounts.ToList());
         }
@@ -76,7 +74,7 @@ namespace CMDB01.Controllers
             //Get List of Contacts ----------------------------------------------
             List<SelectListItem> listSelectListItems = new List<SelectListItem>();
 
-            foreach (contact contact in db.contacts)
+            foreach (contact contact in db.contacts.OrderBy(a=>a.Name))
             {
                 SelectListItem selectList = new SelectListItem()
                 {
@@ -97,47 +95,38 @@ namespace CMDB01.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,UltimateId,ContractDate,Status,Opportunity,ProjectorProject,RequestIMS,SuccessAdminLevel,LinktoC4S,Billable")] account account, List<int> contactId, string hdContactsArray)
+        public ActionResult Create([Bind(Include = "Id,Name,UltimateId,ContractDate,Status,Opportunity,ProjectorProject,RequestIMS,SuccessAdminLevel,LinktoC4S,Billable")] account account, string hdContactsArray)
         {
             if (ModelState.IsValid)
             {
-                List<ContactLinks> contactLinks = new List<ContactLinks>();
-                var items = JsonConvert.DeserializeObject<List<contactrec>>(hdContactsArray);
-                foreach (var item in items)
+                if (!string.IsNullOrEmpty(hdContactsArray))
                 {
-                    if (item.isConfiguration)
+                    List<ContactLinks> contactLinks = new List<ContactLinks>();
+                    var items = JsonConvert.DeserializeObject<List<contactRec>>(hdContactsArray);
+                    foreach (var item in items)
                     {
-                        ContactLinks con = new ContactLinks();
-                        con.account = account;
-                        con.contact = db.contacts.Where(a => a.Id == item.contactId).FirstOrDefault();
-                        con.entityType = "Account";
-                        con.entityCategory = "Configuration";
-                        contactLinks.Add(con);
+                        if (item.isInform)
+                        {
+                            ContactLinks con = new ContactLinks();
+                            con.account = account;
+                            con.contact = db.contacts.Where(a => a.Id == item.contactId).FirstOrDefault();
+                            con.entityType = "Account";
+                            con.entityCategory = "Inform Only";
+                            contactLinks.Add(con);
+                        }
+                        if (item.isAll)
+                        {
+                            ContactLinks con = new ContactLinks();
+                            con.account = account;
+                            con.contact = db.contacts.Where(a => a.Id == item.contactId).FirstOrDefault();
+                            con.entityType = "Account";
+                            con.entityCategory = "All Comms";
+                            contactLinks.Add(con);
+                        }
                     }
-                    else if (item.isOutage)
-                    {
-                        ContactLinks con = new ContactLinks();
-                        con.account = account;
-                        con.contact = db.contacts.Where(a => a.Id == item.contactId).FirstOrDefault();
-                        con.entityType = "Account";
-                        con.entityCategory = "Outage";
-                        contactLinks.Add(con);
-                    }
+                    account.AccountContacts = contactLinks; 
                 }
-                account.AccountContacts = contactLinks;
 
-                //if (contactId != null)
-                //{
-
-                //    List<contact> contacts = new List<contact>();
-                //    foreach (int x in contactId)
-                //    {
-                //        contacts.Add(db.contacts.Where(ex => ex.Id == x).FirstOrDefault());
-                //    }
-
-
-                //    account.AccountContacts = contactLinks;
-                //}
                 db.accounts.Add(account);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -197,6 +186,7 @@ namespace CMDB01.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            db.contactlinks.RemoveRange(db.contactlinks.Where(a => a.account.Id == id));
             account account = db.accounts.Find(id);
             db.accounts.Remove(account);
             db.SaveChanges();
@@ -229,10 +219,14 @@ namespace CMDB01.Controllers
 
         }
     }
- public class contactrec
+ public class contactRec
     {
         public int contactId { get; set; }
+        public bool isAll { get; set; }
+        public bool isInform { get; set; }
         public bool isOutage { get; set; }
-        public bool isConfiguration { get; set; }
+        public bool isMajor { get; set; }
+        public bool isMinor { get; set; }
+        public bool isChange { get; set; }
     }
 }

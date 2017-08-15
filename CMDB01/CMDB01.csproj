@@ -250,13 +250,24 @@
     <Compile Include="Migrations\201708140715464_contactLinks3.Designer.cs">
       <DependentUpon>201708140715464_contactLinks3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201708151312407_servercontactLinks.cs" />
+    <Compile Include="Migrations\201708151312407_servercontactLinks.Designer.cs">
+      <DependentUpon>201708151312407_servercontactLinks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708151315404_removeContract.cs" />
+    <Compile Include="Migrations\201708151315404_removeContract.Designer.cs">
+      <DependentUpon>201708151315404_removeContract.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708151334147_ServerContacts.cs" />
+    <Compile Include="Migrations\201708151334147_ServerContacts.Designer.cs">
+      <DependentUpon>201708151334147_ServerContacts.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\account.cs" />
     <Compile Include="Models\CMDB.cs" />
     <Compile Include="Models\comment.cs" />
     <Compile Include="Models\contact.cs" />
     <Compile Include="Models\ContactLinks.cs" />
-    <Compile Include="Models\contract.cs" />
     <Compile Include="Models\datasource.cs" />
     <Compile Include="Models\PickList.cs" />
     <Compile Include="Models\server.cs" />
@@ -319,9 +330,6 @@
     </Content>
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
-    <None Include="Properties\PublishProfiles\mascmdb - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\mascmdb - Web Deploy %282%29.pubxml" />
-    <None Include="Properties\PublishProfiles\MaScmdb - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
     <Content Include="Scripts\jquery-1.12.4.js" />
@@ -455,6 +463,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201708140715464_contactLinks3.resx">
       <DependentUpon>201708140715464_contactLinks3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708151312407_servercontactLinks.resx">
+      <DependentUpon>201708151312407_servercontactLinks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708151315404_removeContract.resx">
+      <DependentUpon>201708151315404_removeContract.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708151334147_ServerContacts.resx">
+      <DependentUpon>201708151334147_ServerContacts.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

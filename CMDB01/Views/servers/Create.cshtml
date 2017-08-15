@@ -6,24 +6,17 @@
 
 
 }
-<style>
-    .clearfix {
-        clear: both;
-        padding: 0;
-        margin: 0;
-        height: 5px;
-        display: block;
-    }
-</style>
    
+<script src="~/Scripts/jquery-1.12.4.js"></script>
+<script src="~/Scripts/jquery-1.12.4.min.js"></script>
 
 <h2>Create</h2>
 
     <div class="row">
         
         
-            @using (Html.BeginForm())
-            {
+@using (Html.BeginForm("Create", "servers", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "myform", role = "form" }))
+{
                 @Html.AntiForgeryToken()
 
 
@@ -93,8 +86,19 @@
                     <div class="form-group">
                         @Html.Label("Server Contacts", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.ListBox("contactId", (List<SelectListItem>)ViewBag.contacts, htmlAttributes: new { @class = "form-control" })
+                            @Html.DropDownList("contactId", (List<SelectListItem>)ViewBag.contacts, htmlAttributes: new { @class = "form-control", @onchange = "AddRecord()" })
+                            <table id="myTable" class="table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Contact Name</th>
+                                        <th>Comms</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="cntRows"></tbody>
+
+                            </table>
                         </div>
+                        <input type="hidden" name="hdContactsArray" id="hdContactsArray" />
                     </div>
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
@@ -127,3 +131,40 @@
 
 
 }
+
+<script>
+
+    function AddRecord()
+    {
+        var selectedContactId = $('#contactId').val();
+        var selectedContactName = $("#contactId option:selected").text();
+        var radioNam = "radio" + selectedContactId;
+
+        $('#cntRows').append('<tr>' +
+            "<td><label id='lblContactName'>" + selectedContactName + "</label><input type='hidden' id='hdnContactID' value=" + selectedContactId + "></td>" +
+            "<td><input type=\"checkbox\" name=\"" + radioNam + "\" id='outage'>Outage &nbsp;</input><input type=\"checkbox\" name=\"" + radioNam + "\"id='change'>Change</input></td></tr>");
+
+
+    }
+
+    $(document).ready(function () {
+
+        $('#myform').submit(function () {
+            var contacts = new Array();
+
+            //get all of the values except the header
+            $("#myTable tbody tr").each(function () {
+                var tds = $(this).find("td");
+                var contactID = $(tds[0]).find('#hdnContactID').val();
+                var outage = $(tds[1]).find('#outage').is(":checked");
+                var change = $(tds[1]).find('#change').is(":checked");
+
+                var contact = { contactId: contactID, isOutage: outage, isChange: change };
+                contacts.push(contact);
+            });
+
+            alert(JSON.stringify(contacts));
+            $('#hdContactsArray').val(JSON.stringify(contacts));
+        });
+    });
+</script>
