@@ -9,15 +9,17 @@ namespace CMDB01.Models
     public class datasource
     {
         public int Id { get; set; } //Datasource Id
+        [Required]
         public string Name { get; set; } //Datasource Name
 
         public string Description { get; set; } //Datasource Description
         public string GUID { get; set; } //Datasource GUID
 
         public string BeingMonitored { get; set; } //Datasource Monitored?
+        public virtual List<ContactLinks> DatasourceContacts { get; set; }
 
-        public virtual List<contact> contacts { get; set; }
-       // public virtual List<comment> comments { get; set; }
+        //public virtual List<contact> contacts { get; set; }
+        // public virtual List<comment> comments { get; set; }
         public virtual server server { get; set; }
 
         public string serverName

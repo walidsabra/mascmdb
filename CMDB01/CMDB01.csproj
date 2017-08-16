@@ -262,6 +262,26 @@
     <Compile Include="Migrations\201708151334147_ServerContacts.Designer.cs">
       <DependentUpon>201708151334147_ServerContacts.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201708160906235_dsContacts1.cs" />
+    <Compile Include="Migrations\201708160906235_dsContacts1.Designer.cs">
+      <DependentUpon>201708160906235_dsContacts1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708161019036_dsContacts2.cs" />
+    <Compile Include="Migrations\201708161019036_dsContacts2.Designer.cs">
+      <DependentUpon>201708161019036_dsContacts2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708161030009_requiredFields.cs" />
+    <Compile Include="Migrations\201708161030009_requiredFields.Designer.cs">
+      <DependentUpon>201708161030009_requiredFields.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708161129572_contactModel.cs" />
+    <Compile Include="Migrations\201708161129572_contactModel.Designer.cs">
+      <DependentUpon>201708161129572_contactModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708161134494_contactModel1.cs" />
+    <Compile Include="Migrations\201708161134494_contactModel1.Designer.cs">
+      <DependentUpon>201708161134494_contactModel1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\account.cs" />
     <Compile Include="Models\CMDB.cs" />
@@ -330,6 +350,8 @@
     </Content>
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\mascmdb - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\mascmdb - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
     <Content Include="Scripts\jquery-1.12.4.js" />
@@ -472,6 +494,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201708151334147_ServerContacts.resx">
       <DependentUpon>201708151334147_ServerContacts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708160906235_dsContacts1.resx">
+      <DependentUpon>201708160906235_dsContacts1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708161019036_dsContacts2.resx">
+      <DependentUpon>201708161019036_dsContacts2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708161030009_requiredFields.resx">
+      <DependentUpon>201708161030009_requiredFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708161129572_contactModel.resx">
+      <DependentUpon>201708161129572_contactModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708161134494_contactModel1.resx">
+      <DependentUpon>201708161134494_contactModel1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -25,9 +25,9 @@
         <br />
         <br />
         @*@foreach (var item in Model.OrderBy(x => x.company).Select(a => a.company.ToUpper()).Distinct())
-        {
-            <a href="/contacts/index?company=@item">@item </a> 
-        }*@
+            {
+                <a href="/contacts/index?company=@item">@item </a>
+            }*@
         @foreach (var item in Model.OrderBy(x => x.Name).Select(a => a.Name.Substring(0, 1).ToUpper()).Distinct())
         {
             <a href="/contacts/index?StartWith=@item">@item</a>
@@ -83,38 +83,47 @@
                             <i class="glyphicon glyphicon-refresh"></i>
                         </button>
 
+                        @if (@item.AccountContacts.Count > 0)
+                        {
 
+                            <p class="card-text" style="margin-left: 20px; margin-right: 20px;">
 
-                        <p class="card-text" style="margin-left: 20px; margin-right: 20px;">
-                            <b>Account(s):</b> <br />
-                            @foreach (var ac in @item.accounts)
-                            {
-                                <a style="padding-left:1em" href="/accounts/details/@ac.Id">@ac.Name<br /></a>
-                            }
+                                <b>Account(s):</b> <br />
 
-                            <br />
+                                @foreach (var ac in @item.AccountContacts)
+                                {
+                                    if (ac.entityType == "Account")
+                                    {
+                                        <a style="padding-left:1em" href="/accounts/details/@ac.account.Id">@ac.account.Name<br /></a>
+                                    }
+                                }
 
-                            <b>Server(s):</b> <br />
+                                <br />
 
-                            @foreach (var srv in @item.servers)
-                            {
-                                <a style="padding-left:1em" class="glyphicon glyphicon-th-large" href="/servers/details/@srv.Id"></a> <b>@srv.Name</b> <br />
-                            }
-                            <br />
+                                <b>Server(s):</b> <br />
 
-                            <b>Datasource(s):</b> <br />
+                                @foreach (var srv in @item.AccountContacts)
+                                {
+                                    if (srv.entityType == "Server")
+                                    {
+                                        <a style="padding-left:1em" class="glyphicon glyphicon-th-large" href="/servers/details/@srv.server.Id"></a> <b>@srv.server.Name</b> <br />
+                                    }
+                                }
+                                <br />
 
-                            @foreach (var ds in @item.datasources)
-                            {
+                                <b>Datasource(s):</b> <br />
 
-                                    <a style="padding-left:1em" class="glyphicon glyphicon-list-alt" href="/datasources/details/@ds.Id"></a>  @ds.Name <br />
-                                
-                                
-                            }
-                            <br />
-                     
-                        </p>
+                                @foreach (var ds in @item.AccountContacts)
+                                {
+                                    if (ds.entityType == "Datasource")
+                                    {
+                                        <a style="padding-left:1em" class="glyphicon glyphicon-list-alt" href="/datasources/details/@ds.datasource.Id"></a>  @ds.datasource.Name <br />
+                                    }
+                                }
+                                <br />
 
+                            </p>
+                        }
                     </div>
                 </div>
             </div>
@@ -142,42 +151,42 @@
     };
 </script>
 @*<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.company)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.phone)
-        </th>
-        <th></th>
-    </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.company)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.phone)
+            </th>
+            <th></th>
+        </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.company)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.phone)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.company)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.phone)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            </td>
+        </tr>
+    }
 
-</table>*@
+    </table>*@

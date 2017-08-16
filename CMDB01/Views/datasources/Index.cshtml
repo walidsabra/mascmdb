@@ -116,7 +116,7 @@
                                 <p class="card-text" style="padding:1em">
                                     <b>Datasource Contacts:</b> <br />
 
-                                    @foreach (var cn in @item.contacts)
+                                    @foreach (var cn in @item.DatasourceContacts.Select(a => new { a.contact.Name, a.contact.email }).Distinct())
                                     {
                                         <span></span>
                                         <a title="Email" href="mailto:@cn.email">

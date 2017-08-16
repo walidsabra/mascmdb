@@ -94,21 +94,6 @@ namespace CMDB01.Controllers
             }
             server server = db.servers.Find(id);
 
-            ////Get Server Contacts --------------------------------------------------
-            //List<SelectListItem> listSelectListItems = new List<SelectListItem>();
-            //foreach (contact contact in server.contacts.OrderBy(a=>a.Name))
-            //{
-            //    SelectListItem selectList = new SelectListItem()
-            //    {
-            //        Text = contact.Name,
-            //        Value = contact.Id.ToString(),
-            //        Selected = false
-            //    };
-            //    listSelectListItems.Add(selectList);
-            //}
-            //ViewBag.ServerContacts = listSelectListItems;
-            ////-----------------------------------------------------------------------
-
             //Get Server Datasources --------------------------------------------------
             List<SelectListItem> dslistSelectListItems = new List<SelectListItem>();
             foreach (datasource ds in server.datasources.OrderBy(a => a.Name))
@@ -218,16 +203,6 @@ namespace CMDB01.Controllers
                     server.ServerContacts = contactLinks;
                 }  
 
-                //if (contactId != null) { 
-                //    List<contact> contacts = new List<contact>();
-                //    foreach(int x in contactId)
-                //    {
-                //        contacts.Add(db.contacts.Where(ex => ex.Id == x).FirstOrDefault());
-                //    }
-
-
-                //    server.contacts = contacts;
-                //}
                 db.servers.Add(server);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -330,12 +305,5 @@ namespace CMDB01.Controllers
 
         }
        
-    }
-
-    public class contactRecS
-    {
-        public int contactId { get; set; }
-        public bool isAll { get; set; }
-        public bool isInform { get; set; }
     }
 }

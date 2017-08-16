@@ -117,22 +117,59 @@ namespace CMDB01.Controllers
 		// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Create([Bind(Include = "Id,Name,Description,GUID,BeingMonitored")] datasource datasource, int serverId,  List<int> contactId)
+		public ActionResult Create([Bind(Include = "Id,Name,Description,GUID,BeingMonitored")] datasource datasource, int serverId, string hdContactsArray)
 		{
 			server server = db.servers.Where(x => x.Id == serverId).FirstOrDefault();
 			datasource.server = server;
 
-			if (contactId != null) { 
-				List<contact> contacts = new List<contact>();
-				foreach (int x in contactId)
-				{
-					contacts.Add(db.contacts.Where(ex => ex.Id == x).FirstOrDefault());
-				}
+            //if (contactId != null) { 
+            //	List<contact> contacts = new List<contact>();
+            //	foreach (int x in contactId)
+            //	{
+            //		contacts.Add(db.contacts.Where(ex => ex.Id == x).FirstOrDefault());
+            //	}
 
-				datasource.contacts = contacts;
-			}
+            //	datasource.dcontacts = contacts;
+            //}
+            if (!string.IsNullOrEmpty(hdContactsArray))
+            {
+                List<ContactLinks> contactLinks = new List<ContactLinks>();
+                var items = Newtonsoft.Json.JsonConvert.DeserializeObject<List<contactRec>>(hdContactsArray);
+                foreach (var item in items)
+                {
+                    if (item.isOutage)
+                    {
+                        ContactLinks con = new ContactLinks();
+                        con.datasource = datasource;
+                        con.contact = db.contacts.Where(a => a.Id == item.contactId).FirstOrDefault();
+                        con.entityType = "Datasource";
+                        con.entityCategory = "Outage";
+                        contactLinks.Add(con);
+                    }
+                    if (item.isMajor)
+                    {
+                        ContactLinks con = new ContactLinks();
+                        con.datasource = datasource;
+                        con.contact = db.contacts.Where(a => a.Id == item.contactId).FirstOrDefault();
+                        con.entityType = "Datasource";
+                        con.entityCategory = "Major";
+                        contactLinks.Add(con);
+                    }
+                    if (item.isMinor)
+                    {
+                        ContactLinks con = new ContactLinks();
+                        con.datasource = datasource;
+                        con.contact = db.contacts.Where(a => a.Id == item.contactId).FirstOrDefault();
+                        con.entityType = "Datasource";
+                        con.entityCategory = "Minor";
+                        contactLinks.Add(con);
+                    }
+                }
+                server.ServerContacts = contactLinks;
+            }
 
-			if (ModelState.IsValid)
+
+            if (ModelState.IsValid)
 			{
 				db.datasources.Add(datasource);
 				db.SaveChanges();
@@ -193,7 +230,9 @@ namespace CMDB01.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult DeleteConfirmed(int id)
 		{
-			datasource datasource = db.datasources.Find(id);
+            db.contactlinks.RemoveRange(db.contactlinks.Where(a => a.datasource.Id == id));
+
+            datasource datasource = db.datasources.Find(id);
 			db.datasources.Remove(datasource);
 			db.SaveChanges();
 			return RedirectToAction("Index");
@@ -214,20 +253,20 @@ namespace CMDB01.Controllers
 		{
 			try
 			{
-				//Get Contacts --------------------------------------------------
-				List<SelectListItem> listSelectListItems = new List<SelectListItem>();
-				foreach (contact contact in datasource.contacts)
-				{
-					SelectListItem selectList = new SelectListItem()
-					{
-						Text = contact.Name,
-						Value = contact.Id.ToString(),
-						Selected = false
-					};
-					listSelectListItems.Add(selectList);
-				}
-				ViewBag.contacts = listSelectListItems;
-				//-----------------------------------------------------------------------
+				////Get Contacts --------------------------------------------------
+				//List<SelectListItem> listSelectListItems = new List<SelectListItem>();
+				//foreach (contact contact in datasource.contacts)
+				//{
+				//	SelectListItem selectList = new SelectListItem()
+				//	{
+				//		Text = contact.Name,
+				//		Value = contact.Id.ToString(),
+				//		Selected = false
+				//	};
+				//	listSelectListItems.Add(selectList);
+				//}
+				//ViewBag.contacts = listSelectListItems;
+				////-----------------------------------------------------------------------
 			}
 			catch (Exception)
 			{
@@ -269,7 +308,7 @@ namespace CMDB01.Controllers
 				//Get List of Contacts ----------------------------------------------
 				List<SelectListItem> listSelectListItems = new List<SelectListItem>();
 
-				foreach (contact contact in db.contacts)
+				foreach (contact contact in db.contacts.OrderBy(a=>a.Name))
 				{
 					SelectListItem selectList = new SelectListItem()
 					{

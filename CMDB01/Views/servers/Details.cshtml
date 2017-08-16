@@ -161,13 +161,19 @@
                         <th>Contact Name</th>
                         <th>Comms</th>
                     </tr>
-                    @foreach (var cn in Model.ServerContacts)
+                    @foreach (var cn in Model.ServerContacts.Select( a => new { a.contact.Name, a.contact.email}).Distinct())
                     {
                         <tr>
-                            <td><a title="Email" href="mailto:@cn.contact.email"> <i class="glyphicon glyphicon-envelope"></i></a> @cn.contact.Name</td>
-                            <td>@if (@cn.entityCategory == "Outage")
-                            { <a style="text-decoration:none">Outage</a> } @if (@cn.entityCategory == "Change")
-                            { <a style="text-decoration:none">Change</a> }</td>
+                            <td><a title="Email" href="mailto:@cn.email"> <i class="glyphicon glyphicon-envelope"></i></a> @cn.Name</td>
+                            <td>
+                                @foreach (var sCN in Model.ServerContacts.Where(a => a.contact.Name == cn.Name))
+                                {
+                                    if (@sCN.entityCategory == "Outage")
+                                    { <a style="text-decoration:none">Outage</a> } if (@sCN.entityCategory == "Change")
+                                    { <a style="text-decoration:none"> | Change</a> }
+                                }
+                               
+                            </td>
                         </tr>
 
                     }

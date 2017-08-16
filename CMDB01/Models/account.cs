@@ -10,6 +10,7 @@ namespace CMDB01.Models
     {
         public int Id { get; set; } //Account Id
         [Display(Name="Account Name")]
+        [Required]
         public string Name { get; set; } //Account Name
         [Display(Name = "Ultimate ID")]
         public string UltimateId { get; set; }

@@ -15,6 +15,7 @@ namespace CMDB01.Models
 
         public virtual account account { get; set; }
         public virtual server server { get; set; }
+        public virtual datasource datasource { get; set; }
         public virtual contact contact { get; set; }
 
     }

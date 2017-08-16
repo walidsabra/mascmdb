@@ -9,6 +9,7 @@ namespace CMDB01.Models
     public class server
     {
         public int Id { get; set; } //Server Id
+        [Required]
         public string Name { get; set; } //Server Name
         [Display(Name = "Data Center")]
         public string DataCenter { get; set; } //Data Source Location

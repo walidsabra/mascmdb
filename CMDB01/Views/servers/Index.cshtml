@@ -158,13 +158,13 @@
 
                             <b>Server Contacts:</b> <br />
 
-                            @foreach (var cn in @item.ServerContacts)
+                            @foreach (var cn in @item.ServerContacts.Select( a => new { a.contact.Name, a.contact.email}).Distinct())
                             {
-                                <a title="Email" href="mailto:@cn.contact.email">
+                                <a title="Email" href="mailto:@cn.email">
                                     <i class="glyphicon glyphicon-envelope"></i>
                                 </a>
                                 <i class="glyphicon glyphicon-phone"></i>
-                                            @cn.contact.Name
+                                            @cn.Name
                                             <br />
                             }
                             <br />

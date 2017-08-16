@@ -8,7 +8,7 @@
 <h2 style="color:dodgerblue">@Html.DisplayFor(model => model.Name)</h2>
 
 <div class="row">
-    
+
     <hr />
     <dl class="dl-horizontal">
 
@@ -63,7 +63,7 @@
         <dd>
             <a href="/accounts/details/@Html.DisplayFor(model => model.server.account.Id)">  @Html.DisplayFor(model => model.AccountName)</a>
         </dd>
-     
+
 
     </dl>
 
@@ -75,17 +75,35 @@
 
         <h4 style="color:lightcoral">Datasource Contacts</h4>
         <p class="card-text" style="margin-left: 20px; margin-right: 20px;  padding-left:1em">
-
-            @foreach (var cn in Model.contacts)
+            @if (Model.DatasourceContacts.Count > 0)
             {
-                <span></span>
-                                    <a title="Email" href="mailto:@cn.email">
-                                        <i class="glyphicon glyphicon-envelope"></i>
-                                    </a>
-                                    <i class="glyphicon glyphicon-phone"></i>
-                                        @cn.Name
-                                        <br />
+                <table class="table table-bordered table-striped">
+                    <tr>
+                        <th>Contact Name</th>
+                        <th>Comms</th>
+                    </tr>
+                    @foreach (var cn in Model.DatasourceContacts.Select(a => new { a.contact.Name, a.contact.email }).Distinct())
+                    {
+                        <tr>
+                            <td><a title="Email" href="mailto:@cn.email"> <i class="glyphicon glyphicon-envelope"></i></a> @cn.Name</td>
+                            <td>
+                                @foreach (var sCN in Model.DatasourceContacts.Where(a => a.contact.Name == cn.Name))
+                                {
+                                    if (@sCN.entityCategory == "Outage")
+                                    { <a style="text-decoration:none">Outage</a> }
+                                    if (@sCN.entityCategory == "Major")
+                                    { <a style="text-decoration:none"> Major</a> }
+                                    if (@sCN.entityCategory == "Minor")
+                                    { <a style="text-decoration:none"> Minor</a> }
+                                }
+
+                            </td>
+                        </tr>
+
+                    }
+                </table>
             }
+
         </p>
     </div>
 </div>
@@ -93,30 +111,32 @@
 <div class="row">
     <h4 style="color:lightcoral">Datasource Comments</h4>
     <p class="card-text" style="margin-left: 20px; margin-right: 20px;  padding-left:1em">
-        <table id="ccc" class="table table-bordered table-striped">
-            <tr>
-                <th>Time</th>
-                <th>User</th>
-                <th>Comment</th>
-            </tr>
-            @foreach (var cm in ViewBag.DSCMs)
-
-            {
+        @if (ViewBag.DSCMs.Count > 0)
+        {
+            <table id="ccc" class="table table-bordered table-striped">
                 <tr>
-                    <th>@cm.timestamp</th>
-                    <th>@cm.user</th>
-                    <th>@cm.Comment</th>
+                    <th>Time</th>
+                    <th>User</th>
+                    <th>Comment</th>
                 </tr>
+                @foreach (var cm in ViewBag.DSCMs)
 
-            }
-        </table>
+                {
+                    <tr>
+                        <th>@cm.timestamp</th>
+                        <th>@cm.user</th>
+                        <th>@cm.Comment</th>
+                    </tr>
 
+                }
+            </table>
+        }
 
 
     </p>
 </div>
 <hr />
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-        @Html.ActionLink("Back to List", "Index")
-    </p>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
