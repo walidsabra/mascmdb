@@ -30,38 +30,38 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.BeingMonitored)
+            @Html.DisplayNameFor(model => model.Monitored)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.BeingMonitored)
+            @Html.DisplayFor(model => model.Monitored)
         </dd>
 
         <dt>
             @Html.DisplayName("Server Farm")
         </dt>
         <dd>
-            <a href="/servers/details/@Html.DisplayFor(model => model.server.Id)">  @Html.DisplayFor(model => model.serverName)</a>
+            <a href="/servers/details/@Html.DisplayFor(model => model.ServerFarm.Id)">  @Html.DisplayFor(model => model.serverName)</a>
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.server.DeployedVersion)
+            @Html.DisplayNameFor(model => model.ServerFarm.DeployedVersion)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.server.DeployedVersion)
+            @Html.DisplayFor(model => model.ServerFarm.DeployedVersion)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.server.DataCenter)
+            @Html.DisplayNameFor(model => model.ServerFarm.DataCenter)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.server.DataCenter)
+            @Html.DisplayFor(model => model.ServerFarm.DataCenter)
         </dd>
         <dt>
             @Html.DisplayName("Account")
         </dt>
         <dd>
-            <a href="/accounts/details/@Html.DisplayFor(model => model.server.account.Id)">  @Html.DisplayFor(model => model.AccountName)</a>
+            <a href="/accounts/details/@Html.DisplayFor(model => model.ServerFarm.account.Id)">  @Html.DisplayFor(model => model.AccountName)</a>
         </dd>
 
 

@@ -15,19 +15,29 @@ namespace CMDB01.Models
         public string Description { get; set; } //Datasource Description
         public string GUID { get; set; } //Datasource GUID
 
-        public string BeingMonitored { get; set; } //Datasource Monitored?
+        public string Monitored { get; set; } //Datasource Monitored?
+        public int ActiveUsers120Days { get; set; }
+        public int ActiveUsers30Days { get; set; }
+        public int Activeusers7Days { get; set; }
+        public int ActiveUsers90Days { get; set; }
+        public string ADUS { get; set; }
+        public string Migration { get; set; }
+        public decimal FileStorageSpace { get; set; }
+        public string PSS { get; set; }
+        public string Purpose { get; set; }
+    
         public virtual List<ContactLinks> DatasourceContacts { get; set; }
 
         //public virtual List<contact> contacts { get; set; }
         // public virtual List<comment> comments { get; set; }
-        public virtual server server { get; set; }
+        public virtual serverFarms ServerFarm { get; set; }
 
         public string serverName
         {
             get
             {
                 CMDB db = new CMDB();
-                return db.servers.Where(x => x.Id == server.Id).FirstOrDefault().Name;
+                return db.serverFarms.Where(x => x.Id == ServerFarm.Id).FirstOrDefault().Name;
             }
         }
 
@@ -36,7 +46,7 @@ namespace CMDB01.Models
             get
             {
                 CMDB db = new CMDB();
-                return db.servers.Where(x => x.Id == server.Id).FirstOrDefault().DeployedVersion;
+                return db.serverFarms.Where(x => x.Id == ServerFarm.Id).FirstOrDefault().DeployedVersion;
             }
         }
 
@@ -45,7 +55,7 @@ namespace CMDB01.Models
             get
             {
                 CMDB db = new CMDB();
-                return db.servers.Where(x => x.Id == server.Id).FirstOrDefault().DataCenter;
+                return db.serverFarms.Where(x => x.Id == ServerFarm.Id).FirstOrDefault().DataCenter;
             }
         }
 
@@ -54,7 +64,7 @@ namespace CMDB01.Models
             get
             {
                 CMDB db = new CMDB();
-                return db.servers.Where(x => x.Id == server.Id).FirstOrDefault().FQDN;
+                return db.serverFarms.Where(x => x.Id == ServerFarm.Id).FirstOrDefault().FQDN;
             }
         }
 
@@ -64,7 +74,7 @@ namespace CMDB01.Models
             get
             {
                 CMDB db = new CMDB();
-                return db.accounts.Where(x => x.Id == server.account.Id).FirstOrDefault().Name;
+                return db.accounts.Where(x => x.Id == ServerFarm.account.Id).FirstOrDefault().Name;
             }
         }
 

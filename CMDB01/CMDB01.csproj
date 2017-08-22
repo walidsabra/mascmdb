@@ -282,6 +282,18 @@
     <Compile Include="Migrations\201708161134494_contactModel1.Designer.cs">
       <DependentUpon>201708161134494_contactModel1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201708220550069_dsMoreCols.cs" />
+    <Compile Include="Migrations\201708220550069_dsMoreCols.Designer.cs">
+      <DependentUpon>201708220550069_dsMoreCols.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708220648092_Servr2ServerFarm.cs" />
+    <Compile Include="Migrations\201708220648092_Servr2ServerFarm.Designer.cs">
+      <DependentUpon>201708220648092_Servr2ServerFarm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708220650377_Servr2ServerFarm1.cs" />
+    <Compile Include="Migrations\201708220650377_Servr2ServerFarm1.Designer.cs">
+      <DependentUpon>201708220650377_Servr2ServerFarm1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\account.cs" />
     <Compile Include="Models\CMDB.cs" />
@@ -290,7 +302,7 @@
     <Compile Include="Models\ContactLinks.cs" />
     <Compile Include="Models\datasource.cs" />
     <Compile Include="Models\PickList.cs" />
-    <Compile Include="Models\server.cs" />
+    <Compile Include="Models\serverFarms.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -353,10 +365,13 @@
     <None Include="Properties\PublishProfiles\mascmdb - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\mascmdb - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <None Include="Scripts\jquery-1.12.4.intellisense.js" />
-    <Content Include="Scripts\jquery-1.12.4.js" />
-    <Content Include="Scripts\jquery-1.12.4.min.js" />
-    <Content Include="Scripts\jquery-1.12.4.min.map" />
+    <None Include="Scripts\jquery-3.1.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.1.1.js" />
+    <Content Include="Scripts\jquery-3.1.1.min.js" />
+    <Content Include="Scripts\jquery-3.1.1.slim.js" />
+    <Content Include="Scripts\jquery-3.1.1.slim.min.js" />
+    <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.1.1.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
@@ -406,6 +421,7 @@
     <Content Include="Views\comments\Details.cshtml" />
     <Content Include="Views\comments\Edit.cshtml" />
     <Content Include="Views\comments\Index.cshtml" />
+    <Content Include="Views\accounts\DeleteAccountContact.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -509,6 +525,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201708161134494_contactModel1.resx">
       <DependentUpon>201708161134494_contactModel1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708220550069_dsMoreCols.resx">
+      <DependentUpon>201708220550069_dsMoreCols.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708220648092_Servr2ServerFarm.resx">
+      <DependentUpon>201708220648092_Servr2ServerFarm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708220650377_Servr2ServerFarm1.resx">
+      <DependentUpon>201708220650377_Servr2ServerFarm1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

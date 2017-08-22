@@ -4,8 +4,7 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script src="~/Scripts/jquery-1.12.4.js"></script>
-<script src="~/Scripts/jquery-1.12.4.min.js"></script>
+
 
 <h2>Create</h2>
 
@@ -83,7 +82,7 @@
             @Html.LabelFor(model => model.ContractDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.ContractDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ContractDate, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.ContractDate, "", new { @class = "text-danger", @id="contrDate" })
             </div>
         </div>
 
@@ -216,5 +215,9 @@
             //alert(JSON.stringify(contacts));
             $('#hdContactsArray').val(JSON.stringify(contacts));
         });
+    });
+
+    $(function () {
+        $("#contrDate").datepicker();
     });
 </script>

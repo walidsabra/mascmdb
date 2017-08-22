@@ -19,21 +19,21 @@ namespace CMDB01.Controllers
         // GET: servers
         public ActionResult Index(string SearchValue, string dc, string dv, string rl, string acc, string StartWith)
         {
-            IQueryable<server> lsServers;
+            IQueryable<serverFarms> lsServers;
 
             if (!string.IsNullOrEmpty(SearchValue))
             {
-                lsServers = db.servers.Where(x=>x.Name.Contains(SearchValue));
+                lsServers = db.serverFarms.Where(x=>x.Name.Contains(SearchValue));
             }
             else if (!string.IsNullOrEmpty(dc))
             {
                 if(dc == "null")
                 {
-                    lsServers = db.servers.Where(a => a.DataCenter.Equals(null));
+                    lsServers = db.serverFarms.Where(a => a.DataCenter.Equals(null));
                 }
                 else
                 {
-                    lsServers = db.servers.Where(a => a.DataCenter.Equals(dc));
+                    lsServers = db.serverFarms.Where(a => a.DataCenter.Equals(dc));
                 }
                 
             }
@@ -41,44 +41,44 @@ namespace CMDB01.Controllers
             {
                 if (dv == "null")
                 {
-                    lsServers = db.servers.Where(a => a.DeployedVersion.Equals(null));
+                    lsServers = db.serverFarms.Where(a => a.DeployedVersion.Equals(null));
                 }
                 else
                 {
-                    lsServers = db.servers.Where(a => a.DeployedVersion.Equals(dv));
+                    lsServers = db.serverFarms.Where(a => a.DeployedVersion.Equals(dv));
                 }
             }
             else if (!string.IsNullOrEmpty(rl))
             {
                 if (rl == "null")
                 {
-                    lsServers = db.servers.Where(a => a.Role.Equals(null));
+                    lsServers = db.serverFarms.Where(a => a.Role.Equals(null));
                 }
                 else
                 {
-                    lsServers = db.servers.Where(a => a.Role.Equals(rl));
+                    lsServers = db.serverFarms.Where(a => a.Role.Equals(rl));
                 }
             }
             else if (!string.IsNullOrEmpty(acc))
             {
                 if (acc == "null")
                 {
-                    lsServers = db.servers.Where(a => a.account.Name.Equals(null));
+                    lsServers = db.serverFarms.Where(a => a.account.Name.Equals(null));
                 }
                 else
                 {
-                    lsServers = db.servers.Where(a => a.account.Name.Equals(acc));
+                    lsServers = db.serverFarms.Where(a => a.account.Name.Equals(acc));
                 }
             }
             else
             {
                 if (!string.IsNullOrEmpty(StartWith))
                 {
-                    lsServers = db.servers.Where(x => x.Name.StartsWith(StartWith)).AsQueryable();
+                    lsServers = db.serverFarms.Where(x => x.Name.StartsWith(StartWith)).AsQueryable();
                 }
                 else
                 {
-                    lsServers = db.servers;
+                    lsServers = db.serverFarms;
                 }
 
             }
@@ -92,7 +92,7 @@ namespace CMDB01.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            server server = db.servers.Find(id);
+            serverFarms server = db.serverFarms.Find(id);
 
             //Get Server Datasources --------------------------------------------------
             List<SelectListItem> dslistSelectListItems = new List<SelectListItem>();
@@ -168,7 +168,7 @@ namespace CMDB01.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,DataCenter,DeployedVersion,FQDN,Role,Purpose,Offering")] server server, string hdContactsArray, int accountId)
+        public ActionResult Create([Bind(Include = "Id,Name,DataCenter,DeployedVersion,FQDN,Role,Purpose,Offering")] serverFarms server, string hdContactsArray, int accountId)
         {
             if (ModelState.IsValid)
             {
@@ -203,7 +203,7 @@ namespace CMDB01.Controllers
                     server.ServerContacts = contactLinks;
                 }  
 
-                db.servers.Add(server);
+                db.serverFarms.Add(server);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -218,7 +218,7 @@ namespace CMDB01.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            server server = db.servers.Find(id);
+            serverFarms server = db.serverFarms.Find(id);
             if (server == null)
             {
                 return HttpNotFound();
@@ -231,7 +231,7 @@ namespace CMDB01.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,DataCenter,DeployedVersion,FQDN,Role,Purpose,Offering")] server server)
+        public ActionResult Edit([Bind(Include = "Id,Name,DataCenter,DeployedVersion,FQDN,Role,Purpose,Offering")] serverFarms server)
         {
             if (ModelState.IsValid)
             {
@@ -249,7 +249,7 @@ namespace CMDB01.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            server server = db.servers.Find(id);
+            serverFarms server = db.serverFarms.Find(id);
             if (server == null)
             {
                 return HttpNotFound();
@@ -265,9 +265,9 @@ namespace CMDB01.Controllers
             try
             {
                 db.contactlinks.RemoveRange(db.contactlinks.Where(a => a.server.Id == id));
-                db.datasources.RemoveRange(db.datasources.Where(a => a.server.Id == id));
-                server server = db.servers.Find(id);
-                db.servers.Remove(server);
+                db.datasources.RemoveRange(db.datasources.Where(a => a.ServerFarm.Id == id));
+                serverFarms server = db.serverFarms.Find(id);
+                db.serverFarms.Remove(server);
                 db.SaveChanges();
             }
             catch (Exception)

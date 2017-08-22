@@ -71,21 +71,7 @@ namespace CMDB01.Controllers
         // GET: accounts/Create
         public ActionResult Create()
         {
-            //Get List of Contacts ----------------------------------------------
-            List<SelectListItem> listSelectListItems = new List<SelectListItem>();
-
-            foreach (contact contact in db.contacts.OrderBy(a=>a.Name))
-            {
-                SelectListItem selectList = new SelectListItem()
-                {
-                    Text = contact.Name,
-                    Value = contact.Id.ToString(),
-                    Selected = false
-                };
-                listSelectListItems.Add(selectList);
-            }
-            ViewBag.contacts = listSelectListItems;
-            //--------------------------------------------------------------------
+            GetContacts();
 
             return View();
         }
@@ -99,33 +85,7 @@ namespace CMDB01.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (!string.IsNullOrEmpty(hdContactsArray))
-                {
-                    List<ContactLinks> contactLinks = new List<ContactLinks>();
-                    var items = JsonConvert.DeserializeObject<List<contactRec>>(hdContactsArray);
-                    foreach (var item in items)
-                    {
-                        if (item.isInform)
-                        {
-                            ContactLinks con = new ContactLinks();
-                            con.account = account;
-                            con.contact = db.contacts.Where(a => a.Id == item.contactId).FirstOrDefault();
-                            con.entityType = "Account";
-                            con.entityCategory = "Inform Only";
-                            contactLinks.Add(con);
-                        }
-                        if (item.isAll)
-                        {
-                            ContactLinks con = new ContactLinks();
-                            con.account = account;
-                            con.contact = db.contacts.Where(a => a.Id == item.contactId).FirstOrDefault();
-                            con.entityType = "Account";
-                            con.entityCategory = "All Comms";
-                            contactLinks.Add(con);
-                        }
-                    }
-                    account.AccountContacts = contactLinks; 
-                }
+                processContacts(account, hdContactsArray, "Create");
 
                 db.accounts.Add(account);
                 db.SaveChanges();
@@ -138,6 +98,11 @@ namespace CMDB01.Controllers
         // GET: accounts/Edit/5
         public ActionResult Edit(int? id)
         {
+            GetContacts();
+
+            //get account contacts
+
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -155,10 +120,11 @@ namespace CMDB01.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,UltimateId,ContractDate,Status,Opportunity,ProjectorProject,RequestIMS,SuccessAdminLevel,LinktoC4S,Billable")] account account)
+        public ActionResult Edit([Bind(Include = "Id,Name,UltimateId,ContractDate,Status,Opportunity,ProjectorProject,RequestIMS,SuccessAdminLevel,LinktoC4S,Billable")] account account, string hdContactsArray)
         {
             if (ModelState.IsValid)
             {
+                processContacts(account, hdContactsArray, "Edit");
                 db.Entry(account).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -186,10 +152,24 @@ namespace CMDB01.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            db.contactlinks.RemoveRange(db.contactlinks.Where(a => a.account.Id == id));
-            account account = db.accounts.Find(id);
-            db.accounts.Remove(account);
-            db.SaveChanges();
+            try
+            {
+
+                db.contactlinks.RemoveRange(db.contactlinks.Where(a => a.account.Id == id));
+                //foreach(server srv in db.servers.Where(a => a.account.Id == id))
+                //{
+                //    db.datasources.RemoveRange(db.datasources.Where(a => a.server.Id == srv.Id));
+                //    db.servers.Remove(srv);
+                //}
+
+                account account = db.accounts.Find(id);
+                db.accounts.Remove(account);
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                //throw;
+            }
             return RedirectToAction("Index");
         }
 
@@ -218,8 +198,92 @@ namespace CMDB01.Controllers
             }
 
         }
+
+
+        // GET: accounts/Delete/5
+        public ActionResult DeleteAccountContact(int? id)
+        {
+
+            return View();
+        }
+        // POST: accounts/Delete/5
+        [HttpPost, ActionName("DeleteAccountContact")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteAccountContact(int accId, int contactId)
+        {
+            try
+            {
+                db.contactlinks.RemoveRange(db.contactlinks.Where(a => a.account.Id == accId && a.contact.Id == contactId));
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return RedirectToAction("Edit", new {Id = accId });
+        }
+
+        private void processContacts(account account, string hdContactsArray, string mode)
+        {
+            if (!string.IsNullOrEmpty(hdContactsArray))
+            {
+                List<ContactLinks> contactLinks = new List<ContactLinks>();
+                var items = JsonConvert.DeserializeObject<List<contactRec>>(hdContactsArray);
+                foreach (var item in items)
+                {
+                    if (item.isInform)
+                    {
+                        ContactLinks con = new ContactLinks();
+                        con.account = account;
+                        con.contact = db.contacts.Where(a => a.Id == item.contactId).FirstOrDefault();
+                        con.entityType = "Account";
+                        con.entityCategory = "Inform Only";
+                        contactLinks.Add(con);
+                    }
+                    if (item.isAll)
+                    {
+                        ContactLinks con = new ContactLinks();
+                        con.account = account;
+                        con.contact = db.contacts.Where(a => a.Id == item.contactId).FirstOrDefault();
+                        con.entityType = "Account";
+                        con.entityCategory = "All Comms";
+                        contactLinks.Add(con);
+                    }
+                }
+                if (mode == "Create")
+                {
+                    account.AccountContacts = contactLinks;
+                }
+                if (mode == "Edit")
+                {
+                    db.contactlinks.AddRange(contactLinks);
+                }
+
+            }
+        }
+
+
+        private void GetContacts()
+        {
+            //Get List of Contacts ----------------------------------------------
+            List<SelectListItem> listSelectListItems = new List<SelectListItem>();
+
+            foreach (contact contact in db.contacts.OrderBy(a => a.Name))
+            {
+                SelectListItem selectList = new SelectListItem()
+                {
+                    Text = contact.Name,
+                    Value = contact.Id.ToString(),
+                    Selected = false
+                };
+                listSelectListItems.Add(selectList);
+            }
+            ViewBag.contacts = listSelectListItems;
+            //--------------------------------------------------------------------
+        }
+
     }
- public class contactRec
+    public class contactRec
     {
         public int contactId { get; set; }
         public bool isAll { get; set; }

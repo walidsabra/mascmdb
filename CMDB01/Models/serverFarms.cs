@@ -6,7 +6,7 @@ using System.Web;
 
 namespace CMDB01.Models
 {
-    public class server
+    public class serverFarms
     {
         public int Id { get; set; } //Server Id
         [Required]

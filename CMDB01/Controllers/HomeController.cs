@@ -16,7 +16,7 @@ namespace CMDB01.Controllers
             ViewBag.accounts = db.accounts.Count();
             ViewBag.datasources = db.datasources.Count();
             ViewBag.contacts = db.contacts.Count();
-            ViewBag.servers = db.servers.Count();
+            ViewBag.servers = db.serverFarms.Count();
 
             return View();
         }

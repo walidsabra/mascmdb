@@ -27,11 +27,11 @@ namespace CMDB01.Controllers
             {
                 if (dc == "null")
                 {
-                    lsDSs = db.datasources.Where(a => a.server.DataCenter.Equals(null));
+                    lsDSs = db.datasources.Where(a => a.ServerFarm.DataCenter.Equals(null));
                 }
                 else
                 {
-                    lsDSs = db.datasources.Where(a => a.server.DataCenter.Equals(dc));
+                    lsDSs = db.datasources.Where(a => a.ServerFarm.DataCenter.Equals(dc));
                 }
 
             }
@@ -39,11 +39,11 @@ namespace CMDB01.Controllers
             {
                 if (dv == "null")
                 {
-                    lsDSs = db.datasources.Where(a => a.server.DeployedVersion.Equals(null));
+                    lsDSs = db.datasources.Where(a => a.ServerFarm.DeployedVersion.Equals(null));
                 }
                 else
                 {
-                    lsDSs = db.datasources.Where(a => a.server.DeployedVersion.Equals(dv));
+                    lsDSs = db.datasources.Where(a => a.ServerFarm.DeployedVersion.Equals(dv));
                 }
 
             }
@@ -51,11 +51,11 @@ namespace CMDB01.Controllers
             {
                 if (acc == "null")
                 {
-                    lsDSs = db.datasources.Where(a => a.server.account.Name.Equals(null));
+                    lsDSs = db.datasources.Where(a => a.ServerFarm.account.Name.Equals(null));
                 }
                 else
                 {
-                    lsDSs = db.datasources.Where(a => a.server.account.Name.Equals(acc));
+                    lsDSs = db.datasources.Where(a => a.ServerFarm.account.Name.Equals(acc));
                 }
 
             }
@@ -117,10 +117,10 @@ namespace CMDB01.Controllers
 		// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Create([Bind(Include = "Id,Name,Description,GUID,BeingMonitored")] datasource datasource, int serverId, string hdContactsArray)
+		public ActionResult Create([Bind(Include = "Id,Name,Description,GUID,Monitored")] datasource datasource, int serverId, string hdContactsArray)
 		{
-			server server = db.servers.Where(x => x.Id == serverId).FirstOrDefault();
-			datasource.server = server;
+			serverFarms server = db.serverFarms.Where(x => x.Id == serverId).FirstOrDefault();
+			datasource.ServerFarm = server;
 
             //if (contactId != null) { 
             //	List<contact> contacts = new List<contact>();
@@ -199,7 +199,7 @@ namespace CMDB01.Controllers
 		// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Edit([Bind(Include = "Id,Name,Description,GUID,BeingMonitored")] datasource datasource)
+		public ActionResult Edit([Bind(Include = "Id,Name,Description,GUID,Monitored")] datasource datasource)
 		{
 			if (ModelState.IsValid)
 			{
@@ -281,7 +281,7 @@ namespace CMDB01.Controllers
 			{
 				List<SelectListItem> SlistSelectListItems = new List<SelectListItem>();
 
-				foreach (server server in db.servers)
+				foreach (serverFarms server in db.serverFarms)
 				{
 					SelectListItem selectList = new SelectListItem()
 					{

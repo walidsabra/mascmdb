@@ -44,16 +44,16 @@
             <div class="col-md-3">
                 <div class="card-container manual-flip">
                     <div class="card">
-                        <div class="front">
+                        <div class="front" style="overflow-y:auto">
                             <div class="card-block" style="margin-left: 10px; margin-right: 10px; ">
                                 <button class="btn btn-simple" rel="tooltip" title="Flip Card" onclick="rotateCard(this)">
-                                    <i class="glyphicon glyphicon-refresh" ></i>
+                                    <i class="glyphicon glyphicon-refresh"></i>
                                 </button>
                                 <a class="btn btn-simple" rel="tooltip" title="Edit" href="@Url.Action("Edit", "accounts", new { id = item.Id})">
                                     <i class="glyphicon glyphicon-edit"></i>
                                 </a>
                                 <a class="btn btn-simple" rel="tooltip" title="Delete" href="@Url.Action("Delete", "accounts", new { id = item.Id })">
-                                    <i class="glyphicon glyphicon-remove" ></i>
+                                    <i class="glyphicon glyphicon-remove"></i>
                                 </a>
                                 <button class="btn btn-simple openComment" rel="tooltip" title="Comments" data-toggle="modal" data-target="#myModal" data-id=@item.Id data-name=@item.Name>
                                     <i class="glyphicon glyphicon-comment"></i>
@@ -76,7 +76,9 @@
                                 </div>
                             </div>
                             <br />
-                            <div class="card-block" style="margin-left: 10px; margin-right: 10px; overflow-y:auto">
+
+                            <div class="card-block" style="margin-left: 10px; margin-right: 10px">
+
                                 <p class="card-text">
                                     <b>Account Contacts:</b> <br />
 
@@ -117,7 +119,7 @@
                                     }
                                     <br />
                                 </p>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -182,7 +184,7 @@
     $(document).on("click", ".openComment", function () {
         var AccountId = $(this).data('id');
         var AccountName = $(this).data('name');
-        
+
         $(".modal-title").text("Account " + AccountName + " Comments");
         var url = "@Url.Action("Create", "comments", new { entity_id = "js-id", entity = "Account" })".replace("js-id", encodeURIComponent(AccountId));
 

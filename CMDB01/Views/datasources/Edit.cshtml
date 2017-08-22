@@ -43,10 +43,10 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.BeingMonitored, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Monitored, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.BeingMonitored, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.BeingMonitored, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Monitored, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Monitored, "", new { @class = "text-danger" })
             </div>
         </div>
 

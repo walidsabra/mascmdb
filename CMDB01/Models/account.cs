@@ -31,7 +31,7 @@ namespace CMDB01.Models
         public string Billable { get; set; }
         public virtual List<ContactLinks> AccountContacts {get; set;}
         
-        public virtual List<server> servers { get; set; }
+        public virtual List<serverFarms> servers { get; set; }
 
         //public virtual List<comment> comments { get; set; }
     }
