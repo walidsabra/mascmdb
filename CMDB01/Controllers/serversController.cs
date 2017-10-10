@@ -128,10 +128,19 @@ namespace CMDB01.Controllers
         // GET: servers/Create
         public ActionResult Create()
         {
+            GetAccounts();
+            GetContacts();
+            GetServerFarmEntityTypes();
+
+            return View();
+        }
+
+        private void GetAccounts()
+        {
             //Get Accounts
             List<SelectListItem> alistSelectListItems = new List<SelectListItem>();
 
-            foreach (account account in db.accounts.OrderBy(a=>a.Name))
+            foreach (account account in db.accounts.OrderBy(a => a.Name))
             {
                 SelectListItem selectList = new SelectListItem()
                 {
@@ -143,11 +152,14 @@ namespace CMDB01.Controllers
             }
             ViewBag.accounts = alistSelectListItems;
             //--------------------------------------------------------------------
+        }
 
+        private void GetContacts()
+        {
             //Get List of Contacts ----------------------------------------------
             List<SelectListItem> listSelectListItems = new List<SelectListItem>();
 
-            foreach (contact contact in db.contacts.OrderBy(a=>a.Name))
+            foreach (contact contact in db.contacts.OrderBy(a => a.Name))
             {
                 SelectListItem selectList = new SelectListItem()
                 {
@@ -159,8 +171,25 @@ namespace CMDB01.Controllers
             }
             ViewBag.contacts = listSelectListItems;
             //--------------------------------------------------------------------
+        }
 
-            return View();
+        private void GetServerFarmEntityTypes()
+        {
+            //Get List of Contacts ----------------------------------------------
+            List<SelectListItem> listSelectListItems = new List<SelectListItem>();
+
+            foreach (PickList pl in db.PickLists.Where(x => x.PickListName == "ServerFarmEntityType").OrderBy(a => a.PickListValue))
+            {
+                SelectListItem selectList = new SelectListItem()
+                {
+                    Text = pl.PickListValue,
+                    Value = pl.Id.ToString(),
+                    Selected = false
+                };
+                listSelectListItems.Add(selectList);
+            }
+            ViewBag.ServerFarmEntityTypes = listSelectListItems;
+            //--------------------------------------------------------------------
         }
 
         // POST: servers/Create
@@ -174,34 +203,7 @@ namespace CMDB01.Controllers
             {
                 account account = db.accounts.Where(x => x.Id == accountId).FirstOrDefault();
                 server.account = account;
-
-                if (!string.IsNullOrEmpty(hdContactsArray))
-                {
-                    List<ContactLinks> contactLinks = new List<ContactLinks>();
-                    var items = JsonConvert.DeserializeObject<List<contactRec>>(hdContactsArray);
-                    foreach (var item in items)
-                    {
-                        if (item.isOutage)
-                        {
-                            ContactLinks con = new ContactLinks();
-                            con.server = server;
-                            con.contact = db.contacts.Where(a => a.Id == item.contactId).FirstOrDefault();
-                            con.entityType = "Server";
-                            con.entityCategory = "Outage";
-                            contactLinks.Add(con);
-                        }
-                        if (item.isChange)
-                        {
-                            ContactLinks con = new ContactLinks();
-                            con.server = server;
-                            con.contact = db.contacts.Where(a => a.Id == item.contactId).FirstOrDefault();
-                            con.entityType = "Server";
-                            con.entityCategory = "Change";
-                            contactLinks.Add(con);
-                        }
-                    }
-                    server.ServerContacts = contactLinks;
-                }  
+                ProcessContacts(server, hdContactsArray,"Create");
 
                 db.serverFarms.Add(server);
                 db.SaveChanges();
@@ -211,9 +213,60 @@ namespace CMDB01.Controllers
             return View(server);
         }
 
+        private void ProcessContacts(serverFarms server, string hdContactsArray, string mode)
+        {
+            if (!string.IsNullOrEmpty(hdContactsArray))
+            {
+                List<ContactLinks> contactLinks = new List<ContactLinks>();
+                var items = JsonConvert.DeserializeObject<List<contactRec>>(hdContactsArray);
+                foreach (var item in items)
+                {
+                    if (item.isOutage)
+                    {
+                        ContactLinks con = new ContactLinks();
+                        con.server = server;
+                        con.contact = db.contacts.Where(a => a.Id == item.contactId).FirstOrDefault();
+                        con.entityType = "Server";
+                        con.entityCategory = "Outage";
+                        contactLinks.Add(con);
+                    }
+                    if (item.isChange)
+                    {
+                        ContactLinks con = new ContactLinks();
+                        con.server = server;
+                        con.contact = db.contacts.Where(a => a.Id == item.contactId).FirstOrDefault();
+                        con.entityType = "Server";
+                        con.entityCategory = "Change";
+                        contactLinks.Add(con);
+                    }
+                    if (!string.IsNullOrEmpty(item.opt))
+                    {
+                        ContactLinks con = new ContactLinks();
+                        con.server = server;
+                        con.contact = db.contacts.Where(a => a.Id == item.contactId).FirstOrDefault();
+                        con.entityType = "Server";
+                        con.entityCategory = item.opt;
+                        contactLinks.Add(con);
+                    }
+                }
+                if (mode == "Create")
+                {
+                    server.ServerContacts = contactLinks;
+                }
+                if (mode == "Edit")
+                {
+                    db.contactlinks.AddRange(contactLinks);
+                }
+
+            }
+        }
+
         // GET: servers/Edit/5
         public ActionResult Edit(int? id)
         {
+            GetContacts();
+            GetServerFarmEntityTypes();
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -231,10 +284,11 @@ namespace CMDB01.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,DataCenter,DeployedVersion,FQDN,Role,Purpose,Offering")] serverFarms server)
+        public ActionResult Edit([Bind(Include = "Id,Name,DataCenter,DeployedVersion,FQDN,Role,Purpose,Offering")] serverFarms server, string hdContactsArray)
         {
             if (ModelState.IsValid)
             {
+                ProcessContacts(server, hdContactsArray, "Edit");
                 db.Entry(server).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -285,6 +339,30 @@ namespace CMDB01.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+
+        // GET: accounts/Delete/5
+        public ActionResult DeleteServerFarmContact(int? id)
+        {
+
+            return View();
+        }
+        // POST: accounts/Delete/5
+        [HttpPost, ActionName("DeleteServerFarmContact")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteServerFarmContact(int srvId, int contactId)
+        {
+            try
+            {
+                db.contactlinks.RemoveRange(db.contactlinks.Where(a => a.server.Id == srvId && a.contact.Id == contactId));
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return RedirectToAction("Edit", new { Id = srvId });
         }
 
         [HttpPost]

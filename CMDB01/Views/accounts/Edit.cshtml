@@ -66,11 +66,40 @@
             </div>
         </div>
 
+        @*<div class="form-group">
+            @Html.Label("Account Servers", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-5">
+
+                <div class="col-md-10">
+                    <form class="form-inline">
+                        @Html.DropDownList("contactId", (List<SelectListItem>)ViewBag.servers, htmlAttributes: new { @class = "btn btn-success" })
+                        <a class="btn btn-success" onclick="AddRecord()">+</a>
+                    </form> <br />
+                    <div>
+                        <p class="card-text" >
+
+                            @foreach (var srv in Model.servers)
+                            {
+                                <a class="glyphicon glyphicon-info-sign" href="/servers/details/@srv.Id"></a><a class="glyphicon glyphicon-remove" style="color:red" href="/servers/details/@srv.Id"></a> <b>@srv.Name</b> <br />
+                            }
+                            <br />
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+
+
         <div class="form-group">
             @Html.Label("Account Contacts", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
 
-
+                <div class="col-md-10">
+                    <form class="form-inline">
+                        @Html.DropDownList("contactId", (List<SelectListItem>)ViewBag.contacts, htmlAttributes: new { @class = "btn btn-success" })
+                        <a class="btn btn-success" onclick="AddRecord()">+</a>
+                    </form>
+                </div>
                 <table id="myTable" class="table table-bordered table-striped">
                     <thead>
                         <tr>
@@ -87,10 +116,8 @@
                                 <tr>
                                     <td><a title="Email" href="mailto:@cn.contact.email"> <i class="glyphicon glyphicon-envelope"></i></a> @cn.contact.Name</td>
                                     <td>
-                                        @if (@cn.entityCategory == "All Comms")
-                                        { <a style="text-decoration:none">All Comms</a> }
-                                        @if (@cn.entityCategory == "Inform Only")
-                                        { <a style="text-decoration:none">Inform Only</a> }
+                                        @if (@cn.entityCategory != null)
+                                        { <a style="text-decoration:none">@cn.entityCategory</a> }
                                     </td>
                                     <td>
                                         <a style="color:red" rel="tooltip" title="Delete" href="@Url.Action("DeleteAccountContact", "accounts", new { accId = Model.Id,  contactId = cn.contact.Id })"><i class="glyphicon glyphicon-remove"></i></a>
@@ -103,14 +130,12 @@
                 </table>
 
 
-                <div class="col-md-10">
-                    <form class="form-inline">
-                        @Html.DropDownList("contactId", (List<SelectListItem>)ViewBag.contacts, htmlAttributes: new { @class = "form-control", @onchange = "AddRecord()" })
-                    </form>
-                </div>
+
                 <input type="hidden" name="hdContactsArray" id="hdContactsArray" />
             </div>
         </div>
+
+
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" />
@@ -133,11 +158,19 @@
         var selectedContactName = $("#contactId option:selected").text();
         var radioNam = "radio" + selectedContactId;
 
+        var ddl = "<select id='ddl'>";
+        var list = @Html.Raw(Json.Encode(ViewBag.AccountEntityTypes));
+        for (var i = 0; i < list.length; i++) {
+            ddl = ddl + " <option value=\"" + list[i].Text + "\">" + list[i].Text + "</option>";
+        }
+        ddl = ddl + "</select>";
+        
+
         $('#cntRows').append('<tr>' +
             "<td><label id='lblContactName'>" + selectedContactName + "</label><input type='hidden' id='hdnContactID' value=" + selectedContactId + "></td>" +
-            "<td><input type=\"radio\" name=\"" + radioNam + "\" id='allComms'>All Comms &nbsp;</input><input type=\"radio\" name=\"" + radioNam + "\"id='informOnly'>Inform Only</input></td><td></td></tr>");
+            "<td>" + ddl + "</td><td></td></tr>");
 
-
+        //"<td><input type=\"radio\" name=\"" + radioNam + "\" id='allComms'>All Comms &nbsp;</input><input type=\"radio\" name=\"" + radioNam + "\"id='informOnly'>Inform Only</input></td><td></td></tr>");
     }
 
     $(document).ready(function () {
@@ -151,8 +184,12 @@
                 var contactID = $(tds[0]).find('#hdnContactID').val();
                 var all = $(tds[1]).find('#allComms').is(":checked");
                 var inform = $(tds[1]).find('#informOnly').is(":checked");
+                var opt = $(tds[1]).find('#ddl option:selected').text();
 
-                var contact = { contactId: contactID, isAll: all, isInform: inform };
+                //alert(opt);
+
+                var contact = { contactId: contactID, isAll: all, isInform: inform, opt: opt };
+                
                 contacts.push(contact);
             });
 

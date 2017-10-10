@@ -103,9 +103,10 @@ namespace CMDB01.Controllers
 		// GET: datasources/Create
 		public ActionResult Create()
 		{
-			GetServers();
 
-			GetContacts();
+			GetServers();
+            GetDatasourceEntityTypes();
+            GetContacts();
 
 			return View();
 		}
@@ -118,9 +119,9 @@ namespace CMDB01.Controllers
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Create([Bind(Include = "Id,Name,Description,GUID,Monitored")] datasource datasource, int serverId, string hdContactsArray)
-		{
-			serverFarms server = db.serverFarms.Where(x => x.Id == serverId).FirstOrDefault();
-			datasource.ServerFarm = server;
+        {
+            serverFarms server = db.serverFarms.Where(x => x.Id == serverId).FirstOrDefault();
+            datasource.ServerFarm = server;
 
             //if (contactId != null) { 
             //	List<contact> contacts = new List<contact>();
@@ -131,6 +132,21 @@ namespace CMDB01.Controllers
 
             //	datasource.dcontacts = contacts;
             //}
+            
+
+            if (ModelState.IsValid)
+            {
+                processcontacts(datasource, hdContactsArray, "Create");
+                db.datasources.Add(datasource);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(datasource);
+        }
+
+        private void processcontacts(datasource datasource, string hdContactsArray, string mode)
+        {
             if (!string.IsNullOrEmpty(hdContactsArray))
             {
                 List<ContactLinks> contactLinks = new List<ContactLinks>();
@@ -164,29 +180,38 @@ namespace CMDB01.Controllers
                         con.entityCategory = "Minor";
                         contactLinks.Add(con);
                     }
+                    if (!string.IsNullOrEmpty(item.opt))
+                    {
+                        ContactLinks con = new ContactLinks();
+                        con.datasource = datasource;
+                        con.contact = db.contacts.Where(a => a.Id == item.contactId).FirstOrDefault();
+                        con.entityType = "Datasource";
+                        con.entityCategory = item.opt;
+                        contactLinks.Add(con);
+                    }
                 }
-                server.ServerContacts = contactLinks;
+                if (mode == "Create")
+                {
+                    datasource.DatasourceContacts = contactLinks;
+
+                }
+                if (mode == "Edit")
+                {
+                    db.contactlinks.AddRange(contactLinks);
+                }
             }
+        }
 
-
-            if (ModelState.IsValid)
-			{
-				db.datasources.Add(datasource);
-				db.SaveChanges();
-				return RedirectToAction("Index");
-			}
-
-			return View(datasource);
-		}
-
-		// GET: datasources/Edit/5
-		public ActionResult Edit(int? id)
+        // GET: datasources/Edit/5
+        public ActionResult Edit(int? id)
 		{
 			if (id == null)
 			{
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
-			datasource datasource = db.datasources.Find(id);
+            GetContacts();
+            GetDatasourceEntityTypes();
+            datasource datasource = db.datasources.Find(id);
 			if (datasource == null)
 			{
 				return HttpNotFound();
@@ -199,10 +224,11 @@ namespace CMDB01.Controllers
 		// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Edit([Bind(Include = "Id,Name,Description,GUID,Monitored")] datasource datasource)
+		public ActionResult Edit([Bind(Include = "Id,Name,Description,GUID,Monitored")] datasource datasource, string hdContactsArray)
 		{
 			if (ModelState.IsValid)
 			{
+                processcontacts(datasource, hdContactsArray, "Edit");
 				db.Entry(datasource).State = EntityState.Modified;
 				db.SaveChanges();
 				return RedirectToAction("Index");
@@ -267,6 +293,8 @@ namespace CMDB01.Controllers
 				//}
 				//ViewBag.contacts = listSelectListItems;
 				////-----------------------------------------------------------------------
+
+
 			}
 			catch (Exception)
 			{
@@ -274,8 +302,26 @@ namespace CMDB01.Controllers
 				throw;
 			}
 		}
+        private void GetDatasourceEntityTypes()
+        {
+            //Get List of Contacts ----------------------------------------------
+            List<SelectListItem> listSelectListItems = new List<SelectListItem>();
 
-		private void GetServers()
+            foreach (PickList pl in db.PickLists.Where(x => x.PickListName == "DatasourceEntityType").OrderBy(a => a.PickListValue))
+            {
+                SelectListItem selectList = new SelectListItem()
+                {
+                    Text = pl.PickListValue,
+                    Value = pl.Id.ToString(),
+                    Selected = false
+                };
+                listSelectListItems.Add(selectList);
+            }
+            ViewBag.DatasourceEntityTypes = listSelectListItems;
+            //--------------------------------------------------------------------
+        }
+
+        private void GetServers()
 		{
 			try
 			{
@@ -343,6 +389,30 @@ namespace CMDB01.Controllers
                 return null;
             }
 
+        }
+
+
+        // GET: accounts/Delete/5
+        public ActionResult DeleteDatasourceContact(int? id)
+        {
+
+            return View();
+        }
+        // POST: accounts/Delete/5
+        [HttpPost, ActionName("DeleteDatasourceContact")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteDatasourceContact(int dsId, int contactId)
+        {
+            try
+            {
+                db.contactlinks.RemoveRange(db.contactlinks.Where(a => a.datasource.Id == dsId && a.contact.Id == contactId));
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return RedirectToAction("Edit", new { Id = dsId });
         }
 
     }

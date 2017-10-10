@@ -168,9 +168,13 @@
                             <td>
                                 @foreach (var sCN in Model.ServerContacts.Where(a => a.contact.Name == cn.Name))
                                 {
-                                    if (@sCN.entityCategory == "Outage")
-                                    { <a style="text-decoration:none">Outage</a> } if (@sCN.entityCategory == "Change")
-                                    { <a style="text-decoration:none"> | Change</a> }
+                                    if (@sCN.entityCategory != null)
+                                    { <a style="text-decoration:none">@sCN.entityCategory | </a> }
+
+                                    @*if (@sCN.entityCategory == "Outage")
+                                    { <a style="text-decoration:none">Outage</a> }
+                                    if (@sCN.entityCategory == "Change")
+                                    { <a style="text-decoration:none"> | Change</a> }*@
                                 }
                                
                             </td>

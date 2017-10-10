@@ -15,7 +15,9 @@ namespace CMDB01.Models
         public DbSet<comment> comments { get; set; }
         public DbSet<ContactLinks> contactlinks { get; set; }
 
-   
+        public DbSet<PickList> PickLists { get; set; }
+
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

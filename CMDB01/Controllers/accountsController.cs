@@ -72,6 +72,7 @@ namespace CMDB01.Controllers
         public ActionResult Create()
         {
             GetContacts();
+            GetAccountEntityTypes();
 
             return View();
         }
@@ -99,8 +100,8 @@ namespace CMDB01.Controllers
         public ActionResult Edit(int? id)
         {
             GetContacts();
-
-            //get account contacts
+            GetServers();
+            GetAccountEntityTypes();
 
 
             if (id == null)
@@ -249,6 +250,15 @@ namespace CMDB01.Controllers
                         con.entityCategory = "All Comms";
                         contactLinks.Add(con);
                     }
+                    if (!string.IsNullOrEmpty(item.opt))
+                    {
+                        ContactLinks con = new ContactLinks();
+                        con.account = account;
+                        con.contact = db.contacts.Where(a => a.Id == item.contactId).FirstOrDefault();
+                        con.entityType = "Account";
+                        con.entityCategory = item.opt;
+                        contactLinks.Add(con);
+                    }
                 }
                 if (mode == "Create")
                 {
@@ -282,6 +292,44 @@ namespace CMDB01.Controllers
             //--------------------------------------------------------------------
         }
 
+        private void GetServers()
+        {
+            //Get List of Contacts ----------------------------------------------
+            List<SelectListItem> listSelectListItems = new List<SelectListItem>();
+
+            foreach (serverFarms server in db.serverFarms.OrderBy(a => a.Name))
+            {
+                SelectListItem selectList = new SelectListItem()
+                {
+                    Text = server.Name,
+                    Value = server.Id.ToString(),
+                    Selected = false
+                };
+                listSelectListItems.Add(selectList);
+            }
+            ViewBag.servers = listSelectListItems;
+            //--------------------------------------------------------------------
+        }
+
+        private void GetAccountEntityTypes()
+        {
+            //Get List of Contacts ----------------------------------------------
+            List<SelectListItem> listSelectListItems = new List<SelectListItem>();
+
+            foreach (PickList pl in db.PickLists.Where(x=>x.PickListName == "AccountEntityType").OrderBy(a => a.PickListValue))
+            {
+                SelectListItem selectList = new SelectListItem()
+                {
+                    Text = pl.PickListValue,
+                    Value = pl.Id.ToString(),
+                    Selected = false
+                };
+                listSelectListItems.Add(selectList);
+            }
+            ViewBag.AccountEntityTypes = listSelectListItems;
+            //--------------------------------------------------------------------
+        }
+
     }
     public class contactRec
     {
@@ -292,5 +340,6 @@ namespace CMDB01.Controllers
         public bool isMajor { get; set; }
         public bool isMinor { get; set; }
         public bool isChange { get; set; }
+        public string opt { get; set; }
     }
 }

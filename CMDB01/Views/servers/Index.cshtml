@@ -78,7 +78,8 @@
     }
     <hr />
     <h4>Account</h4>
-    @foreach (var acc in Model.OrderBy(r => r.account.Name).Select(a => a.account.Name).Distinct())
+@*@foreach (var acc in Model.OrderBy(r => r.account.Name).Select(a => a.account.Name).Distinct())*@
+    @foreach (var acc in Model.Where(x=>x.account != null).OrderBy(r => r.account.Name).Select(a => a.account.Name).Distinct())
     {
         if (!string.IsNullOrEmpty(acc))
         {
@@ -123,11 +124,11 @@
 
                                     <b>FQDN:</b> @item.FQDN <br />
 
-                                    <b>Offering:</b> @item.Offering <br />
+                                    @*<b>Offering:</b> @item.Offering <br />
                                     <b>Purpose:</b> @item.Purpose <br />
                                     <b>Role:</b> @item.Role <br />
                                     <b>Architecture:</b> @item.NonTypicalArchitecture <br />
-                                    <b>Custom SLA:</b> @item.CustomSLA <br />
+                                    <b>Custom SLA:</b> @item.CustomSLA <br />*@
                                 </p>
                             </div>
                             <div class="text-center">

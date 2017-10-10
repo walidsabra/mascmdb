@@ -162,6 +162,7 @@
     <Compile Include="Controllers\contactsController.cs" />
     <Compile Include="Controllers\datasourcesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PickListsController.cs" />
     <Compile Include="Controllers\serversController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -294,6 +295,14 @@
     <Compile Include="Migrations\201708220650377_Servr2ServerFarm1.Designer.cs">
       <DependentUpon>201708220650377_Servr2ServerFarm1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710081102588_serverFarm_Servers.cs" />
+    <Compile Include="Migrations\201710081102588_serverFarm_Servers.Designer.cs">
+      <DependentUpon>201710081102588_serverFarm_Servers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710090640077_picklists.cs" />
+    <Compile Include="Migrations\201710090640077_picklists.Designer.cs">
+      <DependentUpon>201710090640077_picklists.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\account.cs" />
     <Compile Include="Models\CMDB.cs" />
@@ -422,6 +431,13 @@
     <Content Include="Views\comments\Edit.cshtml" />
     <Content Include="Views\comments\Index.cshtml" />
     <Content Include="Views\accounts\DeleteAccountContact.cshtml" />
+    <Content Include="Views\PickLists\Create.cshtml" />
+    <Content Include="Views\PickLists\Delete.cshtml" />
+    <Content Include="Views\PickLists\Details.cshtml" />
+    <Content Include="Views\PickLists\Edit.cshtml" />
+    <Content Include="Views\PickLists\Index.cshtml" />
+    <Content Include="Views\datasources\DeleteDatasourceContact.cshtml" />
+    <Content Include="Views\servers\DeleteServerFarmContact.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -534,6 +550,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201708220650377_Servr2ServerFarm1.resx">
       <DependentUpon>201708220650377_Servr2ServerFarm1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710081102588_serverFarm_Servers.resx">
+      <DependentUpon>201710081102588_serverFarm_Servers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710090640077_picklists.resx">
+      <DependentUpon>201710090640077_picklists.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
