@@ -140,9 +140,17 @@
         var selectedContactName = $("#contactId option:selected").text();
         var radioNam = "radio" + selectedContactId;
 
+                        var ddl = "<select id='ddl'>";
+        var list = @Html.Raw(Json.Encode(ViewBag.ServerFarmEntityTypes));
+        for (var i = 0; i < list.length; i++) {
+            ddl = ddl + " <option value=\"" + list[i].Text + "\">" + list[i].Text + "</option>";
+        }
+        ddl = ddl + "</select>";
+
         $('#cntRows').append('<tr>' +
             "<td><label id='lblContactName'>" + selectedContactName + "</label><input type='hidden' id='hdnContactID' value=" + selectedContactId + "></td>" +
-            "<td><input type=\"checkbox\" name=\"" + radioNam + "\" id='outage'>Outage &nbsp;</input><input type=\"checkbox\" name=\"" + radioNam + "\"id='change'>Change</input></td></tr>");
+            "<td>" + ddl + "</td></tr>");
+            //"<td><input type=\"checkbox\" name=\"" + radioNam + "\" id='outage'>Outage &nbsp;</input><input type=\"checkbox\" name=\"" + radioNam + "\"id='change'>Change</input></td></tr>");
 
 
     }
@@ -158,8 +166,9 @@
                 var contactID = $(tds[0]).find('#hdnContactID').val();
                 var outage = $(tds[1]).find('#outage').is(":checked");
                 var change = $(tds[1]).find('#change').is(":checked");
+                var opt = $(tds[1]).find('#ddl option:selected').text();
 
-                var contact = { contactId: contactID, isOutage: outage, isChange: change };
+                var contact = { contactId: contactID, isOutage: outage, isChange: change, opt: opt };
                 contacts.push(contact);
             });
 
