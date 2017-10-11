@@ -92,7 +92,7 @@
 
                                 @foreach (var ac in @item.AccountContacts)
                                 {
-                                    if (ac.entityType == "Account")
+                                    if (ac.entityType.ToLower() == "account")
                                     {
                                         <a style="padding-left:1em" href="/accounts/details/@ac.account.Id">@ac.account.Name<br /></a>
                                     }
@@ -104,7 +104,7 @@
 
                                 @foreach (var srv in @item.AccountContacts)
                                 {
-                                    if (srv.entityType == "Server")
+                                    if (srv.entityType.ToLower() == "serverfarm")
                                     {
                                         <a style="padding-left:1em" class="glyphicon glyphicon-th-large" href="/servers/details/@srv.server.Id"></a> <b>@srv.server.Name</b> <br />
                                     }
@@ -115,7 +115,7 @@
 
                                 @foreach (var ds in @item.AccountContacts)
                                 {
-                                    if (ds.entityType == "Datasource")
+                                    if (ds.entityType.ToLower() == "datasource")
                                     {
                                         <a style="padding-left:1em" class="glyphicon glyphicon-list-alt" href="/datasources/details/@ds.datasource.Id"></a>  @ds.datasource.Name <br />
                                     }
