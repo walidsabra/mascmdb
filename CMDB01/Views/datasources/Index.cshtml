@@ -76,6 +76,19 @@
             <a href="/datasources/index?acc=null">null</a><br />
         }
     }
+    <hr />
+    <h4>Status</h4>
+    @foreach (var st in Model.OrderBy(r => r.Status).Select(a => a.Status).Distinct())
+    {
+        if (!string.IsNullOrEmpty(st))
+        {
+            <a href="/datasources/index?dsST=@st">@st</a> <br />
+        }
+        else
+        {
+            <a href="/datasources/index?dsST=null">null</a><br />
+        }
+    }
 
 </div>
 
@@ -90,7 +103,11 @@
                 <div class="card-container manual-flip">
                     <div class="card">
                         <div class="front">
-                            <div class="card-block" style="margin-left: 10px; margin-right: 10px;">
+                            <div class="card-block" style="margin-left: 10px; margin-right: 10px;" >
+                                @if (@item.Status != null && @item.Status.ToLower() == "decommissioned")
+                                {
+                                    <a class="btn-danger"><<<  @item.Status.ToUpper() >>></a> <br />
+                                }
                                 <button class="btn btn-simple" rel="tooltip" title="Flip Card" onclick="rotateCard(this)">
                                     <i class="glyphicon glyphicon-refresh"></i>
                                 </button>
@@ -104,10 +121,12 @@
                                     <i class="glyphicon glyphicon-comment"></i>
                                 </button>
                                 <br />
+
                                 <a class="card-title" style="color:cornflowerblue" href="/datasources/details/@item.Id" target="_blank">@item.Name</a>
                                 <p class="card-text">
                                     @item.Description <br />
                                     <b>GUID:</b> <br /> @item.GUID <br />
+                                    <b>Status:</b> @item.Status <br />
                                     <b>Monitored?:</b> @item.Monitored <br />
                                 </p>
                             </div>
@@ -131,6 +150,10 @@
                             </div>
                         </div>
                         <div class="back">
+                            @if (@item.Status != null && @item.Status.ToLower() == "decommissioned")
+                            {
+                                <a class="btn-danger"><<<  @item.Status.ToUpper() >>></a> <br />
+                            }
                             <button class="btn btn-simple" rel="tooltip" title="Flip Card" onclick="rotateCard(this)">
                                 <i class="glyphicon glyphicon-refresh"></i>
                             </button>

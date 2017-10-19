@@ -25,6 +25,7 @@ namespace CMDB01.Models
         public decimal FileStorageSpace { get; set; }
         public string PSS { get; set; }
         public string Purpose { get; set; }
+        public string Status { get; set; }
     
         public virtual List<ContactLinks> DatasourceContacts { get; set; }
 

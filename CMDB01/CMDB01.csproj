@@ -303,6 +303,10 @@
     <Compile Include="Migrations\201710090640077_picklists.Designer.cs">
       <DependentUpon>201710090640077_picklists.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710190707423_DSStatus.cs" />
+    <Compile Include="Migrations\201710190707423_DSStatus.Designer.cs">
+      <DependentUpon>201710190707423_DSStatus.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\account.cs" />
     <Compile Include="Models\CMDB.cs" />
@@ -556,6 +560,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710090640077_picklists.resx">
       <DependentUpon>201710090640077_picklists.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710190707423_DSStatus.resx">
+      <DependentUpon>201710190707423_DSStatus.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

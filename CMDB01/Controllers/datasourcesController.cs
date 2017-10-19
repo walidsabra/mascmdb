@@ -15,7 +15,7 @@ namespace CMDB01.Controllers
 		private CMDB db = new CMDB();
 
 		// GET: datasources
-		public ActionResult Index(string SearchValue, string dc, string dv, string acc, string StartWith)
+		public ActionResult Index(string SearchValue, string dc, string dv, string acc, string StartWith, string dsST)
 		{
             IQueryable<datasource> lsDSs;
 
@@ -56,6 +56,18 @@ namespace CMDB01.Controllers
                 else
                 {
                     lsDSs = db.datasources.Where(a => a.ServerFarm.account.Name.Equals(acc));
+                }
+
+            }
+            else if (!string.IsNullOrEmpty(dsST))
+            {
+                if (dsST == "null")
+                {
+                    lsDSs = db.datasources.Where(a => a.Status.Equals(null));
+                }
+                else
+                {
+                    lsDSs = db.datasources.Where(a => a.Status.Equals(dsST));
                 }
 
             }
@@ -107,8 +119,9 @@ namespace CMDB01.Controllers
 			GetServers();
             GetDatasourceEntityTypes();
             GetContacts();
+            GetDSStatusList();
 
-			return View();
+            return View();
 		}
 
 
@@ -118,7 +131,7 @@ namespace CMDB01.Controllers
 		// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Create([Bind(Include = "Id,Name,Description,GUID,Monitored")] datasource datasource, int serverId, string hdContactsArray)
+		public ActionResult Create([Bind(Include = "Id,Name,Description,GUID,Monitored,Status")] datasource datasource, int serverId, string hdContactsArray)
         {
             serverFarms server = db.serverFarms.Where(x => x.Id == serverId).FirstOrDefault();
             datasource.ServerFarm = server;
@@ -211,6 +224,7 @@ namespace CMDB01.Controllers
 			}
             GetContacts();
             GetDatasourceEntityTypes();
+            GetDSStatusList();
             datasource datasource = db.datasources.Find(id);
 			if (datasource == null)
 			{
@@ -224,7 +238,7 @@ namespace CMDB01.Controllers
 		// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Edit([Bind(Include = "Id,Name,Description,GUID,Monitored")] datasource datasource, string hdContactsArray)
+		public ActionResult Edit([Bind(Include = "Id,Name,Description,GUID,Monitored,Status")] datasource datasource, string hdContactsArray)
 		{
 			if (ModelState.IsValid)
 			{
@@ -347,7 +361,26 @@ namespace CMDB01.Controllers
 			}
 		}
 
-		private void GetContacts()
+        private void GetDSStatusList()
+        {
+            //Get List of Contacts ----------------------------------------------
+            List<SelectListItem> listSelectListItems = new List<SelectListItem>();
+
+            foreach (PickList pl in db.PickLists.Where(x => x.PickListName == "DSStatus").OrderBy(a => a.PickListValue))
+            {
+                SelectListItem selectList = new SelectListItem()
+                {
+                    Text = pl.PickListValue,
+                    Value = pl.Id.ToString(),
+                    Selected = false
+                };
+                listSelectListItems.Add(selectList);
+            }
+            ViewBag.DSStatusList = listSelectListItems;
+            //--------------------------------------------------------------------
+        }
+
+        private void GetContacts()
 		{
 			try
 			{
