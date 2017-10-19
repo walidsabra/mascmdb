@@ -50,6 +50,19 @@
 
     }
     <hr />
+    <h4>Status</h4>
+    @foreach (var st in Model.OrderBy(r => r.Status).Select(a => a.Status).Distinct())
+    {
+        if (!string.IsNullOrEmpty(st))
+        {
+            <a href="/datasources/index?dsST=@st">@st</a> <br />
+        }
+        else
+        {
+            <a href="/datasources/index?dsST=null">null</a><br />
+        }
+    }
+    <hr />
 
     <h4>Deployed Version</h4>
     @foreach (var ver in Model.OrderBy(r => r.DeployedVersion).Select(a => a.DeployedVersion).Distinct())
@@ -76,19 +89,7 @@
             <a href="/datasources/index?acc=null">null</a><br />
         }
     }
-    <hr />
-    <h4>Status</h4>
-    @foreach (var st in Model.OrderBy(r => r.Status).Select(a => a.Status).Distinct())
-    {
-        if (!string.IsNullOrEmpty(st))
-        {
-            <a href="/datasources/index?dsST=@st">@st</a> <br />
-        }
-        else
-        {
-            <a href="/datasources/index?dsST=null">null</a><br />
-        }
-    }
+
 
 </div>
 
