@@ -14,6 +14,25 @@ namespace CMDB01.Controllers
     {
         private CMDB db = new CMDB();
 
+        //Get List of CommentTypes --------------------------------------------------------
+        private void GetCommentTypes()
+        {
+            List<SelectListItem> listSelectListItems = new List<SelectListItem>();
+
+            foreach (PickList pl in db.PickLists.Where(x => x.PickListName == "CommentTypes").OrderBy(a => a.PickListValue))
+            {
+                SelectListItem selectList = new SelectListItem()
+                {
+                    Text = pl.PickListValue,
+                    Value = pl.Id.ToString(),
+                    Selected = false
+                };
+                listSelectListItems.Add(selectList);
+            }
+            ViewBag.CommentTypes = listSelectListItems;
+            //--------------------------------------------------------------------
+        }
+
         // GET: comments
         public ActionResult Index()
         {
@@ -38,6 +57,7 @@ namespace CMDB01.Controllers
         // GET: comments/Create
         public ActionResult Create(int entity_id, string entity)
         {
+            GetCommentTypes();
 
             return View();
         }
@@ -47,7 +67,7 @@ namespace CMDB01.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(string user, string comment, int entity_id, string entity)
+        public ActionResult Create(string user, string comment, int entity_id, string entity, bool featured, string type)
         {
             comment cm = new comment();
             cm.entity_Id = entity_id;
@@ -55,6 +75,8 @@ namespace CMDB01.Controllers
             cm.entity = entity;
             cm.user = user;
             cm.Comment = comment;
+            cm.featured = featured;
+            cm.Type = type;
 
             db.comments.Add(cm);
             db.SaveChanges();
@@ -65,6 +87,7 @@ namespace CMDB01.Controllers
         // GET: comments/Edit/5
         public ActionResult Edit(int? id)
         {
+            GetCommentTypes();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -82,7 +105,7 @@ namespace CMDB01.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,entity_Id,entity,user,timestamp,Comment")] comment comment)
+        public ActionResult Edit([Bind(Include = "Id,entity_Id,entity,user,timestamp,Comment,featured,type")] comment comment)
         {
             if (ModelState.IsValid)
             {

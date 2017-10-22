@@ -28,13 +28,13 @@
             @Html.DisplayFor(model => model.UltimateId)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ContractDate)
-        </dt>
+        @*<dt>
+                @Html.DisplayNameFor(model => model.ContractDate)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.ContractDate)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.ContractDate)
+            </dd>*@
 
         <dt>
             @Html.DisplayNameFor(model => model.Status)
@@ -62,7 +62,8 @@
 
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">

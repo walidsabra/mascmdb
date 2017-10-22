@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace CMDB01.Models
 {
@@ -25,7 +27,11 @@ namespace CMDB01.Models
                 this.dateCreated = value;
             }
         }
+        [AllowHtml]
+        [DataType(DataType.MultilineText)]
         public string Comment { get; set; }
+        public string Type { get; set; }
+        public bool featured { get; set; }
 
         private DateTime? dateCreated = null;
     }

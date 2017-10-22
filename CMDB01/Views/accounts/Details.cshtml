@@ -21,13 +21,13 @@
                 @Html.DisplayFor(model => model.UltimateId)
             </dd>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.ContractDate)
-            </dt>
+            @*<dt>
+                    @Html.DisplayNameFor(model => model.ContractDate)
+                </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.ContractDate)
-            </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.ContractDate)
+                </dd>*@
 
             <dt>
                 @Html.DisplayNameFor(model => model.Status)
@@ -68,12 +68,12 @@
                 @Html.DisplayFor(model => model.RequestIMS)
             </dd>
             @*<dt>
-                @Html.DisplayNameFor(model => model.LinktoC4S)
-            </dt>
+                    @Html.DisplayNameFor(model => model.LinktoC4S)
+                </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.LinktoC4S)
-            </dd>*@
+                <dd>
+                    @Html.DisplayFor(model => model.LinktoC4S)
+                </dd>*@
         </dl>
     </div>
 </div>
@@ -102,26 +102,29 @@
         <h4 style="color:lightcoral">Account Contacts</h4>
 
         <p class="card-text" style="margin-left: 20px; margin-right: 20px;  padding-left:1em">
-            @if(Model.AccountContacts.Count >0) { 
-            <table class="table table-bordered table-striped">
-                <tr>
-                    <th>Contact Name</th>
-                    <th>Comms</th>
-                </tr>
-                @foreach (var cn in Model.AccountContacts)
+            @if (Model.AccountContacts.Count > 0)
             {
+                <table class="table table-bordered table-striped">
                     <tr>
-                        <td><a title="Email" href="mailto:@cn.contact.email"> <i class="glyphicon glyphicon-envelope"></i></a> @cn.contact.Name</td>
-                        <td>@if (@cn.entityCategory != null)
-                        { <a style="text-decoration:none">@cn.entityCategory</a> }</td>
+                        <th>Contact Name</th>
+                        <th>Comms</th>
+                    </tr>
+                    @foreach (var cn in Model.AccountContacts)
+                    {
+                        <tr>
+                            <td><a title="Email" href="mailto:@cn.contact.email"> <i class="glyphicon glyphicon-envelope"></i></a> @cn.contact.Name</td>
+                            <td>
+                                @if (@cn.entityCategory != null)
+                            { <a style="text-decoration:none">@cn.entityCategory</a> }
+                        </td>
 
                         @*<td>@if (@cn.entityCategory == "All Comms")
-                        { <a style="text-decoration:none">All Comms</a> } @if (@cn.entityCategory == "Inform Only")
-                        { <a style="text-decoration:none">Inform Only</a> }</td>*@
+                            { <a style="text-decoration:none">All Comms</a> } @if (@cn.entityCategory == "Inform Only")
+                            { <a style="text-decoration:none">Inform Only</a> }</td>*@
                     </tr>
-                    
-                }
-            </table>
+
+                    }
+                </table>
             }
 
         </p>
@@ -133,24 +136,25 @@
 <div class="row">
     <h4 style="color:lightcoral">Account Comments</h4>
     <p class="card-text" style="margin-left: 20px; margin-right: 20px;  padding-left:1em">
-        @if (ViewBag.AccountCMs.Count > 0) { 
-        <table id="ccc" class="table table-bordered table-striped">
-            <tr>
-                <th>Time</th>
-                <th>User</th>
-                <th>Comment</th>
-            </tr>
-            @foreach (var cm in ViewBag.AccountCMs)
-
-            {
+        @if (ViewBag.AccountCMs.Count > 0)
+        {
+            <table id="ccc" class="table table-bordered table-striped">
                 <tr>
-                    <th>@cm.timestamp</th>
-                    <th>@cm.user</th>
-                    <th>@cm.Comment</th>
+                    <th>Time</th>
+                    <th>User</th>
+                    <th>Comment</th>
                 </tr>
+                @foreach (var cm in ViewBag.AccountCMs)
 
-            }
-        </table>
+                {
+                    <tr>
+                        <th>@cm.timestamp</th>
+                        <th>@cm.user</th>
+                        <th>@cm.Comment</th>
+                    </tr>
+
+                }
+            </table>
 
         }
 

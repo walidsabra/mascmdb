@@ -35,18 +35,17 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ContractDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ContractDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ContractDate, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
             @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Status, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownList("Status", new SelectList(ViewBag.AccountStatus, "Text", "Text"), Model.Status, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.RequestIMS, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("RequestIMS", new SelectList(ViewBag.IMS, "Text", "Text"), Model.RequestIMS, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.RequestIMS, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -67,27 +66,27 @@
         </div>
 
         @*<div class="form-group">
-            @Html.Label("Account Servers", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-5">
+                @Html.Label("Account Servers", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-5">
 
-                <div class="col-md-10">
-                    <form class="form-inline">
-                        @Html.DropDownList("contactId", (List<SelectListItem>)ViewBag.servers, htmlAttributes: new { @class = "btn btn-success" })
-                        <a class="btn btn-success" onclick="AddRecord()">+</a>
-                    </form> <br />
-                    <div>
-                        <p class="card-text" >
+                    <div class="col-md-10">
+                        <form class="form-inline">
+                            @Html.DropDownList("contactId", (List<SelectListItem>)ViewBag.servers, htmlAttributes: new { @class = "btn btn-success" })
+                            <a class="btn btn-success" onclick="AddRecord()">+</a>
+                        </form> <br />
+                        <div>
+                            <p class="card-text" >
 
-                            @foreach (var srv in Model.servers)
-                            {
-                                <a class="glyphicon glyphicon-info-sign" href="/servers/details/@srv.Id"></a><a class="glyphicon glyphicon-remove" style="color:red" href="/servers/details/@srv.Id"></a> <b>@srv.Name</b> <br />
-                            }
-                            <br />
-                        </p>
+                                @foreach (var srv in Model.servers)
+                                {
+                                    <a class="glyphicon glyphicon-info-sign" href="/servers/details/@srv.Id"></a><a class="glyphicon glyphicon-remove" style="color:red" href="/servers/details/@srv.Id"></a> <b>@srv.Name</b> <br />
+                                }
+                                <br />
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>*@
+            </div>*@
 
 
         <div class="form-group">
@@ -164,7 +163,7 @@
             ddl = ddl + " <option value=\"" + list[i].Text + "\">" + list[i].Text + "</option>";
         }
         ddl = ddl + "</select>";
-        
+
 
         $('#cntRows').append('<tr>' +
             "<td><label id='lblContactName'>" + selectedContactName + "</label><input type='hidden' id='hdnContactID' value=" + selectedContactId + "></td>" +
@@ -189,7 +188,7 @@
                 //alert(opt);
 
                 var contact = { contactId: contactID, isAll: all, isInform: inform, opt: opt };
-                
+
                 contacts.push(contact);
             });
 

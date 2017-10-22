@@ -94,7 +94,7 @@ namespace CMDB01.Controllers
 			}
 			datasource datasource = db.datasources.Find(id);
 
-			GetDataSourceContacts(datasource);
+			//GetDataSourceContacts(datasource);
             //Get DS Comments --------------------------------------------------
             List<comment> cmlistSelectListItems = new List<comment>();
             foreach (comment cm in db.comments.Where(a => a.entity_Id == id && a.entity == "Datasource"))
@@ -318,7 +318,7 @@ namespace CMDB01.Controllers
 		}
         private void GetDatasourceEntityTypes()
         {
-            //Get List of Contacts ----------------------------------------------
+            //Get List of DatasourceEntityType ----------------------------------------------
             List<SelectListItem> listSelectListItems = new List<SelectListItem>();
 
             foreach (PickList pl in db.PickLists.Where(x => x.PickListName == "DatasourceEntityType").OrderBy(a => a.PickListValue))
@@ -363,10 +363,10 @@ namespace CMDB01.Controllers
 
         private void GetDSStatusList()
         {
-            //Get List of Contacts ----------------------------------------------
+            //Get List of DatasourceStatus ----------------------------------------------
             List<SelectListItem> listSelectListItems = new List<SelectListItem>();
 
-            foreach (PickList pl in db.PickLists.Where(x => x.PickListName == "DSStatus").OrderBy(a => a.PickListValue))
+            foreach (PickList pl in db.PickLists.Where(x => x.PickListName == "DatasourceStatus").OrderBy(a => a.PickListValue))
             {
                 SelectListItem selectList = new SelectListItem()
                 {

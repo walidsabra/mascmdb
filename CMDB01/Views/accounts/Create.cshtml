@@ -12,53 +12,9 @@
 @using (Html.BeginForm("Create", "accounts", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "myform", role = "form" }))
 {
     @Html.AntiForgeryToken()
-    
+
 
     <div class="form-horizontal">
-        @* IMS DDL Items *@
-        @{
-            List<SelectListItem> IMSlistItems = new List<SelectListItem>();
-            IMSlistItems.Add(new SelectListItem
-            {
-                Text = "Yes",
-                Value = "Yes"
-            });
-            IMSlistItems.Add(new SelectListItem
-            {
-                Text = "No",
-                Value = "No"
-            });
-            IMSlistItems.Add(new SelectListItem
-            {
-                Text = "Completed",
-                Value = "Completed"
-            });
-        }
-
-        @* Sucess Level DDL Items *@
-        @{
-            List<SelectListItem> LevellistItems = new List<SelectListItem>();
-            LevellistItems.Add(new SelectListItem
-            {
-                Text = "Level 1",
-                Value = "Level 1"
-            });
-            LevellistItems.Add(new SelectListItem
-            {
-                Text = "Level 2",
-                Value = "Level 2"
-            });
-            LevellistItems.Add(new SelectListItem
-            {
-                Text = "Level 3",
-                Value = "Level 3"
-            });
-            LevellistItems.Add(new SelectListItem
-            {
-                Text = "Level 4",
-                Value = "Level 4"
-            });
-        }
         <h4>account</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -77,19 +33,10 @@
                 @Html.ValidationMessageFor(model => model.UltimateId, "", new { @class = "text-danger" })
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ContractDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ContractDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ContractDate, "", new { @class = "text-danger", @id="contrDate" })
-            </div>
-        </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Status, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownListFor(model => model.RequestIMS, new SelectList(ViewBag.AccountStatus, "Text", "Text"), "<<< Select >>>", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -110,24 +57,9 @@
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(model => model.LinktoC4S, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.LinktoC4S, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.LinktoC4S, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.SuccessAdminLevel, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.SuccessAdminLevel, LevellistItems, "<<< Select >>>",  new { @class = "form-control"  })
-                @Html.ValidationMessageFor(model => model.SuccessAdminLevel, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
             @Html.LabelFor(model => model.RequestIMS, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.RequestIMS, IMSlistItems, "<<< Select >>>",   new { @class = "form-control" } )
+                @Html.DropDownListFor(model => model.RequestIMS, new SelectList(ViewBag.IMS, "Text", "Text"), "<<< Select >>>", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.RequestIMS, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -143,10 +75,10 @@
 
             <div class="col-md-10">
                 <form class="form-inline">
-                    
-                    @Html.DropDownList("contactId", (List<SelectListItem>)ViewBag.contacts, htmlAttributes: new { @class = "form-control", @onchange= "AddRecord()" })
 
-                   @* <input type="button"  onclick="AddRecord()" name="add" value="Add" />*@
+                    @Html.DropDownList("contactId", (List<SelectListItem>)ViewBag.contacts, htmlAttributes: new { @class = "form-control", @onchange = "AddRecord()" })
+
+                    @* <input type="button"  onclick="AddRecord()" name="add" value="Add" />*@
                 </form>
 
                 <table id="myTable" class="table-bordered table-striped">
@@ -156,10 +88,8 @@
                             <th>Comms</th>
                         </tr>
                     </thead>
-                    <tbody id="cntRows">
+                    <tbody id="cntRows"></tbody>
 
-                    </tbody>
-                    
                 </table>
             </div>
             <input type="hidden" name="hdContactsArray" id="hdContactsArray" />
@@ -226,7 +156,7 @@
         });
     });
 
-    $(function () {
-        $("#contrDate").datepicker();
-    });
+    //$(function () {
+    //    $("#contrDate").datepicker();
+    //});
 </script>

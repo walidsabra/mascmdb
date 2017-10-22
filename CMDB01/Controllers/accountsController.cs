@@ -15,8 +15,47 @@ namespace CMDB01.Controllers
     {
         private CMDB db = new CMDB();
 
+        //Get List of AccountStatus ----------------------------------------------
+        private void GetAccountStatus()
+        {
+            List<SelectListItem> listSelectListItems = new List<SelectListItem>();
+
+            foreach (PickList pl in db.PickLists.Where(x => x.PickListName == "AccountStatus").OrderBy(a => a.PickListValue))
+            {
+                SelectListItem selectList = new SelectListItem()
+                {
+                    Text = pl.PickListValue,
+                    Value = pl.Id.ToString(),
+                    Selected = false
+                };
+                listSelectListItems.Add(selectList);
+            }
+            ViewBag.AccountStatus = listSelectListItems;
+            //--------------------------------------------------------------------
+        }
+
+        //Get List of IMS --------------------------------------------------------
+        private void GetIMS()
+        {
+            List<SelectListItem> listSelectListItems = new List<SelectListItem>();
+
+            foreach (PickList pl in db.PickLists.Where(x => x.PickListName == "IMS").OrderBy(a => a.PickListValue))
+            {
+                SelectListItem selectList = new SelectListItem()
+                {
+                    Text = pl.PickListValue,
+                    Value = pl.Id.ToString(),
+                    Selected = false
+                };
+                listSelectListItems.Add(selectList);
+            }
+            ViewBag.IMS = listSelectListItems;
+            //--------------------------------------------------------------------
+        }
+
+        
         // GET: accounts
-        public ActionResult Index(string SearchValue, string StartWith)
+        public ActionResult Index(string SearchValue, string StartWith, string accST, string bl, string ims)
         {
             IQueryable<account> lstAccounts, lstName, lstUltimate, lstProjector, lstOpportunity;
 
@@ -28,6 +67,39 @@ namespace CMDB01.Controllers
                 lstOpportunity = db.accounts.Where(x => x.Opportunity.Contains(SearchValue)).AsQueryable();
 
                 lstAccounts = lstName.Concat(lstUltimate).Concat(lstProjector).Concat(lstOpportunity);
+            }
+            else if (!string.IsNullOrEmpty(accST))
+            {
+                if (accST == "null")
+                {
+                    lstAccounts = db.accounts.Where(x => x.Status.Equals(null)).AsQueryable();
+                }
+                else
+                {
+                    lstAccounts = db.accounts.Where(x => x.Status.Equals(accST)).AsQueryable();
+                }
+            }
+            else if (!string.IsNullOrEmpty(bl))
+            {
+                if (bl=="null")
+                {
+                    lstAccounts = db.accounts.Where(x => x.Billable.Equals(null)).AsQueryable();
+                }
+                else
+                {
+                    lstAccounts = db.accounts.Where(x => x.Billable.Equals(bl)).AsQueryable();
+                }
+            }
+            else if (!string.IsNullOrEmpty(ims))
+            {
+                if (ims =="null")
+                {
+                    lstAccounts = db.accounts.Where(x => x.RequestIMS.Equals(null)).AsQueryable();
+                }
+                else
+                {
+                    lstAccounts = db.accounts.Where(x => x.RequestIMS.Equals(ims)).AsQueryable();
+                }
             }
             else
             {
@@ -73,6 +145,8 @@ namespace CMDB01.Controllers
         {
             GetContacts();
             GetAccountEntityTypes();
+            GetIMS();
+            GetAccountStatus();
 
             return View();
         }
@@ -82,7 +156,7 @@ namespace CMDB01.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,UltimateId,ContractDate,Status,Opportunity,ProjectorProject,RequestIMS,SuccessAdminLevel,LinktoC4S,Billable")] account account, string hdContactsArray)
+        public ActionResult Create([Bind(Include = "Id,Name,UltimateId,Status,Opportunity,ProjectorProject,RequestIMS,Billable")] account account, string hdContactsArray)
         {
             if (ModelState.IsValid)
             {
@@ -102,7 +176,8 @@ namespace CMDB01.Controllers
             GetContacts();
             GetServers();
             GetAccountEntityTypes();
-
+            GetIMS();
+            GetAccountStatus();
 
             if (id == null)
             {
@@ -121,7 +196,7 @@ namespace CMDB01.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,UltimateId,ContractDate,Status,Opportunity,ProjectorProject,RequestIMS,SuccessAdminLevel,LinktoC4S,Billable")] account account, string hdContactsArray)
+        public ActionResult Edit([Bind(Include = "Id,Name,UltimateId,Status,Opportunity,ProjectorProject,RequestIMS,Billable")] account account, string hdContactsArray)
         {
             if (ModelState.IsValid)
             {
