@@ -126,7 +126,9 @@ namespace CMDB01.Controllers
 
             //Get account Comments --------------------------------------------------
             List<comment> cmlistSelectListItems = new List<comment>();
-            foreach (comment cm in db.comments.Where(a => a.entity_Id == id && a.entity == "account"))
+            foreach (comment cm in db.comments
+                .Where(a => a.entity_Id == id && a.entity.ToLower() == "account")
+                .OrderByDescending(a=>a.featured == true).ThenByDescending(b=>b.timestamp))
             {
                 cmlistSelectListItems.Add(cm);
             }

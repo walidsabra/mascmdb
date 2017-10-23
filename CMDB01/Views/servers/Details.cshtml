@@ -9,71 +9,100 @@
 
 <div class="row">
     <hr />
-    <dl class="dl-horizontal">
+    <div class="col-md-6">
+        <dl class="dl-horizontal">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.DataCenter)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.DataCenter)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.DataCenter)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.DataCenter)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.DeployedVersion)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.DeployedVersion)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.DeployedVersion)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.DeployedVersion)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.FQDN)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.FQDN)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.FQDN)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.FQDN)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Offering)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Offering)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Purpose)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Purpose)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Role)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Role)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.NonTypicalArchitecture)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.NonTypicalArchitecture)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CustomSLA)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CustomSLA)
-        </dd>
-        <dt>
-            @Html.DisplayName("Account Name")
-        </dt>
-        <dd>
-            <a href="/accounts/details/@Html.DisplayFor(model => model.account.Id)">@Html.DisplayFor(model => model.account.Name)<br /></a>
-        </dd>
-    </dl>
+            <dt>
+                @Html.DisplayNameFor(model => model.Offering)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Offering)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Purpose)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Purpose)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Role)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Role)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.NonTypicalArchitecture)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.NonTypicalArchitecture)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.CustomSLA)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.CustomSLA)
+            </dd>
+            <dt>
+                @Html.DisplayName("Account Name")
+            </dt>
+            <dd>
+                <a href="/accounts/details/@Html.DisplayFor(model => model.account.Id)">@Html.DisplayFor(model => model.account.Name)<br /></a>
+            </dd>
+        </dl>
+    </div>
+    <div class="col-md-4">
+        <h4 style="color:lightcoral">Server Contacts</h4>
+        <p class="card-text" style="margin-left: 20px; margin-right: 20px;  padding-left:1em">
+            @if (Model.ServerContacts.Count > 0)
+            {
+                <table class="table table-bordered table-striped">
+                    <tr>
+                        <th>Category</th>
+                        <th>Contacts</th>
+                    </tr>
+                    @foreach (var eC in Model.ServerContacts.Select(a => new { a.entityCategory }).Distinct())
+                    {
+                        <tr>
+                            <td>@eC.entityCategory</td>
+                            <td>
+                                @foreach (var srv in Model.ServerContacts.Where(a => a.entityCategory == eC.entityCategory))
+                                {
+                                    <a title="Email" href="mailto:@srv.contact.email"> <i class="glyphicon glyphicon-envelope"></i></a> @srv.contact.Name<br />
 
-</div>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </table>
+            }
+
+        </p>
+    </div>
+    </div>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -129,15 +158,57 @@
 <hr />
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-12">
 
         <h4 style="color:lightcoral">Server Datasources</h4>
-        <p class="card-text" style="margin-left: 20px; margin-right: 20px;  padding-left:1em">
-
-
+<p class="card-text" style="margin-left: 20px; margin-right: 20px;  padding-left:1em">
+    @if (Model.datasources.Count > 0)
+    {
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th>Datasource</th>
+                <th>Datasource Contacts</th>
+            </tr>
             @foreach (var ds in Model.datasources)
+            {
+                <tr>
+                    <td>
+                        <a title="Datasource Details" href="/datasources/details/@ds.Id">
+                            <i class="glyphicon glyphicon-info-sign"></i>
+                        </a>
 
-        {
+                        @ds.Name
+                    </td>
+                    <td>
+                        @if (@ds.DatasourceContacts.Count > 0)
+                        {
+                            <table class="table table-bordered table-striped">
+                                @*<tr>
+                                    <th>Category</th>
+                                    <th>Contacts</th>
+                                </tr>*@
+                                @foreach (var eC in @ds.DatasourceContacts.Select(a => new { a.entityCategory }).Distinct())
+                                {
+                                    <tr>
+                                        <td>@eC.entityCategory</td>
+                                        <td>
+                                            @foreach (var con in @ds.DatasourceContacts.Where(a => a.entityCategory == eC.entityCategory))
+                                            {
+                                                <a title="Email" href="mailto:@con.contact.email"> <i class="glyphicon glyphicon-envelope"></i></a> @con.contact.Name<br />
+
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                        }
+                    </td>
+                </tr>
+            }
+            </table>
+    }
+
+    @*{
                 <a title="Datasource Details" href="/datasources/details/@ds.Id">
                     <i class="glyphicon glyphicon-info-sign"></i>
                 </a>
@@ -145,46 +216,9 @@
                 @ds.Name
                 <br />
 
-        }
+            }*@
 
-        </p>
-
-    </div>
-    <div class="col-md-4">
-
-        <h4 style="color:lightcoral">Server Contacts</h4>
-        <p class="card-text" style="margin-left: 20px; margin-right: 20px;  padding-left:1em">
-            @if (Model.ServerContacts.Count > 0)
-            {
-                <table class="table table-bordered table-striped">
-                    <tr>
-                        <th>Contact Name</th>
-                        <th>Comms</th>
-                    </tr>
-                    @foreach (var cn in Model.ServerContacts.Select( a => new { a.contact.Name, a.contact.email}).Distinct())
-                    {
-                        <tr>
-                            <td><a title="Email" href="mailto:@cn.email"> <i class="glyphicon glyphicon-envelope"></i></a> @cn.Name</td>
-                            <td>
-                                @foreach (var sCN in Model.ServerContacts.Where(a => a.contact.Name == cn.Name))
-                                {
-                                    if (@sCN.entityCategory != null)
-                                    { <a style="text-decoration:none">@sCN.entityCategory | </a> }
-
-                                    @*if (@sCN.entityCategory == "Outage")
-                                    { <a style="text-decoration:none">Outage</a> }
-                                    if (@sCN.entityCategory == "Change")
-                                    { <a style="text-decoration:none"> | Change</a> }*@
-                                }
-                               
-                            </td>
-                        </tr>
-
-                    }
-                </table>
-            }
-
-        </p>
+    </p>
 
     </div>
 </div>
@@ -194,17 +228,37 @@
     <p class="card-text" style="margin-left: 20px; margin-right: 20px;  padding-left:1em">
         <table id="ccc" class="table table-bordered table-striped">
             <tr>
-                <th>Time</th>
-                <th>User</th>
+                <th></th>
+                <th>On</th>
+                <th>By</th>
+                <th>Type</th>
                 <th>Comment</th>
+                <th>URL</th>
             </tr>
             @foreach (var cm in ViewBag.ServerCMs)
 
             {
                 <tr>
+                    <th>
+                        @if (@cm.featured == true)
+                        {
+                            <i class='glyphicon glyphicon-star' style="color:gold"></i>
+                        }
+                    </th>
                     <th>@cm.timestamp</th>
                     <th>@cm.user</th>
+                    <th>@cm.Type</th>
                     <th>@cm.Comment</th>
+                    <th>
+                        @if (@cm.Link != null)
+                        {
+                            <a href=" @cm.Link"><i class='glyphicon glyphicon-globe'></i></a>
+                        }
+                        else
+                        {
+                            <i class='glyphicon glyphicon-globe'></i>
+                        }
+                    </th>
                 </tr>
 
             }

@@ -43,6 +43,66 @@
 
     </dl>
 </div>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <h4 style="color:lightcoral">Contact Accounts</h4>
+        <p class="card-text" style="margin-left: 20px; margin-right: 20px;  padding-left:1em">
+
+            @foreach (var acc in Model.AccountContacts)
+            {
+                if (acc.entityType.ToLower() == "account")
+                {
+                    <a class="glyphicon glyphicon-th-large" href="/accounts/details/@acc.account.Id"></a> <b>@acc.account.Name</b> <br />
+                }
+
+            }
+            <br />
+        </p>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <h4 style="color:lightcoral">Contact Servers</h4>
+
+        <p class="card-text" style="margin-left: 20px; margin-right: 20px;  padding-left:1em">
+            @foreach (var srv in Model.AccountContacts)
+            {
+                if (srv.entityType.ToLower() == "serverfarm")
+                {
+                    <a class="glyphicon glyphicon-th-large" href="/servers/details/@srv.server.Id"></a> <b>@srv.server.Name</b> <br />
+                }
+
+            }
+            <br />
+        </p>
+
+
+    </div>
+
+    <div class="col-md-4">
+
+        <h4 style="color:lightcoral">Contact Data Sources</h4>
+
+        <p class="card-text" style="margin-left: 20px; margin-right: 20px;  padding-left:1em">
+            @foreach (var srv in Model.AccountContacts)
+            {
+                if (srv.entityType.ToLower() == "datasource")
+                {
+                    <a class="glyphicon glyphicon-th-large" href="/datasources/details/@srv.datasource.Id"></a> <b>@srv.datasource.Name</b> <br />
+                }
+
+            }
+            <br />
+        </p>
+
+
+    </div>
+</div>
+<hr />
+
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")

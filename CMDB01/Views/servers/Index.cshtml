@@ -115,7 +115,7 @@
                             </button>
 
                             <br />
-                            <a class="card-title" style="color:cornflowerblue" href="/servers/details/@item.Id" target="_blank">@item.Name</a>
+                            <a class="card-title" style="color:cornflowerblue" href="/servers/details/@item.Id" >@item.Name</a>
                             <div style="margin-left: 10px; margin-right: 10px;">
                                 <p class="card-text">
                                     <b>Data Center:</b> @item.DataCenter <br />
@@ -133,13 +133,13 @@
                             </div>
                             <div class="text-center">
                                 <div class="card-text" style="color:coral">
-                                    <a rel="tooltip" title="Server Farm IP Address" href="@item.ServerFarmIPAddress" target="_blank">
+                                    <a rel="tooltip" title="Server Farm IP Address" href="@item.ServerFarmIPAddress" >
                                         <i class="glyphicon glyphicon-certificate"></i>
                                     </a>
-                                    <a rel="tooltip" title="Web Server URL" href="@item.WebServerURL" target="_blank">
+                                    <a rel="tooltip" title="Web Server URL" href="@item.WebServerURL" >
                                         <i class="glyphicon glyphicon-globe"></i>
                                     </a>
-                                    <a rel="tooltip" title="Web Service Gateway URL" href="@item.WebServiceGatewayURL" target="_blank">
+                                    <a rel="tooltip" title="Web Service Gateway URL" href="@item.WebServiceGatewayURL" >
                                         <i class="glyphicon glyphicon-link"></i>
                                     </a>
                                 </div>
@@ -193,7 +193,7 @@
 
 <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog" style="width:850px">
 
         <!-- Modal content-->
         <div class="modal-content">
@@ -208,9 +208,6 @@
                 </div>
                 <table id="ccc" class="table table-bordered">
                     <tr>
-                        <th>Time</th>
-                        <th>User</th>
-                        <th>Comment</th>
                     </tr>
 
                 </table>
@@ -261,18 +258,22 @@
             success: function (returndata) {
                 if (returndata.ok) {
                     var items = "";
-                    items += "<tr> <th>On</th> <th>By</th> <th>Type</th> <th>Comment</th> <th>URL</th> </tr>";
+                    items += "<tr> <th></th> <th>On</th> <th>By</th> <th>Type</th> <th>Comment</th> <th>URL</th> </tr>";
                     $.each(returndata.data, function (i, itemdata) {
                         var date = new Date(parseInt(itemdata.timestamp.substr(6))).toLocaleDateString();
-                        var LINK = "#";
+                        var LINK = "<i class='glyphicon glyphicon-globe'></i>";
                         if (itemdata.Link != null) {
-                            LINK = itemdata.Link;
+                            LINK = "<a href='" + itemdata.Link + "'>" + "<i class='glyphicon glyphicon-globe'></i>" + "</a>";
                         }
                         var TYPE = "";
                         if (itemdata.Type != null) {
                             TYPE = itemdata.Type;
                         }
-                        items += '<tr> <td>' + date + "</td> <td>" + itemdata.user + "</td> <td>" + TYPE + "</td> <td>" + itemdata.Comment + "</td> <td> <a href='" + LINK + "'>" + "<i class='glyphicon glyphicon-globe'></i>" + "</a></td>";
+                        var featured = "";
+                        if (itemdata.featured == true) {
+                            featured = "<i class='glyphicon glyphicon-star' style='color:gold'></i>";
+                        }
+                        items += '<tr> <td>' + featured +'</td> <td>' + date + "</td> <td>" + itemdata.user + "</td> <td>" + TYPE + "</td> <td>" + itemdata.Comment + "</td> <td>" + LINK + " </td>";
                     });
                     $("#ccc").empty();
                     $("#ccc").append(items);

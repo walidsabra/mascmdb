@@ -111,7 +111,9 @@ namespace CMDB01.Controllers
 
             //Get Server Comments --------------------------------------------------
             List<comment> cmlistSelectListItems = new List<comment>();
-            foreach (comment cm in db.comments.Where(a=>a.entity_Id == id && a.entity == "Server"))
+            foreach (comment cm in db.comments
+                .Where(a=>a.entity_Id == id && a.entity.ToLower() == "server")
+                .OrderByDescending(a=>a.featured== true).ThenByDescending(b=>b.timestamp))
             {
                 cmlistSelectListItems.Add(cm);
             }

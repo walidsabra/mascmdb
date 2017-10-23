@@ -79,62 +79,85 @@
             {
                 <table class="table table-bordered table-striped">
                     <tr>
-                        <th>Contact Name</th>
-                        <th>Comms</th>
+                        <th>Category</th>
+                        <th>Contacts</th>
                     </tr>
-                    @foreach (var cn in Model.DatasourceContacts.Select(a => new { a.contact.Name, a.contact.email }).Distinct())
+                    @foreach (var eC in Model.DatasourceContacts.Select(a => new { a.entityCategory}).Distinct())
                     {
                         <tr>
-                            <td><a title="Email" href="mailto:@cn.email"> <i class="glyphicon glyphicon-envelope"></i></a> @cn.Name</td>
+                            <td>@eC.entityCategory</td>
                             <td>
-                                @foreach (var sCN in Model.DatasourceContacts.Where(a => a.contact.Name == cn.Name))
+                                @foreach (var con in Model.DatasourceContacts.Where(a => a.entityCategory == eC.entityCategory))
                                 {
-                                    if (@sCN.entityCategory == "Outage")
-                                    { <a style="text-decoration:none">Outage</a> }
-                                    if (@sCN.entityCategory == "Major")
-                                    { <a style="text-decoration:none"> Major</a> }
-                                    if (@sCN.entityCategory == "Minor")
-                                    { <a style="text-decoration:none"> Minor</a> }
-                                }
+                                    <a title="Email" href="mailto:@con.contact.email"> <i class="glyphicon glyphicon-envelope"></i></a> @con.contact.Name<br />
 
+                                }
                             </td>
                         </tr>
-
                     }
                 </table>
             }
 
         </p>
     </div>
+    <div class="col-md-4">
+
+    </div>
+    <div class="col-md-4">
+    </div>
 </div>
 <hr />
 <div class="row">
-    <h4 style="color:lightcoral">Datasource Comments</h4>
-    <p class="card-text" style="margin-left: 20px; margin-right: 20px;  padding-left:1em">
-        @if (ViewBag.DSCMs.Count > 0)
+    <div class="col-md-12">
+        <h4 style="color:lightcoral">Datasource Comments</h4>
+        <p class="card-text" style="margin-left: 20px; margin-right: 20px;  padding-left:1em">
+            @if (ViewBag.DSCMs.Count > 0)
         {
-            <table id="ccc" class="table table-bordered table-striped">
-                <tr>
-                    <th>Time</th>
-                    <th>User</th>
-                    <th>Comment</th>
-                </tr>
-                @foreach (var cm in ViewBag.DSCMs)
+                <table id="ccc" class="table table-bordered table-striped">
+                    <tr>
+                        <th></th>
+                        <th>On</th>
+                        <th>By</th>
+                        <th>Type</th>
+                        <th>Comment</th>
+                        <th>URL</th>
+                    </tr>
+                    @foreach (var cm in ViewBag.DSCMs)
 
                 {
-                    <tr>
-                        <th>@cm.timestamp</th>
-                        <th>@cm.user</th>
-                        <th>@cm.Comment</th>
-                    </tr>
+                        <tr>
+                            <th>
+                                @if (@cm.featured == true)
+                            {
+                                    <i class='glyphicon glyphicon-star' style="color:gold"></i>
+                            }
+                            </th>
+                            <th>@cm.timestamp</th>
+                            <th>@cm.user</th>
+                            <th>@cm.Type</th>
+                            <th>@cm.Comment</th>
+                            <th>
+                                @if (@cm.Link != null)
+                            {
+                                    <a href=" @cm.Link"><i class='glyphicon glyphicon-globe'></i></a>
+                            }
+                            else
+                            {
+                                    <i class='glyphicon glyphicon-globe'></i>
+                            }
+
+
+                            </th>
+                        </tr>
 
                 }
-            </table>
+                </table>
         }
 
 
-    </p>
-</div>
+        </p>
+    </div>
+    </div>
 <hr />
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |

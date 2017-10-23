@@ -9,7 +9,7 @@
 
 <div class="row">
 
-    <div class="col-md-4">
+    <div class="col-md-6">
         <h4 style="color:lightcoral">Account Details</h4>
         <dl class="dl-horizontal">
 
@@ -76,59 +76,75 @@
                 </dd>*@
         </dl>
     </div>
-</div>
-<hr />
-<div class="row">
     <div class="col-md-4">
-        <h4 style="color:lightcoral">Account Server Farms</h4>
-        <p class="card-text" style="margin-left: 20px; margin-right: 20px;  padding-left:1em">
-
-            @foreach (var srv in Model.servers)
-            {
-                <a class="glyphicon glyphicon-th-large" href="/servers/details/@srv.Id"></a> <b>@srv.Name</b> <br />
-                foreach (var ds in @srv.datasources)
-                {
-                    <a style="padding-left:1em" class="glyphicon glyphicon-list-alt" href="/datasources/details/@ds.Id"></a>  @ds.Name <br />
-                }
-                <br />
-            }
-            <br />
-        </p>
-
-    </div>
-
-    <div class="col-md-4">
-
         <h4 style="color:lightcoral">Account Contacts</h4>
-
         <p class="card-text" style="margin-left: 20px; margin-right: 20px;  padding-left:1em">
             @if (Model.AccountContacts.Count > 0)
             {
                 <table class="table table-bordered table-striped">
                     <tr>
-                        <th>Contact Name</th>
-                        <th>Comms</th>
+                        <th>Category</th>
+                        <th>Contacts</th>
                     </tr>
-                    @foreach (var cn in Model.AccountContacts)
+                    @foreach (var eC in Model.AccountContacts.Select(a => new { a.entityCategory }).Distinct())
                     {
                         <tr>
-                            <td><a title="Email" href="mailto:@cn.contact.email"> <i class="glyphicon glyphicon-envelope"></i></a> @cn.contact.Name</td>
+                            <td>@eC.entityCategory</td>
                             <td>
-                                @if (@cn.entityCategory != null)
-                            { <a style="text-decoration:none">@cn.entityCategory</a> }
-                        </td>
+                                @foreach (var srv in Model.AccountContacts.Where(a => a.entityCategory == eC.entityCategory))
+                                {
+                                    <a title="Email" href="mailto:@srv.contact.email"> <i class="glyphicon glyphicon-envelope"></i></a> @srv.contact.Name<br />
 
-                        @*<td>@if (@cn.entityCategory == "All Comms")
-                            { <a style="text-decoration:none">All Comms</a> } @if (@cn.entityCategory == "Inform Only")
-                            { <a style="text-decoration:none">Inform Only</a> }</td>*@
-                    </tr>
-
+                                }
+                            </td>
+                        </tr>
                     }
                 </table>
             }
 
         </p>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+    <h4 style="color:lightcoral">Account Server Farms</h4>
 
+    <p class="card-text" style="margin-left: 20px; margin-right: 20px;  padding-left:1em">
+    @if (Model.servers.Count > 0)
+    {
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th>Server</th>
+                <th>Datasources</th>
+            </tr>
+            @foreach (var srv in Model.servers)
+            {
+                <tr>
+                    <th><a class="glyphicon glyphicon-th-large" href="/servers/details/@srv.Id"></a> <b>@srv.Name</b> <br /></th>
+                    <th>dATASOURCES HERE</th>
+                </tr>
+            }
+            
+
+            
+        </table>
+    }
+    </p>
+
+        <p class="card-text" style="margin-left: 20px; margin-right: 20px;  padding-left:1em">
+
+            @foreach (var srv in Model.servers)
+            {
+            <a class="glyphicon glyphicon-th-large" href="/servers/details/@srv.Id"></a> <b>@srv.Name</b> <br />
+                foreach (var ds in @srv.datasources)
+                {
+            <a style="padding-left:1em" class="glyphicon glyphicon-list-alt" href="/datasources/details/@ds.Id"></a>  @ds.Name <br />
+                }
+            <br />
+            }
+            <br />
+        </p>
 
     </div>
 </div>
@@ -140,17 +156,39 @@
         {
             <table id="ccc" class="table table-bordered table-striped">
                 <tr>
-                    <th>Time</th>
-                    <th>User</th>
+                    <th></th>
+                    <th>On</th>
+                    <th>By</th>
+                    <th>Type</th>
                     <th>Comment</th>
+                    <th>URL</th>
                 </tr>
                 @foreach (var cm in ViewBag.AccountCMs)
 
                 {
                     <tr>
+                        <th>
+                            @if (@cm.featured == true)
+                            {
+                                <i class='glyphicon glyphicon-star' style="color:gold"></i>
+                            }
+                        </th>
                         <th>@cm.timestamp</th>
                         <th>@cm.user</th>
+                        <th>@cm.Type</th>
                         <th>@cm.Comment</th>
+                        <th>
+                            @if (@cm.Link != null)
+                            {
+                                <a href=" @cm.Link"><i class='glyphicon glyphicon-globe'></i></a>
+                            }
+                            else
+                            {
+                                <i class='glyphicon glyphicon-globe'></i>
+                            }
+
+
+                        </th>
                     </tr>
 
                 }
