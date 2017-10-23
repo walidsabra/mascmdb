@@ -413,6 +413,7 @@ namespace CMDB01.Controllers
             {
                 var comments = db.comments
                                .Where(x => x.entity_Id == DSId && x.entity == "Datasource")
+                               .OrderByDescending(a => a.featured == true).ThenBy(b => b.timestamp)
                                .ToList();
 
                 return Json(new { ok = true, data = comments, message = "ok" });

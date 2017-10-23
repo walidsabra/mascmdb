@@ -253,10 +253,18 @@
                 if (returndata.ok) {
                     //debugger;
                     var items = "";
-                    items += "<tr> <th>Time</th> <th>User</th> <th>Comment</th> </tr>";
+                    items += "<tr> <th>On</th> <th>By</th> <th>Type</th> <th>Comment</th> <th>URL</th> </tr>";
                     $.each(returndata.data, function (i, itemdata) {
                         var date = new Date(parseInt(itemdata.timestamp.substr(6))).toLocaleDateString();
-                        items += '<tr> <td>' + date + "</td> <td>" + itemdata.user + "</td> <td>" + itemdata.Comment + '</td>';
+                        var LINK = "#";
+                        if (itemdata.Link != null) {
+                            LINK = itemdata.Link;
+                        }
+                        var TYPE = "";
+                        if (itemdata.Type != null) {
+                            TYPE = itemdata.Type;
+                        }
+                        items += '<tr> <td>' + date + "</td> <td>" + itemdata.user + "</td> <td>" + TYPE + "</td> <td>" + itemdata.Comment + "</td> <td> <a href='" + LINK + "'>" + "<i class='glyphicon glyphicon-globe'></i>" + "</a></td>";
                     });
                     $("#ccc").empty();
                     $("#ccc").append(items);
