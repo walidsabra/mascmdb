@@ -264,6 +264,7 @@ namespace CMDB01.Controllers
             {
                 var comments = db.comments
                                .Where(x => x.entity_Id == AccountId && x.entity == "Account")
+                               .OrderByDescending(a=> a.featured == true).ThenBy(b=>b.timestamp)
                                .ToList();
 
                 return Json(new { ok = true, data = comments, message = "ok" });

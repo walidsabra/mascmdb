@@ -67,7 +67,7 @@ namespace CMDB01.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(string user, string comment, int entity_id, string entity, bool featured, string type)
+        public ActionResult Create(string user, string comment, int entity_id, string entity, bool featured, string type, string url)
         {
             comment cm = new comment();
             cm.entity_Id = entity_id;
@@ -77,6 +77,7 @@ namespace CMDB01.Controllers
             cm.Comment = comment;
             cm.featured = featured;
             cm.Type = type;
+            cm.Link = url;
 
             db.comments.Add(cm);
             db.SaveChanges();

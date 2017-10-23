@@ -31,7 +31,10 @@ namespace CMDB01.Models
         [DataType(DataType.MultilineText)]
         public string Comment { get; set; }
         public string Type { get; set; }
+        [DataType(DataType.Url)]
+        public string Link { get; set; }
         public bool featured { get; set; }
+
 
         private DateTime? dateCreated = null;
     }

@@ -5,9 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link href="~/Content/flipCards.css" rel="stylesheet" />
-<script src="~/Scripts/jquery-1.12.4.js"></script>
+@*<script src="~/Scripts/jquery-1.12.4.js"></script>
 <script src="~/Scripts/bootstrap.min.js"></script>
-<script src="~/Scripts/jquery-1.12.4.min.js"></script>
+<script src="~/Scripts/jquery-1.12.4.min.js"></script>*@
 
 <h2>Accounts</h2>
 
@@ -178,11 +178,10 @@
 
 <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg" style="width:850px">
 
         <!-- Modal content-->
         <div class="modal-content">
-
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Account Comments</h4>
@@ -191,12 +190,7 @@
                 <div id="aaa">
 
                 </div>
-                <table id="ccc" class="table table-bordered">
-                    <tr>
-                        <th>Time</th>
-                        <th>User</th>
-                        <th>Comment</th>
-                    </tr>
+                <table id="ccc" class="table table-bordered table-striped"  >
 
                 </table>
             </div>
@@ -245,12 +239,21 @@
             success: function (returndata) {
                 if (returndata.ok) {
                     var items = "";
-                    items += "<tr> <th>Time</th> <th>User</th> <th>Comment</th> </tr>";
+                    items += "<tr> <th>On</th> <th>By</th> <th>Type</th> <th>Comment</th> <th>URL</th> </tr>";
                     $.each(returndata.data, function (i, itemdata) {
                         var date = new Date(parseInt(itemdata.timestamp.substr(6))).toLocaleDateString();
-                        items += '<tr> <td>' + date + "</td> <td>" + itemdata.user + "</td> <td>" + itemdata.Comment + '</td>';
+                        var LINK = "#";
+                        if (itemdata.Link != null) {
+                            LINK = itemdata.Link;
+                        }
+                        var TYPE = "";
+                        if (itemdata.Type != null) {
+                            TYPE = itemdata.Type;
+                        }
+                        items += '<tr> <td>' + date + "</td> <td>" + itemdata.user + "</td> <td>" + TYPE + "</td> <td>" + itemdata.Comment + "</td> <td> <a href='" + LINK + "'>" + "<i class='glyphicon glyphicon-globe'></i>" + "</a></td>";
                     });
                     $("#ccc").empty();
+                    $("#ccc").addClass('table table-bordered table-striped');
                     $("#ccc").append(items);
                 }
             }

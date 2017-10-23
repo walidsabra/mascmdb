@@ -315,6 +315,10 @@
     <Compile Include="Migrations\201710220755234_extraCommentFields.Designer.cs">
       <DependentUpon>201710220755234_extraCommentFields.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710230431317_commentURL.cs" />
+    <Compile Include="Migrations\201710230431317_commentURL.Designer.cs">
+      <DependentUpon>201710230431317_commentURL.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\account.cs" />
     <Compile Include="Models\CMDB.cs" />
@@ -589,6 +593,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710220755234_extraCommentFields.resx">
       <DependentUpon>201710220755234_extraCommentFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710230431317_commentURL.resx">
+      <DependentUpon>201710230431317_commentURL.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
