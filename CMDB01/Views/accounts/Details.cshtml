@@ -121,8 +121,80 @@
             @foreach (var srv in Model.servers)
             {
                 <tr>
-                    <th><a class="glyphicon glyphicon-th-large" href="/servers/details/@srv.Id"></a> <b>@srv.Name</b> <br /></th>
-                    <th>dATASOURCES HERE</th>
+                    <th>
+                        <a class="glyphicon glyphicon-th-large" href="/servers/details/@srv.Id"></a> <b>@srv.Name</b> <br />
+                        @if (srv.ServerContacts.Count > 0)
+                        {
+                            <table class="table table-bordered table-striped">
+                                <tr>
+                                    <th>Category</th>
+                                    <th>Contacts</th>
+                                </tr>
+                                @foreach (var eC in srv.ServerContacts.Select(a => new { a.entityCategory }).Distinct())
+                                {
+                                    <tr>
+                                        <td>@eC.entityCategory</td>
+                                        <td>
+                                            @foreach (var cn in srv.ServerContacts.Where(a => a.entityCategory == eC.entityCategory))
+                                            {
+                                                <a title="Email" href="mailto:@cn.contact.email"> <i class="glyphicon glyphicon-envelope"></i></a> @cn.contact.Name<br />
+
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                        }
+                    </th>
+                    <th>
+              
+                            @if (srv.datasources.Count > 0)
+                            {
+                                <table class="table table-bordered table-striped">
+                                    <tr>
+                                        <th>Datasource</th>
+                                        <th>Datasource Contacts</th>
+                                    </tr>
+                                    @foreach (var ds in srv.datasources)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <a title="Datasource Details" href="/datasources/details/@ds.Id">
+                                                    <i class="glyphicon glyphicon-info-sign"></i>
+                                                </a>
+
+                                                @ds.Name
+                                            </td>
+                                            <td>
+                                                @if (@ds.DatasourceContacts.Count > 0)
+                                                {
+                                                    <table class="table table-bordered table-striped">
+                                                        @*<tr>
+                                                                <th>Category</th>
+                                                                <th>Contacts</th>
+                                                            </tr>*@
+                                                        @foreach (var eC in @ds.DatasourceContacts.Select(a => new { a.entityCategory }).Distinct())
+                                                        {
+                                                            <tr>
+                                                                <td>@eC.entityCategory</td>
+                                                                <td>
+                                                                    @foreach (var con in @ds.DatasourceContacts.Where(a => a.entityCategory == eC.entityCategory))
+                                                                    {
+                                                                        <a title="Email" href="mailto:@con.contact.email"> <i class="glyphicon glyphicon-envelope"></i></a> @con.contact.Name<br />
+
+                                                                    }
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    </table>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </table>
+                            }
+                        
+                    </th>
                 </tr>
             }
             
@@ -132,7 +204,7 @@
     }
     </p>
 
-        <p class="card-text" style="margin-left: 20px; margin-right: 20px;  padding-left:1em">
+        @*<p class="card-text" style="margin-left: 20px; margin-right: 20px;  padding-left:1em">
 
             @foreach (var srv in Model.servers)
             {
@@ -144,59 +216,61 @@
             <br />
             }
             <br />
-        </p>
+        </p>*@
 
     </div>
 </div>
 <hr />
 <div class="row">
-    <h4 style="color:lightcoral">Account Comments</h4>
-    <p class="card-text" style="margin-left: 20px; margin-right: 20px;  padding-left:1em">
-        @if (ViewBag.AccountCMs.Count > 0)
+    <div class="col-md-12">
+        <h4 style="color:lightcoral">Account Comments</h4>
+        <p class="card-text" style="margin-left: 20px; margin-right: 20px;  padding-left:1em">
+            @if (ViewBag.AccountCMs.Count > 0)
         {
-            <table id="ccc" class="table table-bordered table-striped">
-                <tr>
-                    <th></th>
-                    <th>On</th>
-                    <th>By</th>
-                    <th>Type</th>
-                    <th>Comment</th>
-                    <th>URL</th>
-                </tr>
-                @foreach (var cm in ViewBag.AccountCMs)
+                <table id="ccc" class="table table-bordered table-striped">
+                    <tr>
+                        <th></th>
+                        <th>On</th>
+                        <th>By</th>
+                        <th>Type</th>
+                        <th>Comment</th>
+                        <th>URL</th>
+                    </tr>
+                    @foreach (var cm in ViewBag.AccountCMs)
 
                 {
-                    <tr>
-                        <th>
-                            @if (@cm.featured == true)
+                        <tr>
+                            <th>
+                                @if (@cm.featured == true)
                             {
-                                <i class='glyphicon glyphicon-star' style="color:gold"></i>
+                                    <i class='glyphicon glyphicon-star' style="color:gold"></i>
                             }
-                        </th>
-                        <th>@cm.timestamp</th>
-                        <th>@cm.user</th>
-                        <th>@cm.Type</th>
-                        <th>@cm.Comment</th>
-                        <th>
-                            @if (@cm.Link != null)
+                            </th>
+                            <th>@cm.timestamp</th>
+                            <th>@cm.user</th>
+                            <th>@cm.Type</th>
+                            <th>@cm.Comment</th>
+                            <th>
+                                @if (@cm.Link != null)
                             {
-                                <a href=" @cm.Link"><i class='glyphicon glyphicon-globe'></i></a>
+                                    <a href=" @cm.Link "><i class='glyphicon glyphicon-globe'></i></a>
                             }
                             else
                             {
-                                <i class='glyphicon glyphicon-globe'></i>
+                                    <i class='glyphicon glyphicon-globe'></i>
                             }
 
 
-                        </th>
-                    </tr>
+                            </th>
+                        </tr>
 
                 }
-            </table>
+                </table>
 
         }
 
-    </p>
+        </p>
+    </div>
 </div>
 <hr />
 <div class="row">

@@ -5,36 +5,51 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link href="~/Content/flipCardS.css" rel="stylesheet" />
-<script src="~/Scripts/jquery-1.12.4.js"></script>
+@*<script src="~/Scripts/jquery-1.12.4.js"></script>
 <script src="~/Scripts/bootstrap.min.js"></script>
-<script src="~/Scripts/jquery-1.12.4.min.js"></script>
+<script src="~/Scripts/jquery-1.12.4.min.js"></script>*@
 <h2>Index</h2>
 
 <div class="row">
     <form class="navbar-form navbar-left">
         <p>
             @Html.ActionLink("Create New", "Create")
-        </p>
-    </form>
-    <form class="navbar-form navbar-right" role="search">
-        <div class="form-group form-inline">
-            <input type="text" id="txtSearch" class="form-control" placeholder="Search ...">
-        </div>
-        <a class="btn btn-primary glyphicon glyphicon-search" id="btnSearch"></a>
-        <a class="btn btn-danger glyphicon glyphicon-refresh" id="btnReset"></a>
-        <br />
-        <br />
-        @*@foreach (var item in Model.OrderBy(x => x.company).Select(a => a.company.ToUpper()).Distinct())
-            {
-                <a href="/contacts/index?company=@item">@item </a>
-            }*@
+        </p> 
         @foreach (var item in Model.OrderBy(x => x.Name).Select(a => a.Name.Substring(0, 1).ToUpper()).Distinct())
         {
             <a href="/contacts/index?StartWith=@item">@item</a>
         }
         <a href="/contacts/index">...</a>
     </form>
-    <br />
+    <form class="navbar-form navbar-right" role="search">
+
+    </form>
+</div>
+<hr />
+<div class="row">
+    <form class="navbar-form navbar-left" role="search">
+        <label class="btn btn-info">Filter: <span></span></label>
+        <div class="form-group form-inline">
+            @Html.DropDownList("accountLst", new SelectList(ViewBag.Accounts, "Text", "Text"), "All Accounts", htmlAttributes: new { @class = "form-control" })
+        </div>
+        <div class="form-group form-inline">
+            @Html.DropDownList("datacenterLst", new SelectList(ViewBag.DataCenters, "Text", "Text"), "All Data Centers", htmlAttributes: new { @class = "form-control" })
+        </div>
+        <div class="form-group form-inline">
+            @Html.DropDownList("serverfarmLst", new SelectList(ViewBag.ServerFarms, "Text", "Text"), "All Server Frams", htmlAttributes: new { @class = "form-control" })
+        </div>
+        <div class="form-group form-inline">
+            @Html.DropDownList("datasourceLst", new SelectList(ViewBag.Datasources, "Text", "Text"), "All Datasources", htmlAttributes: new { @class = "form-control" })
+        </div>
+        <div class="form-group form-inline">
+            <input type="text" id="SearchValue" class="form-control" placeholder="Full Text Search ..." >
+        </div>
+        <a class="btn btn-info glyphicon glyphicon-search" id="btnSearch"></a>
+        <a class="btn btn-warning glyphicon glyphicon-refresh" id="btnReset"></a>
+        <a class="btn btn-danger glyphicon glyphicon-envelope" id="btnEmail"></a>
+        <br />
+
+    </form>
 </div>
 <hr />
 
@@ -132,7 +147,11 @@
 </div>
 <script>
     $("#btnSearch").click(function () {
-        window.location = "/contacts/index?SearchValue=" + $("#txtSearch").val();
+        window.location = "/contacts/index?SearchValue=" + $("#SearchValue").val()
+            + "&accountLst=" + $("#accountLst").val()
+            + "&datacenterLst=" + $("#datacenterLst").val()
+            + "&datasourceLst=" + $("#datasourceLst").val()
+            + "&serverfarmLst=" + $("#serverfarmLst").val();
     });
 
 
