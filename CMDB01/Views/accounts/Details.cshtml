@@ -251,7 +251,7 @@
                             <th>@cm.Type</th>
                             <th>@cm.Comment</th>
                             <th>
-                                @if (@cm.Link != null)
+                                @if (!string.IsNullOrEmpty( @cm.Link ))
                             {
                                     <a href=" @cm.Link "><i class='glyphicon glyphicon-globe'></i></a>
                             }

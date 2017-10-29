@@ -11,7 +11,9 @@ namespace CMDB01.Models
         public int Id { get; set; } //Contact Id
         [Required]
         public string Name { get; set; } //Contact Name
+        [DataType(DataType.EmailAddress)]
         public string email { get; set; }
+        
         public string phone { get; set; }
         public string company { get; set; }
 

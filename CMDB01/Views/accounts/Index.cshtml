@@ -242,15 +242,15 @@
                     items += "<tr> <th></th> <th>On</th> <th>By</th> <th>Type</th> <th>Comment</th> <th>URL</th> </tr>";                    $.each(returndata.data, function (i, itemdata) {
                         var date = new Date(parseInt(itemdata.timestamp.substr(6))).toLocaleDateString();
                         var LINK = "<i class='glyphicon glyphicon-globe'></i>";
-                        if (itemdata.Link != null) {
+                        if (itemdata.Link) {
                             LINK = "<a href='" + itemdata.Link + "'>" + "<i class='glyphicon glyphicon-globe'></i>" + "</a>";
                         }
                         var TYPE = "";
-                        if (itemdata.Type != null) {
+                        if (itemdata.Type) {
                             TYPE = itemdata.Type;
                         }
                         var featured = "";
-                        if (itemdata.featured == true) {
+                        if (itemdata.featured) {
                             featured = "<i class='glyphicon glyphicon-star' style='color:gold'></i>";
                         }
                         items += '<tr> <td>' + featured + '</td> <td>' + date + "</td> <td>" + itemdata.user + "</td> <td>" + TYPE + "</td> <td>" + itemdata.Comment + "</td> <td>" + LINK + " </td>";

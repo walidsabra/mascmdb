@@ -12,6 +12,7 @@ namespace CMDB01.Models
         public int Id { get; set; }
         public int entity_Id { get; set; }
         public string entity {get; set;}
+        [Display(Name = "User Name")]
         public string user { get; set; }
         public DateTime timestamp
         {
@@ -33,6 +34,7 @@ namespace CMDB01.Models
         public string Type { get; set; }
         [DataType(DataType.Url)]
         public string Link { get; set; }
+        [Display(Name = "Featured")]
         public bool featured { get; set; }
 
 
