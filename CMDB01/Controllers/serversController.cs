@@ -15,6 +15,24 @@ namespace CMDB01.Controllers
     {
         private CMDB db = new CMDB();
 
+        //Get List of Offering ----------------------------------------------
+        private void GetOffering()
+        {
+            List<SelectListItem> listSelectListItems = new List<SelectListItem>();
+
+            foreach (PickList pl in db.PickLists.Where(x => x.PickListName == "Offering").OrderBy(a => a.PickListValue))
+            {
+                SelectListItem selectList = new SelectListItem()
+                {
+                    Text = pl.PickListValue,
+                    Value = pl.Id.ToString(),
+                    Selected = false
+                };
+                listSelectListItems.Add(selectList);
+            }
+            ViewBag.Offering = listSelectListItems;
+            //--------------------------------------------------------------------
+        }
 
         // GET: servers
         public ActionResult Index(string SearchValue, string dc, string dv, string rl, string acc, string StartWith)
@@ -133,6 +151,7 @@ namespace CMDB01.Controllers
             GetAccounts();
             GetContacts();
             GetServerFarmEntityTypes();
+            GetOffering();
 
             return View();
         }
@@ -268,6 +287,7 @@ namespace CMDB01.Controllers
         {
             GetContacts();
             GetServerFarmEntityTypes();
+            GetOffering();
 
             if (id == null)
             {

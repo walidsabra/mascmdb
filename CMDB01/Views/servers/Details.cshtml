@@ -173,11 +173,24 @@
             {
                 <tr>
                     <td>
-                        <a title="Datasource Details" href="/datasources/details/@ds.Id">
-                            <i class="glyphicon glyphicon-info-sign"></i>
-                        </a>
+                        @if (ds.Status == "Decommissioned")
+                        {
+                            <a style="color:red" title="Datasource Details" href="/datasources/details/@ds.Id">
+                                <i class="glyphicon glyphicon-info-sign"></i>
+                            </a>
+                            @ds.Name  <br />
+                                    <label style="color:red">@ds.Status</label>
+                        }
+                        else
+                        {
+                            <a title="Datasource Details" href="/datasources/details/@ds.Id">
+                                <i class="glyphicon glyphicon-info-sign"></i>
+                            </a>
 
-                        @ds.Name
+                            @ds.Name
+                        }
+
+
                     </td>
                     <td>
                         @if (@ds.DatasourceContacts.Count > 0)

@@ -118,17 +118,17 @@
                             <a class="card-title" style="color:cornflowerblue" href="/servers/details/@item.Id" >@item.Name</a>
                             <div style="margin-left: 10px; margin-right: 10px;">
                                 <p class="card-text">
-                                    <b>Data Center:</b> @item.DataCenter <br />
+                                    <b>Data Center:</b><br /> @item.DataCenter <br />
 
-                                    <b>Deployed Version:</b> @item.DeployedVersion <br />
+                                    <b>Deployed Version:</b><br /> @item.DeployedVersion <br />
 
-                                    <b>FQDN:</b> @item.FQDN <br />
+                                    <b>FQDN:</b><br /> @item.FQDN <br />
 
-                                    @*<b>Offering:</b> @item.Offering <br />
-                                    <b>Purpose:</b> @item.Purpose <br />
-                                    <b>Role:</b> @item.Role <br />
-                                    <b>Architecture:</b> @item.NonTypicalArchitecture <br />
-                                    <b>Custom SLA:</b> @item.CustomSLA <br />*@
+                                    <b>Offering:</b><br /> @item.Offering <br />
+                                    @*<b>Purpose:</b> @item.Purpose <br />
+    <b>Role:</b> @item.Role <br />
+    <b>Architecture:</b> @item.NonTypicalArchitecture <br />
+    <b>Custom SLA:</b> @item.CustomSLA <br />*@
                                 </p>
                             </div>
                             <div class="text-center">
@@ -175,9 +175,19 @@
                             @foreach (var ds in @item.datasources)
 
                             {
-                                <a title="Datasource Details" href="datasources/details/@ds.Id">
-                                    <i class="glyphicon glyphicon-info-sign"></i>
-                                </a>
+                                if (ds.Status == "Decommissioned")
+                                {
+                                    <a style="color:red" title="Datasource Details" href="datasources/details/@ds.Id">
+                                        <i class="glyphicon glyphicon-info-sign"></i>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a title="Datasource Details" href="datasources/details/@ds.Id">
+                                        <i class="glyphicon glyphicon-info-sign"></i>
+                                    </a>
+                                }
+
 
                                 @ds.Name
                                 <br />

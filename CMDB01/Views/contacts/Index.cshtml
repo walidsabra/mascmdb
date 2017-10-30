@@ -74,7 +74,7 @@
 
 
                             <br />
-                            <a class="card-title" style="color:cornflowerblue" href="/contacts/details/@item.Id" target="_blank">@item.Name.Substring(0, @item.Name.Length > 20 ? 20 : @item.Name.Length)</a>
+                            <a class="card-title" style="color:cornflowerblue" href="/contacts/details/@item.Id" >@item.Name.Substring(0, @item.Name.Length > 20 ? 20 : @item.Name.Length)</a>
                             <div style="margin-left: 10px; margin-right: 10px;">
                                 <p class="card-text">
                                     <b>Email:</b><br /> @if (!string.IsNullOrEmpty(@item.email))
