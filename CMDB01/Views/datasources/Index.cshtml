@@ -5,10 +5,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link href="~/Content/flipCards.css" rel="stylesheet" />
-<script src="~/Scripts/jquery-1.12.4.js"></script>
+@*<script src="~/Scripts/jquery-1.12.4.js"></script>
 <script src="~/Scripts/bootstrap.min.js"></script>
-<script src="~/Scripts/jquery-1.12.4.min.js"></script>
+<script src="~/Scripts/jquery-1.12.4.min.js"></script>*@
 
+<link href="~/Content/chosen.min.css" rel="stylesheet" />
+<script src="~/Scripts/chosen.jquery.min.js"></script>
 <h2>Datasources</h2>
 
 <div class="row">
@@ -19,10 +21,10 @@
     </form>
     <form class="navbar-form navbar-right" role="search">
         <div class="form-group form-inline">
-            <input type="text" id="txtSearch" class="form-control" placeholder="Search ...">
+            <input type="text" id="txtSearch" class="form-control" placeholder="Text Search ...">
         </div>
         <a class="btn btn-primary glyphicon glyphicon-search" id="btnSearch"></a>
-        <a class="btn btn-danger glyphicon glyphicon-refresh" id="btnReset"></a>
+        
         <br />
         <br />
         @foreach (var item in Model.OrderBy(x => x.Name).Select(a => a.Name.Substring(0, 1).ToUpper()).Distinct())
@@ -35,79 +37,157 @@
 </div>
 <hr />
 
-<div class="col-md-2">
-    <h4>Data Center</h4>
+<div class="col-md-3">
+
+
+    <h4>Search...</h4>
+    <select multiple class="form-control chosen-select4" data-placeholder="Select Your Options" id="multiSearch" style="width:300px">
+        <optgroup label="Status">
+            @foreach (var st in Model.OrderBy(r => r.Status).Select(a => a.Status).Distinct())
+            {
+                if (!string.IsNullOrEmpty(st))
+                {
+                    <option value="dsST=@st">@st</option>
+                }
+                else
+                {
+                    <option value="dsST=null">null</option>
+                }
+            }
+        </optgroup>
+        <optgroup label="Data Centers">
+            @foreach (var dc in Model.OrderBy(r => r.DataCenter).Select(a => a.DataCenter).Distinct())
+            {
+                if (!string.IsNullOrEmpty(dc))
+                {
+                    <option value="dc=@dc">@dc</option>
+                }
+                else
+                {
+                    <option value="dc=null">null</option>
+                }
+
+            }
+        </optgroup>
+        <optgroup label="Deployed Version">
+            @foreach (var ver in Model.OrderBy(r => r.DeployedVersion).Select(a => a.DeployedVersion).Distinct())
+            {
+                if (!string.IsNullOrEmpty(ver))
+                {
+                    <option value="dv=@ver">@ver</option>
+                }
+                else
+                {
+                    <option value="dv=null">null</option>
+                }
+            }
+        </optgroup>
+        <optgroup label="Account">
+            @foreach (var acc in Model.OrderBy(r => r.AccountName).Select(a => a.AccountName).Distinct())
+            {
+                if (!string.IsNullOrEmpty(acc))
+                {
+                    <option value="acc=@acc">@acc</option>
+                }
+                else
+                {
+                    <option value="acc=null">null</option>
+                }
+            }
+        </optgroup>
+    </select>
+    <a class="btn btn-warning glyphicon glyphicon-filter" id="btnFilter"></a>
+    <a class="btn btn-danger glyphicon glyphicon-refresh" id="btnReset"></a>
+
+    <hr />
+    
+@*Hidden Fields*@
+<input type="hidden" name="Options" id="Options" />
+
+
+	@* Render Filter box before Showing the Cards *@
+	<script> $('#multiSearch').chosen(); </script>
+	@* ------------------------------------------ *@
+
+
+    <h5>Data Center</h5>
     @foreach (var dc in Model.OrderBy(r => r.DataCenter).Select(a => a.DataCenter).Distinct())
     {
         if (!string.IsNullOrEmpty(dc))
         {
-            <a href="/datasources/index?dc=@dc">@dc</a> <br />
+            <span class="badge badge-success">@dc</span>
+            @*<a href="/datasources/index?dc=@dc">@dc</a> <br />*@
         }
         else
         {
-            <a href="/datasources/index?dc=null">null</a><br />
+            <span class="badge badge-success">null</span>
+            @*<a href="/datasources/index?dc=null">null</a><br />*@
         }
 
     }
     <hr />
-    <h4>Status</h4>
+    <h5>Status</h5>
     @foreach (var st in Model.OrderBy(r => r.Status).Select(a => a.Status).Distinct())
     {
         if (!string.IsNullOrEmpty(st))
         {
-            <a href="/datasources/index?dsST=@st">@st</a> <br />
+            <span class="badge badge-primary">@st</span>
+            @*<a href="/datasources/index?dsST=@st">@st</a> <br />*@
         }
         else
         {
-            <a href="/datasources/index?dsST=null">null</a><br />
+            <span class="badge badge-primary">null</span>
+            @*<a href="/datasources/index?dsST=null">null</a><br />*@
         }
     }
     <hr />
 
-    <h4>Deployed Version</h4>
+    <h5>Deployed Version</h5>
     @foreach (var ver in Model.OrderBy(r => r.DeployedVersion).Select(a => a.DeployedVersion).Distinct())
     {
         if (!string.IsNullOrEmpty(ver))
         {
-            <a href="/datasources/index?dv=@ver">@ver</a> <br />
+            <span class="badge badge-warning">@ver</span>
+            @*<a href="/datasources/index?dv=@ver">@ver</a> <br />*@
         }
         else
         {
-            <a href="/datasources/index?dv=null">null</a><br />
+            <span class="badge badge-warning">null</span>
+            @*<a href="/datasources/index?dv=null">null</a><br />*@
         }
     }
     <hr />
-    <h4>Account</h4>
+    <h5>Account</h5>
     @foreach (var acc in Model.OrderBy(r => r.AccountName).Select(a => a.AccountName).Distinct())
     {
         if (!string.IsNullOrEmpty(acc))
         {
-            <a href="/datasources/index?acc=@acc">@acc</a> <br />
+            <span class="badge badge-danger">@acc</span>
+            @*<a href="/datasources/index?acc=@acc">@acc</a> <br />*@
         }
         else
         {
-            <a href="/datasources/index?acc=null">null</a><br />
+            <span class="badge badge-danger">null</span>
+            @*<a href="/datasources/index?acc=null">null</a><br />*@
         }
     }
-
-
 </div>
 
 
 
 
-<div class="col-md-10">
+<div class="col-md-8">
     @foreach (var item in Model.OrderBy(a => a.Name))
             {
         <div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="card-container manual-flip">
                     <div class="card">
-                        <div class="front">
+                        <div class="front" style="overflow-y:auto">
                             <div class="card-block" style="margin-left: 10px; margin-right: 10px;" >
                                 @if (@item.Status != null && @item.Status.ToLower() == "decommissioned")
                                 {
-                                    <a class="btn-danger"><<<  @item.Status.ToUpper() >>></a> <br />
+                                    <a class="btn-danger"><<  @item.Status.ToUpper() >></a> <br />
                                 }
                                 <button class="btn btn-simple" rel="tooltip" title="Flip Card" onclick="rotateCard(this)">
                                     <i class="glyphicon glyphicon-refresh"></i>
@@ -234,6 +314,8 @@
             $card.addClass('hover');
         }
     };
+
+
     $(document).on("click", ".openComment", function () {
         var DSId = $(this).data('id');
         var DSName = $(this).data('name');
@@ -277,5 +359,19 @@
         });
 
     });
+
+
+    $('#btnFilter').on("click", function (event, params) {
+        var selectedDimensionValues = [];
+        //push the selected Values to the Hidden iput tags - Softwares
+        $("#multiSearch :selected").each(function () {
+            selectedDimensionValues.push($(this).val());
+        });
+
+        $("#Options").val(selectedDimensionValues);
+
+        window.location = "/datasources/Index?Options=" + selectedDimensionValues;
+    });
+
 </script>
 

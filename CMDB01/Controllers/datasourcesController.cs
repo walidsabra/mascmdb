@@ -15,73 +15,237 @@ namespace CMDB01.Controllers
 		private CMDB db = new CMDB();
 
 		// GET: datasources
-		public ActionResult Index(string SearchValue, string dc, string dv, string acc, string StartWith, string dsST)
+		public ActionResult Index(string SearchValue, string dc, string dv, string acc, string StartWith, string dsST, string Options)
 		{
-            IQueryable<datasource> lsDSs;
+            List<datasource> lsDC=null, lsDV=null, lsACC=null, lsST=null, lsSW=null, lsSV = null;           
+            List<datasource> lsDSs= new List<datasource>();
+            if (!string.IsNullOrEmpty(Options))
+            {
+                string[] ops = Options.Split(',');
+                if (!string.IsNullOrEmpty( ops.First()))
+                {
+                    foreach (string opt in ops)
+                    {
+                        if (opt.StartsWith("dc"))
+                        {
+                            if (!string.IsNullOrEmpty(dc))
+                            {
+                                dc = dc + ',' + opt.Substring(3, opt.Length - 3);
+                            }
+                            else
+                            {
+                                dc = opt.Substring(3, opt.Length - 3);
+                            }
+                            
 
+                        }
+                        if (opt.StartsWith("dv"))
+                        {
+                            if(!string.IsNullOrEmpty(dv))
+                            {
+                                dv = dv + ',' + opt.Substring(3, opt.Length - 3);
+                            }
+                            else
+                            {
+                                dv = opt.Substring(3, opt.Length - 3);
+                            }
+                        }
+                        if (opt.StartsWith("acc"))
+                        {
+                            if(!string.IsNullOrEmpty(acc))
+                            {
+                                acc = acc + ',' + opt.Substring(4, opt.Length - 4);
+                            }
+                            else
+                            {
+                                acc = opt.Substring(4, opt.Length - 4);
+                            }
+                        }
+                        if (opt.StartsWith("dsST"))
+                        {
+                            if(!string.IsNullOrEmpty(dsST))
+                            {
+                                dsST = dsST + ',' + opt.Substring(5, opt.Length - 5);
+                            }
+                            else
+                            {
+                                dsST = opt.Substring(5, opt.Length - 5);
+                            }
+                        }
+                    }
+                }
+
+            }
             if (!string.IsNullOrEmpty(SearchValue))
             {
-                lsDSs = db.datasources.Where(x => x.Name.Contains(SearchValue));
+                lsSW = db.datasources.Where(x => x.Name.Contains(SearchValue)).ToList();
             }
-            else if (!string.IsNullOrEmpty(dc))
+            if (!string.IsNullOrEmpty(dc))
             {
-                if (dc == "null")
-                {
-                    lsDSs = db.datasources.Where(a => a.ServerFarm.DataCenter.Equals(null));
-                }
-                else
-                {
-                    lsDSs = db.datasources.Where(a => a.ServerFarm.DataCenter.Equals(dc));
-                }
+                string[] dcLst = dc.Split(',');
 
-            }
-            else if (!string.IsNullOrEmpty(dv))
-            {
-                if (dv == "null")
+                if (dcLst.Count() > 1)
                 {
-                    lsDSs = db.datasources.Where(a => a.ServerFarm.DeployedVersion.Equals(null));
+                    lsDC = db.datasources.Where(a => dcLst.Contains(a.ServerFarm.DataCenter)).ToList();
                 }
                 else
                 {
-                    lsDSs = db.datasources.Where(a => a.ServerFarm.DeployedVersion.Equals(dv));
+                    if (dc == "null")
+                    {
+                        lsDC = db.datasources.Where(a => a.ServerFarm.DataCenter.Equals(null)).ToList();
+                    }
+                    else
+                    {
+                        lsDC = db.datasources.Where(a => a.ServerFarm.DataCenter.Equals(dc)).ToList();
+                    }
                 }
+            }
+            if (!string.IsNullOrEmpty(dv))
+            {
+                string[] dvLst = dv.Split(',');
 
-            }
-            else if (!string.IsNullOrEmpty(acc))
-            {
-                if (acc == "null")
+                if (dvLst.Count() > 1)
                 {
-                    lsDSs = db.datasources.Where(a => a.ServerFarm.account.Name.Equals(null));
+                    lsDV = db.datasources.Where(a => dvLst.Contains(a.ServerFarm.DeployedVersion)).ToList();
                 }
                 else
                 {
-                    lsDSs = db.datasources.Where(a => a.ServerFarm.account.Name.Equals(acc));
+                    if (dv == "null")
+                    {
+                        lsDV = db.datasources.Where(a => a.ServerFarm.DeployedVersion.Equals(null)).ToList();
+                    }
+                    else
+                    {
+                        lsDV = db.datasources.Where(a => a.ServerFarm.DeployedVersion.Equals(dv)).ToList();
+                    }
                 }
+            }
+            if (!string.IsNullOrEmpty(acc))
+            {
+                string[] accLst = acc.Split(',');
 
-            }
-            else if (!string.IsNullOrEmpty(dsST))
-            {
-                if (dsST == "null")
+                if (accLst.Count() > 1)
                 {
-                    lsDSs = db.datasources.Where(a => a.Status.Equals(null));
+                    lsACC = db.datasources.Where(a => accLst.Contains(a.ServerFarm.account.Name)).ToList();
                 }
                 else
                 {
-                    lsDSs = db.datasources.Where(a => a.Status.Equals(dsST));
+                    if (acc == "null")
+                    {
+                        lsACC = db.datasources.Where(a => a.ServerFarm.account.Name.Equals(null)).ToList();
+                    }
+                    else
+                    {
+                        lsACC = db.datasources.Where(a => a.ServerFarm.account.Name.Equals(acc)).ToList();
+                    }
                 }
+            }
+            if (!string.IsNullOrEmpty(dsST))
+            {
+                string[] stLst = dsST.Split(',');
 
-            }
-            else
-            {
-                if (!string.IsNullOrEmpty(StartWith))
+                if(dsST.Count() > 1)
                 {
-                    lsDSs = db.datasources.Where(x => x.Name.StartsWith(StartWith)).AsQueryable();
+                    lsST = db.datasources.Where(a => stLst.Contains(a.Status)).ToList();
                 }
                 else
                 {
-                    lsDSs = db.datasources;
+                    if (dsST == "null")
+                    {
+                        lsST = db.datasources.Where(a => a.Status.Equals(null)).ToList();
+                    }
+                    else
+                    {
+                        lsST = db.datasources.Where(a => a.Status.Equals(dsST)).ToList();
+                    }
                 }
             }
+            if (!string.IsNullOrEmpty(StartWith))
+            {            
+                lsSW = db.datasources.Where(x => x.Name.StartsWith(StartWith)).ToList();
+            }
+            if (string.IsNullOrEmpty(SearchValue) && string.IsNullOrEmpty(dc) && string.IsNullOrEmpty(dv) && string.IsNullOrEmpty(acc) && string.IsNullOrEmpty(StartWith) && string.IsNullOrEmpty(dsST))
+            {
+                //if (!string.IsNullOrEmpty(StartWith))
+                //{
+                //    lsDSs = db.datasources.Where(x => x.Name.StartsWith(StartWith)).AsQueryable();
+                //}
+                //else
+                //{
+                //    lsDSs = db.datasources;
+                //}
+
+                lsDSs = db.datasources.ToList();
+                return View(lsDSs);
+            }
+
+            if (lsSW != null)
+            {
+                if (lsDSs.Count > 0)
+                {
+                    lsDSs = lsDSs.Intersect(lsSW).ToList();
+                }
+                else
+                {
+                    lsDSs = lsDSs.Union(lsSW).ToList();
+                }              
+            }
+            if (lsSV != null)
+            {
+                if (lsDSs.Count > 0)
+                {
+                    lsDSs = lsDSs.Intersect(lsSV).ToList();
+                }
+                else
+                {
+                    lsDSs = lsDSs.Union(lsSV).ToList();
+                }              
+            }
+            if (lsST != null)
+            {
+                if (lsDSs.Count > 0)
+                {
+                    lsDSs = lsDSs.Intersect(lsST).ToList();
+                }
+                else
+                {
+                    lsDSs = lsDSs.Union(lsST).ToList();
+                }               
+            }
+            if (lsDV != null)
+            {
+                if (lsDSs.Count > 0)
+                {
+                    lsDSs = lsDSs.Intersect(lsDV).ToList();
+                }
+                else
+                {
+                    lsDSs = lsDSs.Union(lsDV).ToList();
+                }              
+            }
+            if (lsDC != null)
+            {
+                if (lsDSs.Count > 0)
+                {
+                    lsDSs = lsDSs.Intersect(lsDC).ToList();
+                }
+                else
+                {
+                    lsDSs = lsDSs.Union(lsDC).ToList();
+                }               
+            }
+            if (lsACC != null)
+            {
+                if (lsDSs.Count > 0)
+                {
+                    lsDSs = lsDSs.Intersect(lsACC).ToList();
+                }
+                else
+                {
+                    lsDSs = lsDSs.Union(lsACC).ToList();
+                }
+            }
+
             return View(lsDSs.ToList());
 		}
 
