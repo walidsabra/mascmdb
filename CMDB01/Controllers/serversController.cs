@@ -54,82 +54,269 @@ namespace CMDB01.Controllers
         }
         
         // GET: servers
-        public ActionResult Index(string SearchValue, string dc, string dv, string rl, string acc, string StartWith, string sfST)
+        public ActionResult Index(string SearchValue, string dc, string dv, string rl, string acc, string StartWith, string sfST, string Options)
         {
-            IQueryable<serverFarms> lsServers;
+            List<serverFarms> lsDC = null, lsDV = null, lsACC = null, lsST = null, lsSW = null, lsSV = null, lsPRP = null;
+            List<serverFarms> lsServers = new List<serverFarms>();
+            if (!string.IsNullOrEmpty(Options))
+            {
+                string[] ops = Options.Split(',');
+                if (!string.IsNullOrEmpty(ops.First()))
+                {
+                    foreach (string opt in ops)
+                    {
+                        if (opt.StartsWith("dc"))
+                        {
+                            if (!string.IsNullOrEmpty(dc))
+                            {
+                                dc = dc + ',' + opt.Substring(3, opt.Length - 3);
+                            }
+                            else
+                            {
+                                dc = opt.Substring(3, opt.Length - 3);
+                            }
 
+
+                        }
+                        if (opt.StartsWith("dv"))
+                        {
+                            if (!string.IsNullOrEmpty(dv))
+                            {
+                                dv = dv + ',' + opt.Substring(3, opt.Length - 3);
+                            }
+                            else
+                            {
+                                dv = opt.Substring(3, opt.Length - 3);
+                            }
+                        }
+                        if (opt.StartsWith("acc"))
+                        {
+                            if (!string.IsNullOrEmpty(acc))
+                            {
+                                acc = acc + ',' + opt.Substring(4, opt.Length - 4);
+                            }
+                            else
+                            {
+                                acc = opt.Substring(4, opt.Length - 4);
+                            }
+                        }
+                        if (opt.StartsWith("sfST"))
+                        {
+                            if (!string.IsNullOrEmpty(sfST))
+                            {
+                                sfST = sfST + ',' + opt.Substring(5, opt.Length - 5);
+                            }
+                            else
+                            {
+                                sfST = opt.Substring(5, opt.Length - 5);
+                            }
+                        }
+                        if (opt.StartsWith("rl"))
+                        {
+                            if (!string.IsNullOrEmpty(rl))
+                            {
+                                rl = rl + ',' + opt.Substring(3, opt.Length - 3);
+                            }
+                            else
+                            {
+                                rl = opt.Substring(3, opt.Length - 3);
+                            }
+                        }
+                    }
+                }
+
+            }
             if (!string.IsNullOrEmpty(SearchValue))
             {
-                lsServers = db.serverFarms.Where(x=>x.Name.Contains(SearchValue));
+                lsSW = db.serverFarms.Where(x=>x.Name.Contains(SearchValue)).ToList();
             }
-            else if (!string.IsNullOrEmpty(dc))
+            if (!string.IsNullOrEmpty(dc))
             {
-                if(dc == "null")
+                string[] dcLst = dc.Split(',');
+                if (dcLst.Count() > 1)
                 {
-                    lsServers = db.serverFarms.Where(a => a.DataCenter.Equals(null));
+                    lsDC = db.serverFarms.Where(a => dcLst.Contains(a.DataCenter)).ToList();
                 }
                 else
                 {
-                    lsServers = db.serverFarms.Where(a => a.DataCenter.Equals(dc));
-                }
-                
-            }
-            else if (!string.IsNullOrEmpty(dv))
-            {
-                if (dv == "null")
-                {
-                    lsServers = db.serverFarms.Where(a => a.DeployedVersion.Equals(null));
-                }
-                else
-                {
-                    lsServers = db.serverFarms.Where(a => a.DeployedVersion.Equals(dv));
+                    if (dc == "null")
+                    {
+                        lsDC = db.serverFarms.Where(a => a.DataCenter.Equals(null)).ToList();
+                    }
+                    else
+                    {
+                        lsDC = db.serverFarms.Where(a => a.DataCenter.Equals(dc)).ToList();
+                    }
                 }
             }
-            else if (!string.IsNullOrEmpty(sfST))
+            if (!string.IsNullOrEmpty(dv))
             {
-                if (sfST == "null")
-                {
-                    lsServers = db.serverFarms.Where(a => a.Status.Equals(null));
-                }
-                else
-                {
-                    lsServers = db.serverFarms.Where(a => a.Status.Equals(sfST));
-                }
-            }
-            else if (!string.IsNullOrEmpty(rl))
-            {
-                if (rl == "null")
-                {
-                    lsServers = db.serverFarms.Where(a => a.Purpose.Equals(null));
-                }
-                else
-                {
-                    lsServers = db.serverFarms.Where(a => a.Purpose.Equals(rl));
-                }
-            }
-            else if (!string.IsNullOrEmpty(acc))
-            {
-                if (acc == "null")
-                {
-                    lsServers = db.serverFarms.Where(a => a.account.Name.Equals(null));
-                }
-                else
-                {
-                    lsServers = db.serverFarms.Where(a => a.account.Name.Equals(acc));
-                }
-            }
-            else
-            {
-                if (!string.IsNullOrEmpty(StartWith))
-                {
-                    lsServers = db.serverFarms.Where(x => x.Name.StartsWith(StartWith)).AsQueryable();
-                }
-                else
-                {
-                    lsServers = db.serverFarms;
-                }
+                string[] dvLst = dv.Split(',');
 
+                if (dvLst.Count() > 1)
+                {
+                    lsDV = db.serverFarms.Where(a => dvLst.Contains(a.DeployedVersion)).ToList();
+                }
+                else
+                {
+                    if (dv == "null")
+                    {
+                        lsDV = db.serverFarms.Where(a => a.DeployedVersion.Equals(null)).ToList();
+                    }
+                    else
+                    {
+                        lsDV = db.serverFarms.Where(a => a.DeployedVersion.Equals(dv)).ToList();
+                    }
+                }
             }
+            if (!string.IsNullOrEmpty(sfST))
+            {
+                string[] stLst = sfST.Split(',');
+
+                if (sfST.Count() > 1)
+                {
+                    lsST = db.serverFarms.Where(a => stLst.Contains(a.Status)).ToList();
+                }
+                else
+                {
+                    if (sfST == "null")
+                    {
+                        lsST = db.serverFarms.Where(a => a.Status.Equals(null)).ToList();
+                    }
+                    else
+                    {
+                        lsST = db.serverFarms.Where(a => a.Status.Equals(sfST)).ToList();
+                    }
+                }
+            }
+            if (!string.IsNullOrEmpty(rl))
+            {
+                string[] prpLst = rl.Split(',');
+
+                if (rl.Count() > 1)
+                {
+                    lsPRP = db.serverFarms.Where(a => prpLst.Contains(a.Purpose)).ToList();
+                }
+                else
+                {
+                    if (rl == "null")
+                    {
+                        lsPRP = db.serverFarms.Where(a => a.Purpose.Equals(null)).ToList();
+                    }
+                    else
+                    {
+                        lsPRP = db.serverFarms.Where(a => a.Purpose.Equals(rl)).ToList();
+                    }
+                }
+            }
+            if (!string.IsNullOrEmpty(acc))
+            {
+                string[] accLst = acc.Split(',');
+
+                if (accLst.Count() > 1)
+                {
+                    lsACC = db.serverFarms.Where(a => accLst.Contains(a.account.Name)).ToList();
+                }
+                else
+                {
+                    if (acc == "null")
+                    {
+                        lsACC = db.serverFarms.Where(a => a.account.Name.Equals(null)).ToList();
+                    }
+                    else
+                    {
+                        lsACC = db.serverFarms.Where(a => a.account.Name.Equals(acc)).ToList();
+                    }
+                }
+            }
+            if (!string.IsNullOrEmpty(StartWith))
+                {
+                    lsSW = db.serverFarms.Where(x => x.Name.StartsWith(StartWith)).ToList();
+                }
+            if (string.IsNullOrEmpty(SearchValue) && string.IsNullOrEmpty(dc) && string.IsNullOrEmpty(dv) && string.IsNullOrEmpty(acc) && string.IsNullOrEmpty(StartWith) && string.IsNullOrEmpty(sfST) && string.IsNullOrEmpty(rl))
+            {
+                lsServers = db.serverFarms.ToList();
+                return View(lsServers);
+            }
+
+            if (lsSW != null)
+            {
+                if (lsServers.Count > 0)
+                {
+                    lsServers = lsServers.Intersect(lsSW).ToList();
+                }
+                else
+                {
+                    lsServers = lsServers.Union(lsSW).ToList();
+                }
+            }
+            if (lsSV != null)
+            {
+                if (lsServers.Count > 0)
+                {
+                    lsServers = lsServers.Intersect(lsSV).ToList();
+                }
+                else
+                {
+                    lsServers = lsServers.Union(lsSV).ToList();
+                }
+            }
+            if (lsST != null)
+            {
+                if (lsServers.Count > 0)
+                {
+                    lsServers = lsServers.Intersect(lsST).ToList();
+                }
+                else
+                {
+                    lsServers = lsServers.Union(lsST).ToList();
+                }
+            }
+            if (lsDV != null)
+            {
+                if (lsServers.Count > 0)
+                {
+                    lsServers = lsServers.Intersect(lsDV).ToList();
+                }
+                else
+                {
+                    lsServers = lsServers.Union(lsDV).ToList();
+                }
+            }
+            if (lsDC != null)
+            {
+                if (lsServers.Count > 0)
+                {
+                    lsServers = lsServers.Intersect(lsDC).ToList();
+                }
+                else
+                {
+                    lsServers = lsServers.Union(lsDC).ToList();
+                }
+            }
+            if (lsACC != null)
+            {
+                if (lsServers.Count > 0)
+                {
+                    lsServers = lsServers.Intersect(lsACC).ToList();
+                }
+                else
+                {
+                    lsServers = lsServers.Union(lsACC).ToList();
+                }
+            }
+            if (lsPRP != null)
+            {
+                if (lsServers.Count > 0)
+                {
+                    lsServers = lsServers.Intersect(lsPRP).ToList();
+                }
+                else
+                {
+                    lsServers = lsServers.Union(lsPRP).ToList();
+                }
+            }
+
             return View(lsServers.ToList());
         }
 
