@@ -15,12 +15,12 @@ namespace CMDB01.Controllers
     {
         private CMDB db = new CMDB();
 
-        //Get List of Offering ----------------------------------------------
-        private void GetOffering()
+        private void GetSFStatusList()
         {
+            //Get List of DatasourceStatus ----------------------------------------------
             List<SelectListItem> listSelectListItems = new List<SelectListItem>();
 
-            foreach (PickList pl in db.PickLists.Where(x => x.PickListName == "Offering").OrderBy(a => a.PickListValue))
+            foreach (PickList pl in db.PickLists.Where(x => x.PickListName == "ServerFarmStatus").OrderBy(a => a.PickListValue))
             {
                 SelectListItem selectList = new SelectListItem()
                 {
@@ -30,12 +30,31 @@ namespace CMDB01.Controllers
                 };
                 listSelectListItems.Add(selectList);
             }
-            ViewBag.Offering = listSelectListItems;
+            ViewBag.ServerFarmStatus = listSelectListItems;
             //--------------------------------------------------------------------
         }
 
+        //Get List of Offering ----------------------------------------------
+        private void GetPurpose()
+        {
+            List<SelectListItem> listSelectListItems = new List<SelectListItem>();
+
+            foreach (PickList pl in db.PickLists.Where(x => x.PickListName == "Purpose").OrderBy(a => a.PickListValue))
+            {
+                SelectListItem selectList = new SelectListItem()
+                {
+                    Text = pl.PickListValue,
+                    Value = pl.Id.ToString(),
+                    Selected = false
+                };
+                listSelectListItems.Add(selectList);
+            }
+            ViewBag.Purpose = listSelectListItems;
+            //--------------------------------------------------------------------
+        }
+        
         // GET: servers
-        public ActionResult Index(string SearchValue, string dc, string dv, string rl, string acc, string StartWith)
+        public ActionResult Index(string SearchValue, string dc, string dv, string rl, string acc, string StartWith, string sfST)
         {
             IQueryable<serverFarms> lsServers;
 
@@ -66,15 +85,26 @@ namespace CMDB01.Controllers
                     lsServers = db.serverFarms.Where(a => a.DeployedVersion.Equals(dv));
                 }
             }
+            else if (!string.IsNullOrEmpty(sfST))
+            {
+                if (sfST == "null")
+                {
+                    lsServers = db.serverFarms.Where(a => a.Status.Equals(null));
+                }
+                else
+                {
+                    lsServers = db.serverFarms.Where(a => a.Status.Equals(sfST));
+                }
+            }
             else if (!string.IsNullOrEmpty(rl))
             {
                 if (rl == "null")
                 {
-                    lsServers = db.serverFarms.Where(a => a.Role.Equals(null));
+                    lsServers = db.serverFarms.Where(a => a.Purpose.Equals(null));
                 }
                 else
                 {
-                    lsServers = db.serverFarms.Where(a => a.Role.Equals(rl));
+                    lsServers = db.serverFarms.Where(a => a.Purpose.Equals(rl));
                 }
             }
             else if (!string.IsNullOrEmpty(acc))
@@ -151,8 +181,8 @@ namespace CMDB01.Controllers
             GetAccounts();
             GetContacts();
             GetServerFarmEntityTypes();
-            GetOffering();
-
+            GetPurpose();
+            GetSFStatusList();
             return View();
         }
 
@@ -218,7 +248,7 @@ namespace CMDB01.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,DataCenter,DeployedVersion,FQDN,Role,Purpose,Offering")] serverFarms server, string hdContactsArray, int accountId)
+        public ActionResult Create([Bind(Include = "Id,Name,DataCenter,DeployedVersion,FQDN,Architecture,Purpose,Status")] serverFarms server, string hdContactsArray, int accountId)
         {
             if (ModelState.IsValid)
             {
@@ -287,7 +317,8 @@ namespace CMDB01.Controllers
         {
             GetContacts();
             GetServerFarmEntityTypes();
-            GetOffering();
+            GetPurpose();
+            GetSFStatusList();
 
             if (id == null)
             {
@@ -306,7 +337,7 @@ namespace CMDB01.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,DataCenter,DeployedVersion,FQDN,Role,Purpose,Offering")] serverFarms server, string hdContactsArray)
+        public ActionResult Edit([Bind(Include = "Id,Name,DataCenter,DeployedVersion,FQDN,Architecture,Purpose,Status")] serverFarms server, string hdContactsArray)
         {
             if (ModelState.IsValid)
             {

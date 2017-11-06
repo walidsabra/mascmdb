@@ -13,6 +13,7 @@ namespace CMDB01.Models
         public int entity_Id { get; set; }
         public string entity {get; set;}
         [Display(Name = "User Name")]
+        [Required]
         public string user { get; set; }
         public DateTime timestamp
         {
@@ -29,6 +30,7 @@ namespace CMDB01.Models
             }
         }
         [AllowHtml]
+        [Required]
         [DataType(DataType.MultilineText)]
         public string Comment { get; set; }
         public string Type { get; set; }

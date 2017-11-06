@@ -165,6 +165,7 @@
                                                         <i class="glyphicon glyphicon-info-sign"></i>
                                                     </a>
                                                     @ds.Name  <br />
+                                                    @ds.Description <br />
                                                     <label style="color:red">@ds.Status</label>  
                                                 }
                                                 else
@@ -172,7 +173,8 @@
                                                     <a title="Datasource Details" href="/datasources/details/@ds.Id">
                                                         <i class="glyphicon glyphicon-info-sign"></i>
                                                     </a>
-                                                    @ds.Name
+                                                    @ds.Name <br />
+                                                    @ds.Description
                                                 }
                           
 
@@ -266,12 +268,9 @@
                             <th>
                                 @if (!string.IsNullOrEmpty( @cm.Link ))
                             {
-                                    <a href=" @cm.Link "><i class='glyphicon glyphicon-globe'></i></a>
+                                    <a href=" @cm.Link " target="_blank"><i class='glyphicon glyphicon-globe'></i></a>
                             }
-                            else
-                            {
-                                    <i class='glyphicon glyphicon-globe'></i>
-                            }
+
 
 
                             </th>

@@ -19,9 +19,11 @@ namespace CMDB01.Models
         public string NonTypicalArchitecture { get; set; }
         public string CustomSLA { get; set; }
         //GoLiveDateSubmitted
-        public string Role { get; set; } //ICS, PW, SQL, Admin
-        public string Offering { get; set; } //ICS, PW, SQL, Admin
-        public string Purpose { get; set; } //ICS, PW, SQL, Admin
+        //public string Role { get; set; } 
+        public string Architecture { get; set; }
+        public string Purpose { get; set; }  //role
+        public string Status { get; set; }
+        public string ServerFarmIPAddress { get; set; }
 
 
         //Stats -----------------------------------------------------------
@@ -32,10 +34,11 @@ namespace CMDB01.Models
         public int FileStorageSpace { get; set; }
         public int ProvisionedStorageSpace { get; set; }
         public int FreeStoragePercent { get; set; }
+        public int FreeStorageSpaceMB { get; set; }
+        
         //------------------------------------------------------------------
 
         //URLs --------------------------------------------------------------
-        public string ServerFarmIPAddress { get; set; }
         public string WebServerURL { get; set; }
         public string WebServiceGatewayURL { get; set; }
         //-------------------------------------------------------------------

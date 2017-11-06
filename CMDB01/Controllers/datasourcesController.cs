@@ -453,8 +453,6 @@ namespace CMDB01.Controllers
 			base.Dispose(disposing);
 		}
 
-
-
 		private void GetDataSourceContacts(datasource datasource)
 		{
 			try

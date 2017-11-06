@@ -29,6 +29,14 @@
             </dd>
 
             <dt>
+                @Html.DisplayNameFor(model => model.Status)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Status)
+            </dd>
+
+            <dt>
                 @Html.DisplayNameFor(model => model.FQDN)
             </dt>
 
@@ -37,22 +45,22 @@
             </dd>
 
             <dt>
-                @Html.DisplayNameFor(model => model.Offering)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Offering)
-            </dd>
-            <dt>
                 @Html.DisplayNameFor(model => model.Purpose)
             </dt>
             <dd>
                 @Html.DisplayFor(model => model.Purpose)
             </dd>
             <dt>
-                @Html.DisplayNameFor(model => model.Role)
+                @Html.DisplayNameFor(model => model.Architecture)
             </dt>
             <dd>
-                @Html.DisplayFor(model => model.Role)
+                @Html.DisplayFor(model => model.Architecture)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.ServerFarmIPAddress)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ServerFarmIPAddress)
             </dd>
             <dt>
                 @Html.DisplayNameFor(model => model.NonTypicalArchitecture)
@@ -143,9 +151,6 @@
             <b>URLS:</b> <br />
         </p>
         <div class="card-text" style="color:coral">
-            <a rel="tooltip" title="Server Farm IP Address" href="@Model.ServerFarmIPAddress" target="_blank">
-                <i class="glyphicon glyphicon-certificate"></i>
-            </a>
             <a rel="tooltip" title="Web Server URL" href="@Model.WebServerURL" target="_blank">
                 <i class="glyphicon glyphicon-globe"></i>
             </a>
@@ -179,6 +184,7 @@
                                 <i class="glyphicon glyphicon-info-sign"></i>
                             </a>
                             @ds.Name  <br />
+                            @ds.Description <br />
                                     <label style="color:red">@ds.Status</label>
                         }
                         else
@@ -187,7 +193,8 @@
                                 <i class="glyphicon glyphicon-info-sign"></i>
                             </a>
 
-                            @ds.Name
+                            @ds.Name <br />
+                            @ds.Description
                         }
 
 
@@ -265,12 +272,9 @@
                     <th>
                         @if (!string.IsNullOrEmpty(@cm.Link ))
                         {
-                            <a href=" @cm.Link"><i class='glyphicon glyphicon-globe'></i></a>
+                            <a href=" @cm.Link" target="_blank"><i class='glyphicon glyphicon-globe'></i></a>
                         }
-                        else
-                        {
-                            <i class='glyphicon glyphicon-globe'></i>
-                        }
+
                     </th>
                 </tr>
 
