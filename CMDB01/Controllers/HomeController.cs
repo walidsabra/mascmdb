@@ -9,6 +9,7 @@ namespace CMDB01.Controllers
 {
     public class HomeController : Controller
     {
+    
         public ActionResult Index()
         {
             CMDB db = new CMDB();

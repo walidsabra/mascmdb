@@ -14,8 +14,9 @@ namespace CMDB01.Controllers
 	{
 		private CMDB db = new CMDB();
 
-		// GET: datasources
-		public ActionResult Index(string SearchValue, string dc, string dv, string acc, string StartWith, string dsST, string Options)
+        // GET: datasources
+        [Authorize]
+        public ActionResult Index(string SearchValue, string dc, string dv, string acc, string StartWith, string dsST, string Options)
 		{
             List<datasource> lsDC=null, lsDV=null, lsACC=null, lsST=null, lsSW=null, lsSV = null;           
             List<datasource> lsDSs= new List<datasource>();

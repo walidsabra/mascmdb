@@ -52,8 +52,9 @@ namespace CMDB01.Controllers
             ViewBag.Purpose = listSelectListItems;
             //--------------------------------------------------------------------
         }
-        
+
         // GET: servers
+        [Authorize]
         public ActionResult Index(string SearchValue, string dc, string dv, string rl, string acc, string StartWith, string sfST, string Options)
         {
             List<serverFarms> lsDC = null, lsDV = null, lsACC = null, lsST = null, lsSW = null, lsSV = null, lsPRP = null;

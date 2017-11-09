@@ -53,8 +53,9 @@ namespace CMDB01.Controllers
             //--------------------------------------------------------------------
         }
 
-        
+
         // GET: accounts
+        [Authorize]
         public ActionResult Index(string SearchValue, string StartWith, string accST, string bl, string ims)
         {
             IQueryable<account> lstAccounts, lstName, lstUltimate, lstProjector, lstOpportunity;
@@ -203,7 +204,9 @@ namespace CMDB01.Controllers
             if (ModelState.IsValid)
             {
                 processContacts(account, hdContactsArray, "Edit");
+                
                 db.Entry(account).State = EntityState.Modified;
+                //List<System.Data.Entity.Infrastructure.DbEntityEntry> entries = db.ChangeTracker.Entries().Where(x => x.State == EntityState.Modified).ToList();
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
