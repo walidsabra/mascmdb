@@ -16,8 +16,105 @@ namespace CMDB01.Controllers
 
         // GET: datasources
         [Authorize]
-        public ActionResult Index(string SearchValue, string dc, string dv, string acc, string StartWith, string dsST, string Options)
-		{
+        public ActionResult Index(string SearchValue, string dc, string dv, string acc, string StartWith, string dsST, string Options, string Opti)
+
+        {
+            //-----
+            //ViewBag.FilterList
+
+
+            //Status List
+            List<SelectListItem> mlist = new List<SelectListItem>();
+            SelectListGroup DCg = new SelectListGroup { Name = "Data Center" };
+            SelectListGroup STg = new SelectListGroup { Name = "Status" };
+            SelectListGroup DVg = new SelectListGroup { Name = "Deployed Version" };
+            SelectListGroup ACCg = new SelectListGroup { Name = "Account" };
+
+  
+
+
+
+                //Status 
+                var StatusList = db.datasources.OrderBy(a => a.Status).GroupBy(a => a.Status);
+                foreach (var st in StatusList)
+                {
+                    bool Sel = false;
+                    string key = "null";
+                    if (!string.IsNullOrEmpty(st.Key)) {key = st.Key;}                   
+                    if (Options.Contains(key)) { Sel = true;}
+
+                    SelectListItem li = new SelectListItem
+                    {
+                        Value = key,
+                        Text = key,
+                        Selected = Sel,
+                        Group = STg
+                    };
+                    mlist.Add(li);
+                };
+
+                //Data Center 
+                var DCList = db.datasources.OrderBy(a => a.ServerFarm.DataCenter).GroupBy(a => a.ServerFarm.DataCenter);
+                foreach (var st in DCList)
+                {
+                    bool Sel = false;
+                    string key = "null";
+                    if (!string.IsNullOrEmpty(st.Key)) { key = st.Key; }
+                    if (Options.Contains(key)) { Sel = true; }
+                    SelectListItem li = new SelectListItem
+                    {
+                        Value = key,
+                        Text = key,
+                        Selected = Sel,
+                        Group = DCg
+                    };
+                    mlist.Add(li);
+                };
+
+                //Deployed Version
+                var DVList = db.datasources.OrderBy(a => a.ServerFarm.DeployedVersion).GroupBy(a => a.ServerFarm.DeployedVersion);
+                foreach (var st in DVList)
+                {
+                    bool Sel = false;
+                    string key = "null";
+                    if (!string.IsNullOrEmpty(st.Key)) { key = st.Key; }
+                    if (Options.Contains(key)) { Sel = true; }
+                    SelectListItem li = new SelectListItem
+                    {
+                        Value = key,
+                        Text = key,
+                        Selected = Sel,
+                        Group = DVg
+                    };
+                    mlist.Add(li);
+                };
+
+                //Account
+                var ACCList = db.datasources.OrderBy(a => a.ServerFarm.account.Name).GroupBy(a => a.ServerFarm.account.Name);
+                foreach (var st in ACCList)
+                {
+                    bool Sel = false;
+                    string key = "null";
+                    if (!string.IsNullOrEmpty(st.Key)) { key = st.Key; }
+                    if (Options.Contains(key)) { Sel = true; }
+                    SelectListItem li = new SelectListItem
+                    {
+                        Value = key,
+                        Text = key,
+                        Selected = Sel,
+                        Group = ACCg
+                    };
+                    mlist.Add(li);
+                };
+
+
+                ViewBag.LinkedOptions = mlist.ToList();
+ 
+
+
+
+
+            //-----
             List<datasource> lsDC=null, lsDV=null, lsACC=null, lsST=null, lsSW=null, lsSV = null;           
             List<datasource> lsDSs= new List<datasource>();
             if (!string.IsNullOrEmpty(Options))

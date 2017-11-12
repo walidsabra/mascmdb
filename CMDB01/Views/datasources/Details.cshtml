@@ -44,12 +44,19 @@
         <dd>
             @Html.DisplayFor(model => model.Status)
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Purpose)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Purpose)
+        </dd>
 
         <dt>
             @Html.DisplayName("Server Farm")
         </dt>
         <dd>
-            <a href="/servers/details/@Html.DisplayFor(model => model.ServerFarm.Id)">  @Html.DisplayFor(model => model.serverName)</a>
+            <a href="/servers/details/@Html.DisplayFor(model => model.ServerFarm.Id)">  @Html.DisplayFor(model => model.ServerFarm.Name)</a>
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.ServerFarm.DeployedVersion)
@@ -69,7 +76,7 @@
             @Html.DisplayName("Account")
         </dt>
         <dd>
-            <a href="/accounts/details/@Html.DisplayFor(model => model.ServerFarm.account.Id)">  @Html.DisplayFor(model => model.AccountName)</a>
+            <a href="/accounts/details/@Html.DisplayFor(model => model.ServerFarm.account.Id)">  @Html.DisplayFor(model => model.ServerFarm.account.Name)</a>
         </dd>
 
 
@@ -115,6 +122,56 @@
     </div>
 </div>
 <hr />
+<div class="row">
+    <div class="col-md-4">
+        <p class="card-text">
+            <b>Active Users:</b> <br />
+        </p>
+        <table>
+            <col width="50">
+            <col width="50">
+            <col width="50">
+            <col width="50">
+            <tr>
+                <td><a style="color:darkred">@Model.Activeusers7Days <br /><p style="font-size:6px; color:cornflowerblue">7 Days</p></a></td>
+                <td><a style="color:darkred">@Model.ActiveUsers30Days <br /><p style="font-size:6px; color:cornflowerblue">30 Days</p></a></td>
+                <td><a style="color:darkred">@Model.ActiveUsers90Days <br /><p style="font-size:6px; color:cornflowerblue">90 Days</p></a></td>
+                <td><a style="color:darkred">@Model.ActiveUsers120Days <br /><p style="font-size:6px; color:cornflowerblue">120 Days</p></a></td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-md-4">
+        <p class="card-text">
+            <b>Storage:</b> <br />
+        </p>
+        @*<table>
+            <col width="65">
+            <col width="70">
+            <col width="65">
+
+            <tr>
+                <td><a>@Model.Activeusers7Days <br /> <p style="font-size:6px">File Space</p></a></td>
+                <td><a>@Model.ActiveUsers30Days <br /><p style="font-size:6px">Provisioned Space</p></a></td>
+                <td><a>@Model.ActiveUsers90Days <br /><p style="font-size:6px">Free Space %</p></a></td>
+            </tr>
+        </table>*@
+    </div>
+    <div class="col-md-4">
+        <p class="card-text">
+            <b>URLS:</b> <br />
+        </p>
+        @*<div class="card-text" style="color:coral">
+            <a rel="tooltip" title="Web Server URL" href="@Model.WebServerURL" target="_blank">
+                <i class="glyphicon glyphicon-globe"></i>
+            </a>
+            <a rel="tooltip" title="Web Service Gateway URL" href="@Model.WebServiceGatewayURL" target="_blank">
+                <i class="glyphicon glyphicon-link"></i>
+            </a>
+        </div>*@
+    </div>
+</div>
+<hr />
+
 <div class="row">
     <div class="col-md-12">
         <h4 style="color:lightcoral">Datasource Comments</h4>

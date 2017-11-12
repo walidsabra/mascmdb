@@ -130,6 +130,9 @@ namespace CMDB01.Controllers
             if (!string.IsNullOrEmpty(SearchValue))
             {
                 lsSW = db.serverFarms.Where(x=>x.Name.Contains(SearchValue)).ToList();
+                //search in many places here
+                //----
+
             }
             if (!string.IsNullOrEmpty(dc))
             {

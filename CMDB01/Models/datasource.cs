@@ -20,10 +20,10 @@ namespace CMDB01.Models
         public int ActiveUsers30Days { get; set; }
         public int Activeusers7Days { get; set; }
         public int ActiveUsers90Days { get; set; }
-        public string ADUS { get; set; }
-        public string Migration { get; set; }
+        //public string ADUS { get; set; }
+        //public string Migration { get; set; }
         public decimal FileStorageSpace { get; set; }
-        public string PSS { get; set; }
+        //public string PSS { get; set; }
         public string Purpose { get; set; }
         public string Status { get; set; }
     
@@ -33,51 +33,51 @@ namespace CMDB01.Models
         // public virtual List<comment> comments { get; set; }
         public virtual serverFarms ServerFarm { get; set; }
 
-        public string serverName
-        {
-            get
-            {
-                CMDB db = new CMDB();
-                return db.serverFarms.Where(x => x.Id == ServerFarm.Id).FirstOrDefault().Name;
-            }
-        }
+        //public string serverName
+        //{
+        //    get
+        //    {
+        //        CMDB db = new CMDB();
+        //        return db.serverFarms.Where(x => x.Id == ServerFarm.Id).FirstOrDefault().Name;
+        //    }
+        //}
 
-        public string DeployedVersion
-        {
-            get
-            {
-                CMDB db = new CMDB();
-                return db.serverFarms.Where(x => x.Id == ServerFarm.Id).FirstOrDefault().DeployedVersion;
-            }
-        }
+        //public string DeployedVersion
+        //{
+        //    get
+        //    {
+        //        CMDB db = new CMDB();
+        //        return db.serverFarms.Where(x => x.Id == ServerFarm.Id).FirstOrDefault().DeployedVersion;
+        //    }
+        //}
 
-        public string DataCenter
-        {
-            get
-            {
-                CMDB db = new CMDB();
-                return db.serverFarms.Where(x => x.Id == ServerFarm.Id).FirstOrDefault().DataCenter;
-            }
-        }
+        //public string DataCenter
+        //{
+        //    get
+        //    {
+        //        CMDB db = new CMDB();
+        //        return db.serverFarms.Where(x => x.Id == ServerFarm.Id).FirstOrDefault().DataCenter;
+        //    }
+        //}
 
-        public string FQDN
-        {
-            get
-            {
-                CMDB db = new CMDB();
-                return db.serverFarms.Where(x => x.Id == ServerFarm.Id).FirstOrDefault().FQDN;
-            }
-        }
+        //public string FQDN
+        //{
+        //    get
+        //    {
+        //        CMDB db = new CMDB();
+        //        return db.serverFarms.Where(x => x.Id == ServerFarm.Id).FirstOrDefault().FQDN;
+        //    }
+        //}
 
-        //One Level Up
-        public string AccountName
-        {
-            get
-            {
-                CMDB db = new CMDB();
-                return db.accounts.Where(x => x.Id == ServerFarm.account.Id).FirstOrDefault().Name;
-            }
-        }
+        ////One Level Up
+        //public string AccountName
+        //{
+        //    get
+        //    {
+        //        CMDB db = new CMDB();
+        //        return db.accounts.Where(x => x.Id == ServerFarm.account.Id).FirstOrDefault().Name;
+        //    }
+        //}
 
     }
 }

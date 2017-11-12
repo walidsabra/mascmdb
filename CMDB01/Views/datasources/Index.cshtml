@@ -56,7 +56,7 @@
             }
         </optgroup>
         <optgroup label="Data Centers">
-            @foreach (var dc in Model.OrderBy(r => r.DataCenter).Select(a => a.DataCenter).Distinct())
+            @foreach (var dc in Model.OrderBy(r => r.ServerFarm.DataCenter).Select(a => a.ServerFarm.DataCenter).Distinct())
             {
                 if (!string.IsNullOrEmpty(dc))
                 {
@@ -70,7 +70,7 @@
             }
         </optgroup>
         <optgroup label="Deployed Version">
-            @foreach (var ver in Model.OrderBy(r => r.DeployedVersion).Select(a => a.DeployedVersion).Distinct())
+            @foreach (var ver in Model.OrderBy(r => r.ServerFarm.DeployedVersion).Select(a => a.ServerFarm.DeployedVersion).Distinct())
             {
                 if (!string.IsNullOrEmpty(ver))
                 {
@@ -83,7 +83,7 @@
             }
         </optgroup>
         <optgroup label="Account">
-            @foreach (var acc in Model.OrderBy(r => r.AccountName).Select(a => a.AccountName).Distinct())
+            @foreach (var acc in Model.OrderBy(r => r.ServerFarm.account.Name).Select(a => a.ServerFarm.account.Name).Distinct())
             {
                 if (!string.IsNullOrEmpty(acc))
                 {
@@ -96,6 +96,10 @@
             }
         </optgroup>
     </select>
+
+    @Html.ListBox("LinkedOptions", ViewBag.LinkedOptions as MultiSelectList, new { @id = "LinkedOptions", @class = "form-control chosen-select4", style = "width:200px;" })
+
+
     <a class="btn btn-warning glyphicon glyphicon-filter" id="btnFilter"></a>
     <a class="btn btn-danger glyphicon glyphicon-refresh" id="btnReset"></a>
 
@@ -103,15 +107,17 @@
     
 @*Hidden Fields*@
 <input type="hidden" name="Options" id="Options" />
+    <input type="hidden" name="OptionsIds" id="OptionsIds" />
 
 
 	@* Render Filter box before Showing the Cards *@
+    <script> $('#LinkedOptions').chosen(); </script>
 	<script> $('#multiSearch').chosen(); </script>
 	@* ------------------------------------------ *@
 
 
     <h5>Data Center</h5>
-    @foreach (var dc in Model.OrderBy(r => r.DataCenter).Select(a => a.DataCenter).Distinct())
+    @foreach (var dc in Model.OrderBy(r => r.ServerFarm.DataCenter).Select(a => a.ServerFarm.DataCenter).Distinct())
     {
         if (!string.IsNullOrEmpty(dc))
         {
@@ -143,7 +149,7 @@
     <hr />
 
     <h5>Deployed Version</h5>
-    @foreach (var ver in Model.OrderBy(r => r.DeployedVersion).Select(a => a.DeployedVersion).Distinct())
+    @foreach (var ver in Model.OrderBy(r => r.ServerFarm.DeployedVersion).Select(a => a.ServerFarm.DeployedVersion).Distinct())
     {
         if (!string.IsNullOrEmpty(ver))
         {
@@ -158,7 +164,7 @@
     }
     <hr />
     <h5>Account</h5>
-    @foreach (var acc in Model.OrderBy(r => r.AccountName).Select(a => a.AccountName).Distinct())
+    @foreach (var acc in Model.OrderBy(r => r.ServerFarm.account.Name).Select(a => a.ServerFarm.account.Name).Distinct())
     {
         if (!string.IsNullOrEmpty(acc))
         {
@@ -206,9 +212,11 @@
                                 <a class="card-title" style="color:cornflowerblue" href="/datasources/details/@item.Id" >@item.Name</a>
                                 <p class="card-text">
                                     @item.Description <br />
-                                    <b>GUID:</b> <br /> @item.GUID <br />
+                                    @*<b>GUID:</b> <br /> @item.GUID <br />*@
                                     <b>Status:</b> @item.Status <br />
+                                    <b>Purpose:</b> @item.Purpose <br />
                                     <b>Monitored?:</b> @item.Monitored <br />
+                                    
                                 </p>
                             </div>
                             <br />
@@ -242,15 +250,15 @@
                             <div style="overflow-y:auto">
 
                                 <p class="card-text" style="margin-left: 20px; margin-right: 20px;">
-                                    <b>Server Farm Name:</b> <br /> <a href="/servers/details/@item.ServerFarm.Id">@item.serverName </a> <br />
-                                    <b>FQDN:</b> @item.FQDN <br />
-                                    <b>Data Center:</b> @item.DataCenter <br />
-                                    <b>Deployed Version:</b> @item.DeployedVersion <br />
+                                    <b>Server Farm Name:</b> <br /> <a href="/servers/details/@item.ServerFarm.Id">@item.ServerFarm.Name </a> <br />
+                                    <b>FQDN:</b> @item.ServerFarm.FQDN <br />
+                                    <b>Data Center:</b> @item.ServerFarm.DataCenter <br />
+                                    <b>Deployed Version:</b> @item.ServerFarm.DeployedVersion <br />
 
                                     <br />
                                 </p>
                                 <p class="card-text" style="margin-left: 20px; margin-right: 20px;">
-                                    <b>Account Name:</b> <a href="/accounts/details/@item.ServerFarm.account.Id">@item.AccountName<br /></a>
+                                    <b>Account Name:</b> <a href="/accounts/details/@item.ServerFarm.account.Id">@item.ServerFarm.account.Name<br /></a>
                                     <br />
                                 </p>
                             </div>
@@ -373,5 +381,16 @@
         window.location = "/datasources/Index?Options=" + selectedDimensionValues;
     });
 
+    $('#btnFilter').on("click", function (event, params) {
+        var selectedDimensionValues = [];
+        //push the selected Values to the Hidden iput tags - Softwares
+        $("#LinkedOptions :selected").each(function () {
+            selectedDimensionValues.push($(this).text());
+        });
+
+        $("#OptionsIds").val(selectedDimensionValues);
+
+        window.location = "/datasources/Index?Options=" + selectedDimensionValues;
+    });
 </script>
 

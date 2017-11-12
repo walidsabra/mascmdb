@@ -358,6 +358,14 @@
     <Compile Include="Migrations\201711090948333_Auth.Designer.cs">
       <DependentUpon>201711090948333_Auth.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711120417420_DScOLS.cs" />
+    <Compile Include="Migrations\201711120417420_DScOLS.Designer.cs">
+      <DependentUpon>201711120417420_DScOLS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711120446069_Server.cs" />
+    <Compile Include="Migrations\201711120446069_Server.Designer.cs">
+      <DependentUpon>201711120446069_Server.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\account.cs" />
     <Compile Include="Models\AdAuthenticationService.cs" />
@@ -367,6 +375,7 @@
     <Compile Include="Models\ContactLinks.cs" />
     <Compile Include="Models\datasource.cs" />
     <Compile Include="Models\PickList.cs" />
+    <Compile Include="Models\Server.cs" />
     <Compile Include="Models\serverFarms.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -660,6 +669,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711090948333_Auth.resx">
       <DependentUpon>201711090948333_Auth.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711120417420_DScOLS.resx">
+      <DependentUpon>201711120417420_DScOLS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711120446069_Server.resx">
+      <DependentUpon>201711120446069_Server.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

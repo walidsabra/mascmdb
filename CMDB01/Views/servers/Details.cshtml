@@ -37,6 +37,13 @@
             </dd>
 
             <dt>
+                @Html.DisplayNameFor(model => model.DeployId)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DeployId)
+            </dd>
+            <dt>
                 @Html.DisplayNameFor(model => model.FQDN)
             </dt>
 
@@ -140,9 +147,10 @@
             <col width="65">
 
             <tr>
-                <td><a>@Model.ActiveUsers7Days <br /> <p style="font-size:6px">File Space</p></a></td>
-                <td><a>@Model.ActiveUsers30Days <br /><p style="font-size:6px">Provisioned Space</p></a></td>
-                <td><a>@Model.ActiveUsers90Days <br /><p style="font-size:6px">Free Space %</p></a></td>
+                <td><a>@Model.FileStorageSpace <br /> <p style="font-size:6px">File Space</p></a></td>
+                <td><a>@Model.ProvisionedStorageSpace <br /><p style="font-size:6px">Provisioned Space</p></a></td>
+                <td><a>@Model.FreeStoragePercent <br /><p style="font-size:6px">Free Space %</p></a></td>
+                <td><a>@Model.FreeStorageSpaceMB <br /><p style="font-size:6px">Free Space MB</p></a></td>
             </tr>
         </table>
     </div>
@@ -156,6 +164,9 @@
             </a>
             <a rel="tooltip" title="Web Service Gateway URL" href="@Model.WebServiceGatewayURL" target="_blank">
                 <i class="glyphicon glyphicon-link"></i>
+            </a>
+            <a rel="tooltip" title="Monitoring URL" href="@Model.MonitoringLink" target="_blank">
+                <i class="glyphicon glyphicon-eye-open"></i>
             </a>
         </div>
     </div>
