@@ -10,165 +10,166 @@ using CMDB01.Models;
 
 namespace CMDB01.Controllers
 {
-	public class datasourcesController : Controller
-	{
-		private CMDB db = new CMDB();
+    public class datasourcesController : Controller
+    {
+        private CMDB db = new CMDB();
 
         // GET: datasources
         [Authorize]
-        public ActionResult Index(string SearchValue, string dc, string dv, string acc, string StartWith, string dsST, string Options, string Opti)
-
+        public ActionResult Index(string SearchValue, string dc, string dv, string acc, string StartWith, string dsST, string Options)
         {
-            //-----
-            //ViewBag.FilterList
 
+            List<datasource> lsDC = null, lsDV = null, lsACC = null, lsST = null, lsSW = null, lsSV = null;
+            List<datasource> lsDSs = new List<datasource>();
 
-            //Status List
             List<SelectListItem> mlist = new List<SelectListItem>();
             SelectListGroup DCg = new SelectListGroup { Name = "Data Center" };
             SelectListGroup STg = new SelectListGroup { Name = "Status" };
             SelectListGroup DVg = new SelectListGroup { Name = "Deployed Version" };
             SelectListGroup ACCg = new SelectListGroup { Name = "Account" };
 
-  
+            if (!string.IsNullOrEmpty(Options))
+            {
+                //filter the db context
+            }
+            else
+            {
+                Options = "";
+            }
+
+            string[] STs = db.datasources.Select(a => a.Status).Distinct().ToArray();
+            string[] DCs = db.datasources.Select(a => a.ServerFarm.DataCenter).Distinct().ToArray();
+            string[] DVs = db.datasources.Select(a => a.ServerFarm.DeployedVersion).Distinct().ToArray();
+            string[] ACCs = db.datasources.Select(a => a.ServerFarm.account.Name).Distinct().ToArray();
 
 
+            //Status             
+            foreach (var st in STs)
+            {
+                bool Sel = false;
+                string key = "null";
+                if (!string.IsNullOrEmpty(st)) { key = st; }
+                if (Options.Contains(key)) { Sel = true; }
 
-                //Status 
-                var StatusList = db.datasources.OrderBy(a => a.Status).GroupBy(a => a.Status);
-                foreach (var st in StatusList)
+                SelectListItem li = new SelectListItem
                 {
-                    bool Sel = false;
-                    string key = "null";
-                    if (!string.IsNullOrEmpty(st.Key)) {key = st.Key;}                   
-                    if (Options.Contains(key)) { Sel = true;}
-
-                    SelectListItem li = new SelectListItem
-                    {
-                        Value = key,
-                        Text = key,
-                        Selected = Sel,
-                        Group = STg
-                    };
-                    mlist.Add(li);
+                    Value = key,
+                    Text = key,
+                    Selected = Sel,
+                    Group = STg
                 };
+                mlist.Add(li);
+            };
 
-                //Data Center 
-                var DCList = db.datasources.OrderBy(a => a.ServerFarm.DataCenter).GroupBy(a => a.ServerFarm.DataCenter);
-                foreach (var st in DCList)
+            //Data Center                 
+            foreach (var st in DCs)
+            {
+                bool Sel = false;
+                string key = "null";
+                if (!string.IsNullOrEmpty(st)) { key = st; }
+                if (Options.Contains(key)) { Sel = true; }
+                SelectListItem li = new SelectListItem
                 {
-                    bool Sel = false;
-                    string key = "null";
-                    if (!string.IsNullOrEmpty(st.Key)) { key = st.Key; }
-                    if (Options.Contains(key)) { Sel = true; }
-                    SelectListItem li = new SelectListItem
-                    {
-                        Value = key,
-                        Text = key,
-                        Selected = Sel,
-                        Group = DCg
-                    };
-                    mlist.Add(li);
+                    Value = key,
+                    Text = key,
+                    Selected = Sel,
+                    Group = DCg
                 };
+                mlist.Add(li);
+            };
 
-                //Deployed Version
-                var DVList = db.datasources.OrderBy(a => a.ServerFarm.DeployedVersion).GroupBy(a => a.ServerFarm.DeployedVersion);
-                foreach (var st in DVList)
+            //Deployed Version
+            foreach (var st in DVs)
+            {
+                bool Sel = false;
+                string key = "null";
+                if (!string.IsNullOrEmpty(st)) { key = st; }
+                if (Options.Contains(key)) { Sel = true; }
+                SelectListItem li = new SelectListItem
                 {
-                    bool Sel = false;
-                    string key = "null";
-                    if (!string.IsNullOrEmpty(st.Key)) { key = st.Key; }
-                    if (Options.Contains(key)) { Sel = true; }
-                    SelectListItem li = new SelectListItem
-                    {
-                        Value = key,
-                        Text = key,
-                        Selected = Sel,
-                        Group = DVg
-                    };
-                    mlist.Add(li);
+                    Value = key,
+                    Text = key,
+                    Selected = Sel,
+                    Group = DVg
                 };
+                mlist.Add(li);
+            };
 
-                //Account
-                var ACCList = db.datasources.OrderBy(a => a.ServerFarm.account.Name).GroupBy(a => a.ServerFarm.account.Name);
-                foreach (var st in ACCList)
+            //Account
+            foreach (var st in ACCs)
+            {
+                bool Sel = false;
+                string key = "null";
+                if (!string.IsNullOrEmpty(st)) { key = st; }
+                if (Options.Contains(key)) { Sel = true; }
+                SelectListItem li = new SelectListItem
                 {
-                    bool Sel = false;
-                    string key = "null";
-                    if (!string.IsNullOrEmpty(st.Key)) { key = st.Key; }
-                    if (Options.Contains(key)) { Sel = true; }
-                    SelectListItem li = new SelectListItem
-                    {
-                        Value = key,
-                        Text = key,
-                        Selected = Sel,
-                        Group = ACCg
-                    };
-                    mlist.Add(li);
+                    Value = key,
+                    Text = key,
+                    Selected = Sel,
+                    Group = ACCg
                 };
+                mlist.Add(li);
+            };
+
+            ViewBag.LinkedOptions = mlist.ToList();
 
 
-                ViewBag.LinkedOptions = mlist.ToList();
- 
-
-
-
-
-            //-----
-            List<datasource> lsDC=null, lsDV=null, lsACC=null, lsST=null, lsSW=null, lsSV = null;           
-            List<datasource> lsDSs= new List<datasource>();
             if (!string.IsNullOrEmpty(Options))
             {
                 string[] ops = Options.Split(',');
-                if (!string.IsNullOrEmpty( ops.First()))
+                if (!string.IsNullOrEmpty(ops.First()))
                 {
                     foreach (string opt in ops)
                     {
-                        if (opt.StartsWith("dc"))
+                        //Process the single Option here
+                        if (DCs.Contains(opt))
                         {
                             if (!string.IsNullOrEmpty(dc))
                             {
-                                dc = dc + ',' + opt.Substring(3, opt.Length - 3);
+                                dc = dc + "," + opt;
                             }
                             else
                             {
-                                dc = opt.Substring(3, opt.Length - 3);
+                                dc = opt;
                             }
-                            
-
+                            continue;
                         }
-                        if (opt.StartsWith("dv"))
+                        if (DVs.Contains(opt))
                         {
-                            if(!string.IsNullOrEmpty(dv))
+                            if (!string.IsNullOrEmpty(dv))
                             {
-                                dv = dv + ',' + opt.Substring(3, opt.Length - 3);
+                                dv = dv + "," + opt;
                             }
                             else
                             {
-                                dv = opt.Substring(3, opt.Length - 3);
+                                dv = opt;
                             }
+                            continue;
                         }
-                        if (opt.StartsWith("acc"))
+                        if (STs.Contains(opt))
                         {
-                            if(!string.IsNullOrEmpty(acc))
+                            if (!string.IsNullOrEmpty(dsST))
                             {
-                                acc = acc + ',' + opt.Substring(4, opt.Length - 4);
+                                dsST = dsST + "," + opt;
                             }
                             else
                             {
-                                acc = opt.Substring(4, opt.Length - 4);
+                                dsST = opt;
                             }
+                            continue;
                         }
-                        if (opt.StartsWith("dsST"))
+                        if (ACCs.Contains(opt))
                         {
-                            if(!string.IsNullOrEmpty(dsST))
+                            if (!string.IsNullOrEmpty(acc))
                             {
-                                dsST = dsST + ',' + opt.Substring(5, opt.Length - 5);
+                                acc = acc + "," + opt;
                             }
                             else
                             {
-                                dsST = opt.Substring(5, opt.Length - 5);
+                                acc = opt;
                             }
+                            continue;
                         }
                     }
                 }
@@ -242,7 +243,7 @@ namespace CMDB01.Controllers
             {
                 string[] stLst = dsST.Split(',');
 
-                if(dsST.Count() > 1)
+                if (dsST.Count() > 1)
                 {
                     lsST = db.datasources.Where(a => stLst.Contains(a.Status)).ToList();
                 }
@@ -259,7 +260,7 @@ namespace CMDB01.Controllers
                 }
             }
             if (!string.IsNullOrEmpty(StartWith))
-            {            
+            {
                 lsSW = db.datasources.Where(x => x.Name.StartsWith(StartWith)).ToList();
             }
             if (string.IsNullOrEmpty(SearchValue) && string.IsNullOrEmpty(dc) && string.IsNullOrEmpty(dv) && string.IsNullOrEmpty(acc) && string.IsNullOrEmpty(StartWith) && string.IsNullOrEmpty(dsST))
@@ -286,7 +287,7 @@ namespace CMDB01.Controllers
                 else
                 {
                     lsDSs = lsDSs.Union(lsSW).ToList();
-                }              
+                }
             }
             if (lsSV != null)
             {
@@ -297,7 +298,7 @@ namespace CMDB01.Controllers
                 else
                 {
                     lsDSs = lsDSs.Union(lsSV).ToList();
-                }              
+                }
             }
             if (lsST != null)
             {
@@ -308,7 +309,7 @@ namespace CMDB01.Controllers
                 else
                 {
                     lsDSs = lsDSs.Union(lsST).ToList();
-                }               
+                }
             }
             if (lsDV != null)
             {
@@ -319,7 +320,7 @@ namespace CMDB01.Controllers
                 else
                 {
                     lsDSs = lsDSs.Union(lsDV).ToList();
-                }              
+                }
             }
             if (lsDC != null)
             {
@@ -330,7 +331,7 @@ namespace CMDB01.Controllers
                 else
                 {
                     lsDSs = lsDSs.Union(lsDC).ToList();
-                }               
+                }
             }
             if (lsACC != null)
             {
@@ -345,23 +346,22 @@ namespace CMDB01.Controllers
             }
 
             return View(lsDSs.ToList());
-		}
+        }
 
-		// GET: datasources/Details/5
-		public ActionResult Details(int? id)
-		{
-			if (id == null)
-			{
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-			}
-			datasource datasource = db.datasources.Find(id);
+        // GET: datasources/Details/5
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            datasource datasource = db.datasources.Find(id);
 
-			//GetDataSourceContacts(datasource);
             //Get DS Comments --------------------------------------------------
             List<comment> cmlistSelectListItems = new List<comment>();
             foreach (comment cm in db.comments
                 .Where(a => a.entity_Id == id && a.entity.ToLower() == "datasource")
-                .OrderByDescending(a=>a.featured==true).ThenByDescending(b=>b.timestamp))
+                .OrderByDescending(a => a.featured == true).ThenByDescending(b => b.timestamp))
             {
                 cmlistSelectListItems.Add(cm);
             }
@@ -369,33 +369,31 @@ namespace CMDB01.Controllers
             //-----------------------------------------------------------------------
 
             if (datasource == null)
-			{
-				return HttpNotFound();
-			}
-			return View(datasource);
+            {
+                return HttpNotFound();
+            }
+            return View(datasource);
 
-				}
+        }
 
-		// GET: datasources/Create
-		public ActionResult Create()
-		{
+        // GET: datasources/Create
+        public ActionResult Create()
+        {
 
-			GetServers();
+            GetServers();
             GetDatasourceEntityTypes();
             GetContacts();
             GetDSStatusList();
 
             return View();
-		}
+        }
 
-
-
-		// POST: datasources/Create
-		// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-		// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult Create([Bind(Include = "Id,Name,Description,GUID,Monitored,Status")] datasource datasource, int serverId, string hdContactsArray)
+        // POST: datasources/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "Id,Name,Description,GUID,Monitored,Status")] datasource datasource, int serverId, string hdContactsArray)
         {
             serverFarms server = db.serverFarms.Where(x => x.Id == serverId).FirstOrDefault();
             datasource.ServerFarm = server;
@@ -409,7 +407,7 @@ namespace CMDB01.Controllers
 
             //	datasource.dcontacts = contacts;
             //}
-            
+
 
             if (ModelState.IsValid)
             {
@@ -420,6 +418,240 @@ namespace CMDB01.Controllers
             }
 
             return View(datasource);
+        }
+
+        // GET: datasources/Edit/5
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            GetContacts();
+            GetDatasourceEntityTypes();
+            GetDSStatusList();
+            datasource datasource = db.datasources.Find(id);
+            if (datasource == null)
+            {
+                return HttpNotFound();
+            }
+            return View(datasource);
+        }
+
+        // POST: datasources/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "Id,Name,Description,GUID,Monitored,Status")] datasource datasource, string hdContactsArray)
+        {
+            if (ModelState.IsValid)
+            {
+                processcontacts(datasource, hdContactsArray, "Edit");
+                db.Entry(datasource).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(datasource);
+        }
+
+        // GET: datasources/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            datasource datasource = db.datasources.Find(id);
+            if (datasource == null)
+            {
+                return HttpNotFound();
+            }
+            return View(datasource);
+        }
+
+        // POST: datasources/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            db.contactlinks.RemoveRange(db.contactlinks.Where(a => a.datasource.Id == id));
+
+            datasource datasource = db.datasources.Find(id);
+            db.datasources.Remove(datasource);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        // GET: accounts/Delete/5
+        public ActionResult DeleteDatasourceContact(int? id)
+        {
+
+            return View();
+        }
+        // POST: accounts/Delete/5
+        [HttpPost, ActionName("DeleteDatasourceContact")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteDatasourceContact(int dsId, int contactId)
+        {
+            try
+            {
+                db.contactlinks.RemoveRange(db.contactlinks.Where(a => a.datasource.Id == dsId && a.contact.Id == contactId));
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return RedirectToAction("Edit", new { Id = dsId });
+        }
+
+
+        #region supporting code 
+        //private void GetDataSourceContacts(datasource datasource)
+        //{
+        //    try
+        //    {
+        //        ////Get Contacts --------------------------------------------------
+        //        //List<SelectListItem> listSelectListItems = new List<SelectListItem>();
+        //        //foreach (contact contact in datasource.contacts)
+        //        //{
+        //        //	SelectListItem selectList = new SelectListItem()
+        //        //	{
+        //        //		Text = contact.Name,
+        //        //		Value = contact.Id.ToString(),
+        //        //		Selected = false
+        //        //	};
+        //        //	listSelectListItems.Add(selectList);
+        //        //}
+        //        //ViewBag.contacts = listSelectListItems;
+        //        ////-----------------------------------------------------------------------
+
+
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        throw;
+        //    }
+        //}
+
+        private void GetDatasourceEntityTypes()
+        {
+            //Get List of DatasourceEntityType ----------------------------------------------
+            List<SelectListItem> listSelectListItems = new List<SelectListItem>();
+
+            foreach (PickList pl in db.PickLists.Where(x => x.PickListName == "DatasourceEntityType").OrderBy(a => a.PickListValue))
+            {
+                SelectListItem selectList = new SelectListItem()
+                {
+                    Text = pl.PickListValue,
+                    Value = pl.Id.ToString(),
+                    Selected = false
+                };
+                listSelectListItems.Add(selectList);
+            }
+            ViewBag.DatasourceEntityTypes = listSelectListItems;
+            //--------------------------------------------------------------------
+        }
+
+        private void GetServers()
+        {
+            try
+            {
+                List<SelectListItem> SlistSelectListItems = new List<SelectListItem>();
+
+                foreach (serverFarms server in db.serverFarms)
+                {
+                    SelectListItem selectList = new SelectListItem()
+                    {
+                        Text = server.Name,
+                        Value = server.Id.ToString(),
+                        Selected = false
+                    };
+                    SlistSelectListItems.Add(selectList);
+                }
+                ViewBag.servers = SlistSelectListItems;
+                //--------------------------------------------------------------------
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private void GetDSStatusList()
+        {
+            //Get List of DatasourceStatus ----------------------------------------------
+            List<SelectListItem> listSelectListItems = new List<SelectListItem>();
+
+            foreach (PickList pl in db.PickLists.Where(x => x.PickListName == "DatasourceStatus").OrderBy(a => a.PickListValue))
+            {
+                SelectListItem selectList = new SelectListItem()
+                {
+                    Text = pl.PickListValue,
+                    Value = pl.Id.ToString(),
+                    Selected = false
+                };
+                listSelectListItems.Add(selectList);
+            }
+            ViewBag.DSStatusList = listSelectListItems;
+            //--------------------------------------------------------------------
+        }
+
+        private void GetContacts()
+        {
+            try
+            {
+                //Get List of Contacts ----------------------------------------------
+                List<SelectListItem> listSelectListItems = new List<SelectListItem>();
+
+                foreach (contact contact in db.contacts.OrderBy(a => a.Name))
+                {
+                    SelectListItem selectList = new SelectListItem()
+                    {
+                        Text = contact.Name,
+                        Value = contact.Id.ToString(),
+                        Selected = false
+                    };
+                    listSelectListItems.Add(selectList);
+                }
+                ViewBag.contacts = listSelectListItems;
+                //--------------------------------------------------------------------
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        [HttpPost]
+        public JsonResult GetComments(int DSId)
+        {
+            if (DSId > 0)
+            {
+                var comments = db.comments
+                               .Where(x => x.entity_Id == DSId && x.entity == "Datasource")
+                               .OrderByDescending(a => a.featured == true).ThenBy(b => b.timestamp)
+                               .ToList();
+
+                return Json(new { ok = true, data = comments, message = "ok" });
+            }
+            else
+            {
+                return null;
+            }
+
         }
 
         private void processcontacts(datasource datasource, string hdContactsArray, string mode)
@@ -478,238 +710,60 @@ namespace CMDB01.Controllers
                 }
             }
         }
-
-        // GET: datasources/Edit/5
-        public ActionResult Edit(int? id)
-		{
-			if (id == null)
-			{
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-			}
-            GetContacts();
-            GetDatasourceEntityTypes();
-            GetDSStatusList();
-            datasource datasource = db.datasources.Find(id);
-			if (datasource == null)
-			{
-				return HttpNotFound();
-			}
-			return View(datasource);
-		}
-
-		// POST: datasources/Edit/5
-		// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-		// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult Edit([Bind(Include = "Id,Name,Description,GUID,Monitored,Status")] datasource datasource, string hdContactsArray)
-		{
-			if (ModelState.IsValid)
-			{
-                processcontacts(datasource, hdContactsArray, "Edit");
-				db.Entry(datasource).State = EntityState.Modified;
-				db.SaveChanges();
-				return RedirectToAction("Index");
-			}
-			return View(datasource);
-		}
-
-		// GET: datasources/Delete/5
-		public ActionResult Delete(int? id)
-		{
-			if (id == null)
-			{
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-			}
-			datasource datasource = db.datasources.Find(id);
-			if (datasource == null)
-			{
-				return HttpNotFound();
-			}
-			return View(datasource);
-		}
-
-		// POST: datasources/Delete/5
-		[HttpPost, ActionName("Delete")]
-		[ValidateAntiForgeryToken]
-		public ActionResult DeleteConfirmed(int id)
-		{
-            db.contactlinks.RemoveRange(db.contactlinks.Where(a => a.datasource.Id == id));
-
-            datasource datasource = db.datasources.Find(id);
-			db.datasources.Remove(datasource);
-			db.SaveChanges();
-			return RedirectToAction("Index");
-		}
-
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing)
-			{
-				db.Dispose();
-			}
-			base.Dispose(disposing);
-		}
-
-		private void GetDataSourceContacts(datasource datasource)
-		{
-			try
-			{
-				////Get Contacts --------------------------------------------------
-				//List<SelectListItem> listSelectListItems = new List<SelectListItem>();
-				//foreach (contact contact in datasource.contacts)
-				//{
-				//	SelectListItem selectList = new SelectListItem()
-				//	{
-				//		Text = contact.Name,
-				//		Value = contact.Id.ToString(),
-				//		Selected = false
-				//	};
-				//	listSelectListItems.Add(selectList);
-				//}
-				//ViewBag.contacts = listSelectListItems;
-				////-----------------------------------------------------------------------
-
-
-			}
-			catch (Exception)
-			{
-
-				throw;
-			}
-		}
-        private void GetDatasourceEntityTypes()
-        {
-            //Get List of DatasourceEntityType ----------------------------------------------
-            List<SelectListItem> listSelectListItems = new List<SelectListItem>();
-
-            foreach (PickList pl in db.PickLists.Where(x => x.PickListName == "DatasourceEntityType").OrderBy(a => a.PickListValue))
-            {
-                SelectListItem selectList = new SelectListItem()
-                {
-                    Text = pl.PickListValue,
-                    Value = pl.Id.ToString(),
-                    Selected = false
-                };
-                listSelectListItems.Add(selectList);
-            }
-            ViewBag.DatasourceEntityTypes = listSelectListItems;
-            //--------------------------------------------------------------------
-        }
-
-        private void GetServers()
-		{
-			try
-			{
-				List<SelectListItem> SlistSelectListItems = new List<SelectListItem>();
-
-				foreach (serverFarms server in db.serverFarms)
-				{
-					SelectListItem selectList = new SelectListItem()
-					{
-						Text = server.Name,
-						Value = server.Id.ToString(),
-						Selected = false
-					};
-					SlistSelectListItems.Add(selectList);
-				}
-				ViewBag.servers = SlistSelectListItems;
-				//--------------------------------------------------------------------
-			}
-			catch (Exception)
-			{
-
-				throw;
-			}
-		}
-
-        private void GetDSStatusList()
-        {
-            //Get List of DatasourceStatus ----------------------------------------------
-            List<SelectListItem> listSelectListItems = new List<SelectListItem>();
-
-            foreach (PickList pl in db.PickLists.Where(x => x.PickListName == "DatasourceStatus").OrderBy(a => a.PickListValue))
-            {
-                SelectListItem selectList = new SelectListItem()
-                {
-                    Text = pl.PickListValue,
-                    Value = pl.Id.ToString(),
-                    Selected = false
-                };
-                listSelectListItems.Add(selectList);
-            }
-            ViewBag.DSStatusList = listSelectListItems;
-            //--------------------------------------------------------------------
-        }
-
-        private void GetContacts()
-		{
-			try
-			{
-				//Get List of Contacts ----------------------------------------------
-				List<SelectListItem> listSelectListItems = new List<SelectListItem>();
-
-				foreach (contact contact in db.contacts.OrderBy(a=>a.Name))
-				{
-					SelectListItem selectList = new SelectListItem()
-					{
-						Text = contact.Name,
-						Value = contact.Id.ToString(),
-						Selected = false
-					};
-					listSelectListItems.Add(selectList);
-				}
-				ViewBag.contacts = listSelectListItems;
-				//--------------------------------------------------------------------
-			}
-			catch (Exception)
-			{
-
-				throw;
-			}
-		}
-        [HttpPost]
-        public JsonResult GetComments(int DSId)
-        {
-            if (DSId > 0)
-            {
-                var comments = db.comments
-                               .Where(x => x.entity_Id == DSId && x.entity == "Datasource")
-                               .OrderByDescending(a => a.featured == true).ThenBy(b => b.timestamp)
-                               .ToList();
-
-                return Json(new { ok = true, data = comments, message = "ok" });
-            }
-            else
-            {
-                return null;
-            }
-
-        }
-
-
-        // GET: accounts/Delete/5
-        public ActionResult DeleteDatasourceContact(int? id)
-        {
-
-            return View();
-        }
-        // POST: accounts/Delete/5
-        [HttpPost, ActionName("DeleteDatasourceContact")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteDatasourceContact(int dsId, int contactId)
-        {
-            try
-            {
-                db.contactlinks.RemoveRange(db.contactlinks.Where(a => a.datasource.Id == dsId && a.contact.Id == contactId));
-                db.SaveChanges();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            return RedirectToAction("Edit", new { Id = dsId });
-        }
-
+        # endregion
     }
 }
+
+#region old code
+//var StatusList = db.datasources.OrderBy(a => a.Status).GroupBy(a => a.Status);
+//var DCList = db.datasources.OrderBy(a => a.ServerFarm.DataCenter).GroupBy(a => a.ServerFarm.DataCenter);
+//var DVList = db.datasources.OrderBy(a => a.ServerFarm.DeployedVersion).GroupBy(a => a.ServerFarm.DeployedVersion);
+//var ACCList = db.datasources.OrderBy(a => a.ServerFarm.account.Name).GroupBy(a => a.ServerFarm.account.Name);
+
+//if (opt.StartsWith("dc"))
+//{
+//    if (!string.IsNullOrEmpty(dc))
+//    {
+//        dc = dc + ',' + opt.Substring(3, opt.Length - 3);
+//    }
+//    else
+//    {
+//        dc = opt.Substring(3, opt.Length - 3);
+//    }
+
+
+//}
+//if (opt.StartsWith("dv"))
+//{
+//    if(!string.IsNullOrEmpty(dv))
+//    {
+//        dv = dv + ',' + opt.Substring(3, opt.Length - 3);
+//    }
+//    else
+//    {
+//        dv = opt.Substring(3, opt.Length - 3);
+//    }
+//}
+//if (opt.StartsWith("acc"))
+//{
+//    if(!string.IsNullOrEmpty(acc))
+//    {
+//        acc = acc + ',' + opt.Substring(4, opt.Length - 4);
+//    }
+//    else
+//    {
+//        acc = opt.Substring(4, opt.Length - 4);
+//    }
+//}
+//if (opt.StartsWith("dsST"))
+//{
+//    if(!string.IsNullOrEmpty(dsST))
+//    {
+//        dsST = dsST + ',' + opt.Substring(5, opt.Length - 5);
+//    }
+//    else
+//    {
+//        dsST = opt.Substring(5, opt.Length - 5);
+//    }
+//}
+#endregion

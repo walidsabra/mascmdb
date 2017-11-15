@@ -41,63 +41,7 @@
 
 
     <h4>Search...</h4>
-    <select multiple class="form-control chosen-select4" data-placeholder="Select Your Options" id="multiSearch" style="width:300px">
-        <optgroup label="Status">
-            @foreach (var st in Model.OrderBy(r => r.Status).Select(a => a.Status).Distinct())
-            {
-                if (!string.IsNullOrEmpty(st))
-                {
-                    <option value="dsST=@st">@st</option>
-                }
-                else
-                {
-                    <option value="dsST=null">null</option>
-                }
-            }
-        </optgroup>
-        <optgroup label="Data Centers">
-            @foreach (var dc in Model.OrderBy(r => r.ServerFarm.DataCenter).Select(a => a.ServerFarm.DataCenter).Distinct())
-            {
-                if (!string.IsNullOrEmpty(dc))
-                {
-                    <option value="dc=@dc">@dc</option>
-                }
-                else
-                {
-                    <option value="dc=null">null</option>
-                }
-
-            }
-        </optgroup>
-        <optgroup label="Deployed Version">
-            @foreach (var ver in Model.OrderBy(r => r.ServerFarm.DeployedVersion).Select(a => a.ServerFarm.DeployedVersion).Distinct())
-            {
-                if (!string.IsNullOrEmpty(ver))
-                {
-                    <option value="dv=@ver">@ver</option>
-                }
-                else
-                {
-                    <option value="dv=null">null</option>
-                }
-            }
-        </optgroup>
-        <optgroup label="Account">
-            @foreach (var acc in Model.OrderBy(r => r.ServerFarm.account.Name).Select(a => a.ServerFarm.account.Name).Distinct())
-            {
-                if (!string.IsNullOrEmpty(acc))
-                {
-                    <option value="acc=@acc">@acc</option>
-                }
-                else
-                {
-                    <option value="acc=null">null</option>
-                }
-            }
-        </optgroup>
-    </select>
-
-    @Html.ListBox("LinkedOptions", ViewBag.LinkedOptions as MultiSelectList, new { @id = "LinkedOptions", @class = "form-control chosen-select4", style = "width:200px;" })
+    @Html.ListBox("LinkedOptions", ViewBag.LinkedOptions as MultiSelectList, new { @id = "LinkedOptions", @class = "form-control chosen-select4", style = "width:300px;" })
 
 
     <a class="btn btn-warning glyphicon glyphicon-filter" id="btnFilter"></a>
@@ -107,12 +51,12 @@
     
 @*Hidden Fields*@
 <input type="hidden" name="Options" id="Options" />
-    <input type="hidden" name="OptionsIds" id="OptionsIds" />
+    @*<input type="hidden" name="OptionsIds" id="OptionsIds" />*@
 
 
 	@* Render Filter box before Showing the Cards *@
     <script> $('#LinkedOptions').chosen(); </script>
-	<script> $('#multiSearch').chosen(); </script>
+	@*<script> $('#multiSearch').chosen(); </script>*@
 	@* ------------------------------------------ *@
 
 
@@ -369,17 +313,6 @@
     });
 
 
-    $('#btnFilter').on("click", function (event, params) {
-        var selectedDimensionValues = [];
-        //push the selected Values to the Hidden iput tags - Softwares
-        $("#multiSearch :selected").each(function () {
-            selectedDimensionValues.push($(this).val());
-        });
-
-        $("#Options").val(selectedDimensionValues);
-
-        window.location = "/datasources/Index?Options=" + selectedDimensionValues;
-    });
 
     $('#btnFilter').on("click", function (event, params) {
         var selectedDimensionValues = [];
@@ -388,9 +321,78 @@
             selectedDimensionValues.push($(this).text());
         });
 
-        $("#OptionsIds").val(selectedDimensionValues);
+        //$("#OptionsIds").val(selectedDimensionValues);
 
         window.location = "/datasources/Index?Options=" + selectedDimensionValues;
     });
+
+
+    //$('#btnFilter').on("click", function (event, params) {
+    //    var selectedDimensionValues = [];
+    //    //push the selected Values to the Hidden iput tags - Softwares
+    //    $("#multiSearch :selected").each(function () {
+    //        selectedDimensionValues.push($(this).val());
+    //    });
+
+    //    $("#Options").val(selectedDimensionValues);
+
+    //    window.location = "/datasources/Index?Options=" + selectedDimensionValues;
+    //});
 </script>
 
+
+@*<select multiple class="form-control chosen-select4" data-placeholder="Select Your Options" id="multiSearch" style="width:300px">
+        <optgroup label="Status">
+            @foreach (var st in Model.OrderBy(r => r.Status).Select(a => a.Status).Distinct())
+            {
+                if (!string.IsNullOrEmpty(st))
+                {
+                    <option value="dsST=@st">@st</option>
+                }
+                else
+                {
+                    <option value="dsST=null">null</option>
+                }
+            }
+        </optgroup>
+        <optgroup label="Data Centers">
+            @foreach (var dc in Model.OrderBy(r => r.ServerFarm.DataCenter).Select(a => a.ServerFarm.DataCenter).Distinct())
+            {
+                if (!string.IsNullOrEmpty(dc))
+                {
+                    <option value="dc=@dc">@dc</option>
+                }
+                else
+                {
+                    <option value="dc=null">null</option>
+                }
+
+            }
+        </optgroup>
+        <optgroup label="Deployed Version">
+            @foreach (var ver in Model.OrderBy(r => r.ServerFarm.DeployedVersion).Select(a => a.ServerFarm.DeployedVersion).Distinct())
+            {
+                if (!string.IsNullOrEmpty(ver))
+                {
+                    <option value="dv=@ver">@ver</option>
+                }
+                else
+                {
+                    <option value="dv=null">null</option>
+                }
+            }
+        </optgroup>
+        <optgroup label="Account">
+            @foreach (var acc in Model.OrderBy(r => r.ServerFarm.account.Name).Select(a => a.ServerFarm.account.Name).Distinct())
+            {
+                if (!string.IsNullOrEmpty(acc))
+                {
+                    <option value="acc=@acc">@acc</option>
+                }
+                else
+                {
+                    <option value="acc=null">null</option>
+                }
+            }
+        </optgroup>
+    </select>*@

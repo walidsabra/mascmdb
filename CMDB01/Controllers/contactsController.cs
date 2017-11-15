@@ -88,7 +88,7 @@ namespace CMDB01.Controllers
             else if (!string.IsNullOrEmpty(serverfarm) && !string.IsNullOrEmpty(account))
             {
                 lstDatasources = db.datasources
-                 .Where(x => x.ServerFarm.account.Name.ToLower()== account.ToLower() && x.ServerFarm.Name.ToLower() == serverfarm.ToLower())
+                 .Where(x => x.ServerFarm.account.Name.ToLower() == account.ToLower() && x.ServerFarm.Name.ToLower() == serverfarm.ToLower())
                  .OrderBy(a => a.Name).ToList();
             }
             else if (string.IsNullOrEmpty(serverfarm) && !string.IsNullOrEmpty(account))
@@ -158,13 +158,13 @@ namespace CMDB01.Controllers
             //--------------------------------------------------------------------
         }
 
-        //Get List of DataCenters --------------------------------------------------------
+        //Get List of Accounts --------------------------------------------------------
         private void GetAccounts()
         {
             List<account> lstAccounts = new List<account>();
 
-                lstAccounts = db.accounts
-                    .OrderBy(a => a.Name).ToList();
+            lstAccounts = db.accounts
+                .OrderBy(a => a.Name).ToList();
 
             List<SelectListItem> listSelectListItems = new List<SelectListItem>();
 
@@ -184,82 +184,240 @@ namespace CMDB01.Controllers
 
 
         // GET: contacts
-        public ActionResult Index(string SearchValue, string StartWith, string datacenterLst, string accountLst, string serverfarmLst, string datasourceLst)
+        public ActionResult Index(string SearchValue, string StartWith, string datacenterLst, string accountLst, string serverfarmLst, string datasourceLst, string dc, string ds, string acc, string sf, string Options)
         {
             IQueryable<contact> lscontacts;
             List<contact> lstDCs, lstAccs, lstSFs, lstDSs;
-      
+
             GetAccounts();
             GetDataCenters(accountLst);
             GetServerFarms(accountLst, datacenterLst);
             GetDatasources(serverfarmLst, accountLst);
-            
+
+
+            //--New Code Start--
+            List<SelectListItem> mlist = new List<SelectListItem>();
+            SelectListGroup CATg = new SelectListGroup { Name = "Categories" };
+            SelectListGroup ACCg = new SelectListGroup { Name = "Accounts" };
+            SelectListGroup SFg = new SelectListGroup { Name = "Server Farms" };
+            SelectListGroup DSg = new SelectListGroup { Name = "Datasources" };
+            SelectListGroup DCg = new SelectListGroup { Name = "Data Centers" };
+
+            string[] ACCcat = db.contactlinks.Where(a => a.entityType == "Account").Select(b => b.entityCategory).Distinct().ToArray();
+            ACCcat = ACCcat.Select(a => a.Insert(0, "Account - ")).ToArray();
+            string[] SFcat = db.contactlinks.Where(a => a.entityType == "ServerFarm").Select(b => b.entityCategory).Distinct().ToArray();
+            SFcat = SFcat.Select(a => a.Insert(0, "Server Farm - ")).ToArray();
+            string[] DScat = db.contactlinks.Where(a => a.entityType == "Datasource").Select(b => b.entityCategory).Distinct().ToArray();
+            DScat = DScat.Select(a => a.Insert(0, "Datasource - ")).ToArray();
+
+            string[] catLST = ACCcat.Union(SFcat).Union(DScat).ToArray();
+
+            string[] accLST = (from cl in db.contactlinks
+                               join cc in db.accounts on cl.account.Id equals cc.Id
+                               select cc.Name).Distinct().ToArray();
+
+            string[] sfLST = (from cl in db.contactlinks
+                              join cc in db.serverFarms on cl.server.Id equals cc.Id
+                              select cc.Name).Distinct().ToArray();
+
+            string[] dcLST = (from cl in db.contactlinks
+                              join cc in db.serverFarms on cl.server.Id equals cc.Id
+                              select cc.DataCenter).Distinct().ToArray();
+
+            string[] dsLST = (from cl in db.contactlinks
+                              join cc in db.datasources on cl.datasource.Id equals cc.Id
+                              select cc.Name ).Distinct().ToArray();
+
+            if (!string.IsNullOrEmpty(Options))
+            {
+                //filter the db context
+            }
+            else
+            {
+                Options = "";
+            }
+            //Categories             
+            foreach (var st in catLST)
+            {
+                bool Sel = false;
+                string key = "null";
+                if (!string.IsNullOrEmpty(st)) { key = st; }
+                if (Options.Contains(key)) { Sel = true; }
+
+                SelectListItem li = new SelectListItem
+                {
+                    Value = key, //change value to Id later 
+                    Text = key,
+                    Selected = Sel,
+                    Group = CATg
+                };
+                mlist.Add(li);
+            };
+
+            //Accounts             
+            foreach (var st in accLST)
+            {
+                bool Sel = false;
+                string key = "null";
+                if (!string.IsNullOrEmpty(st)) { key = st; }
+                if (Options.Contains(key)) { Sel = true; }
+
+                SelectListItem li = new SelectListItem
+                {
+                    Value = key, //change value to Id later 
+                    Text = key,
+                    Selected = Sel,
+                    Group = ACCg
+                };
+                mlist.Add(li);
+            };
+
+            //Server Farms             
+            foreach (var st in sfLST)
+            {
+                bool Sel = false;
+                string key = "null";
+                if (!string.IsNullOrEmpty(st)) { key = st; }
+                if (Options.Contains(key)) { Sel = true; }
+
+                SelectListItem li = new SelectListItem
+                {
+                    Value = key, //change value to Id later 
+                    Text = key,
+                    Selected = Sel,
+                    Group = SFg
+                };
+                mlist.Add(li);
+            };
+
+            //Data Centers            
+            foreach (var st in dcLST)
+            {
+                bool Sel = false;
+                string key = "null";
+                if (!string.IsNullOrEmpty(st)) { key = st; }
+                if (Options.Contains(key)) { Sel = true; }
+
+                SelectListItem li = new SelectListItem
+                {
+                    Value = key, //change value to Id later 
+                    Text = key,
+                    Selected = Sel,
+                    Group = DCg
+                };
+                mlist.Add(li);
+            };
+
+            //Datasources             
+            foreach (var st in dsLST)
+            {
+                bool Sel = false;
+                string key = "null";
+                if (!string.IsNullOrEmpty(st)) { key = st; }
+                if (Options.Contains(key)) { Sel = true; }
+
+                SelectListItem li = new SelectListItem
+                {
+                    Value = key, //change value to Id later 
+                    Text = key,
+                    Selected = Sel,
+                    Group = DSg
+                };
+                mlist.Add(li);
+            };
+
+            ViewBag.conLinkedOptions = mlist.ToList();
 
             //dc
-            if (!string.IsNullOrEmpty(datacenterLst))
-            {               
+            if (!string.IsNullOrEmpty(Options))
+            {
                 lstDCs = new List<contact>();
-                IQueryable<ContactLinks> lstlnks1 = db.contactlinks.Where(x => x.server.DataCenter.Contains(datacenterLst)).AsQueryable();
+                IQueryable<ContactLinks> lstlnks1 = db.contactlinks.Where(x => Options.Contains(x.datasource.Name) && x.entityType.ToLower() =="datasource").AsQueryable();
+                IQueryable<ContactLinks> lstlnks2 = db.contactlinks.Where(x => Options.Contains(x.server.Name) && x.entityType.ToLower() == "server farm").AsQueryable();
+                IQueryable<ContactLinks> lstlnks3 = db.contactlinks.Where(x => Options.Contains(x.server.DataCenter) && x.entityType.ToLower() == "server farm").AsQueryable();
+                IQueryable<ContactLinks> lstlnks4 = db.contactlinks.Where(x => Options.Contains(x.account.Name) && x.entityType.ToLower() == "account").AsQueryable();
+                IQueryable<ContactLinks> lstlnks5 = db.contactlinks.Where(x => Options.Contains(x.entityCategory)).AsQueryable();
 
-                foreach (var cn in lstlnks1)
+                IQueryable<ContactLinks> lstlnks = lstlnks1.Union(lstlnks2).Union(lstlnks3).Union(lstlnks4).Union(lstlnks5).Distinct().AsQueryable();
+                foreach (var cn in lstlnks)
                 {
                     lstDCs.Add(db.contacts.Where(a => a.Id == cn.contact.Id).FirstOrDefault());
                 }
-            }
+}
             else
             {
                 lstDCs = db.contacts.ToList();
             }
 
-            //acc
-            if (!string.IsNullOrEmpty(accountLst))
-            {
-                lstAccs = new List<contact>();
-                IQueryable<ContactLinks> lstlnks2 = db.contactlinks.Where(x => x.account.Name.Contains(accountLst)).AsQueryable();
+            //--New Code End --
 
-                foreach (var cn in lstlnks2)
-                {
-                    lstAccs.Add(db.contacts.Where(a => a.Id == cn.contact.Id).FirstOrDefault());
-                }
-            }
-            else
-            {
-                lstAccs = db.contacts.ToList();
-            }
 
-            //sf
-            if (!string.IsNullOrEmpty(serverfarmLst))
-            {
-                lstSFs = new List<contact>();
-                IQueryable<ContactLinks> lstlnks3 = db.contactlinks.Where(x => x.server.Name.Contains(serverfarmLst)).AsQueryable();
 
-                foreach (var cn in lstlnks3)
-                {
-                    lstSFs.Add(db.contacts.Where(a => a.Id == cn.contact.Id).FirstOrDefault());
-                }
-            }
-            else
-            {
-                lstSFs = db.contacts.ToList();
-            }
+            ////dc
+            //if (!string.IsNullOrEmpty(datacenterLst))
+            //{               
+            //    lstDCs = new List<contact>();
+            //    IQueryable<ContactLinks> lstlnks1 = db.contactlinks.Where(x => x.server.DataCenter.Contains(datacenterLst)).AsQueryable();
 
-            //ds
-            if (!string.IsNullOrEmpty(datasourceLst))
-            {
-                lstDSs = new List<contact>();
-                IQueryable<ContactLinks> lstlnks4 = db.contactlinks.Where(x => x.datasource.Name.Contains(datasourceLst)).AsQueryable();
+            //    foreach (var cn in lstlnks1)
+            //    {
+            //        lstDCs.Add(db.contacts.Where(a => a.Id == cn.contact.Id).FirstOrDefault());
+            //    }
+            //}
+            //else
+            //{
+            //    lstDCs = db.contacts.ToList();
+            //}
 
-                foreach (var cn in lstlnks4)
-                {
-                    lstDSs.Add(db.contacts.Where(a => a.Id == cn.contact.Id).FirstOrDefault());
-                }
-            }
-            else
-            {
-                lstDSs = db.contacts.ToList();
-            }
+            ////acc
+            //if (!string.IsNullOrEmpty(accountLst))
+            //{
+            //    lstAccs = new List<contact>();
+            //    IQueryable<ContactLinks> lstlnks2 = db.contactlinks.Where(x => x.account.Name.Contains(accountLst)).AsQueryable();
 
-            lscontacts = lstDCs.Intersect(lstAccs).Intersect(lstSFs).Intersect(lstDSs).AsQueryable();
+            //    foreach (var cn in lstlnks2)
+            //    {
+            //        lstAccs.Add(db.contacts.Where(a => a.Id == cn.contact.Id).FirstOrDefault());
+            //    }
+            //}
+            //else
+            //{
+            //    lstAccs = db.contacts.ToList();
+            //}
+
+            ////sf
+            //if (!string.IsNullOrEmpty(serverfarmLst))
+            //{
+            //    lstSFs = new List<contact>();
+            //    IQueryable<ContactLinks> lstlnks3 = db.contactlinks.Where(x => x.server.Name.Contains(serverfarmLst)).AsQueryable();
+
+            //    foreach (var cn in lstlnks3)
+            //    {
+            //        lstSFs.Add(db.contacts.Where(a => a.Id == cn.contact.Id).FirstOrDefault());
+            //    }
+            //}
+            //else
+            //{
+            //    lstSFs = db.contacts.ToList();
+            //}
+
+            ////ds
+            //if (!string.IsNullOrEmpty(datasourceLst))
+            //{
+            //    lstDSs = new List<contact>();
+            //    IQueryable<ContactLinks> lstlnks4 = db.contactlinks.Where(x => x.datasource.Name.Contains(datasourceLst)).AsQueryable();
+
+            //    foreach (var cn in lstlnks4)
+            //    {
+            //        lstDSs.Add(db.contacts.Where(a => a.Id == cn.contact.Id).FirstOrDefault());
+            //    }
+            //}
+            //else
+            //{
+            //    lstDSs = db.contacts.ToList();
+            //}
+
+            //lscontacts = lstDCs.Intersect(lstAccs).Intersect(lstSFs).Intersect(lstDSs).AsQueryable();
 
             if (!string.IsNullOrEmpty(SearchValue))
             {
@@ -277,7 +435,7 @@ namespace CMDB01.Controllers
             }
             
 
-            return View(lscontacts.ToList());
+            return View(lstDCs.Distinct().ToList());
         }
 
         // GET: contacts/Details/5

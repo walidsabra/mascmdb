@@ -4,11 +4,8 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@*<script src="~/Scripts/jquery-1.12.4.js"></script>
-<script src="~/Scripts/bootstrap.min.js"></script>
-<script src="~/Scripts/jquery-1.12.4.min.js"></script>*@
-<link href="~/Content/flipCardS.css" rel="stylesheet" />
 
+<link href="~/Content/flipCardS.css" rel="stylesheet" />
 <link href="~/Content/chosen.min.css" rel="stylesheet" />
 <script src="~/Scripts/chosen.jquery.min.js"></script>
 
@@ -19,7 +16,7 @@
         <p>
             @Html.ActionLink("Create New", "Create")
         </p>
-        
+
     </form>
     <form class="navbar-form navbar-right" role="search">
         <div class="form-group form-inline">
@@ -27,100 +24,34 @@
         </div>
         <a class="btn btn-primary glyphicon glyphicon-search" id="btnSearch"></a>
         <br />
-        
+
         @foreach (var item in Model.OrderBy(x => x.Name).Select(a => a.Name.Substring(0, 1).ToUpper()).Distinct())
         {
             <a href="/servers/index?StartWith=@item">@item</a>
         }
         <a href="/servers/index">...</a>
     </form>
-    
+
 </div>
 <hr />
 
 
 <div class="col-md-3">
     <h4>Search...</h4>
-    <select multiple class="form-control chosen-select4" data-placeholder="Select Your Options" id="multiSearch" style="width:300px">
-        <optgroup label="Status">
-            @foreach (var st in Model.OrderBy(r => r.Status).Select(a => a.Status).Distinct())
-            {
-                if (!string.IsNullOrEmpty(st))
-                {
-                    <option value="sfST=@st">@st</option>
-                }
-                else
-                {
-                    <option value="sfST=null">null</option>
-                }
-            }
-        </optgroup>
-        <optgroup label="Status">
-            @foreach (var prp in Model.OrderBy(r => r.Purpose).Select(a => a.Purpose).Distinct())
-            {
-                if (!string.IsNullOrEmpty(prp))
-                {
-                    <option value="rl=@prp">@prp</option>
-                }
-                else
-                {
-                    <option value="rl=null">null</option>
-                }
-            }
-        </optgroup>
-        <optgroup label="Data Centers">
-            @foreach (var dc in Model.OrderBy(r => r.DataCenter).Select(a => a.DataCenter).Distinct())
-            {
-                if (!string.IsNullOrEmpty(dc))
-                {
-                    <option value="dc=@dc">@dc</option>
-                }
-                else
-                {
-                    <option value="dc=null">null</option>
-                }
+    @Html.ListBox("srvLinkedOptions", ViewBag.srvLinkedOptions as MultiSelectList, new { @id = "srvLinkedOptions", @class = "form-control chosen-select4", style = "width:300px;" })
 
-            }
-        </optgroup>
-        <optgroup label="Deployed Version">
-            @foreach (var ver in Model.OrderBy(r => r.DeployedVersion).Select(a => a.DeployedVersion).Distinct())
-            {
-                if (!string.IsNullOrEmpty(ver))
-                {
-                    <option value="dv=@ver">@ver</option>
-                }
-                else
-                {
-                    <option value="dv=null">null</option>
-                }
-            }
-        </optgroup>
-        <optgroup label="Account">
-            @foreach (var acc in Model.OrderBy(r => r.account.Name).Select(a => a.account.Name).Distinct())
-            {
-                if (!string.IsNullOrEmpty(acc))
-                {
-                    <option value="acc=@acc">@acc</option>
-                }
-                else
-                {
-                    <option value="acc=null">null</option>
-                }
-            }
-        </optgroup>
-    </select>
     <a class="btn btn-warning glyphicon glyphicon-filter" id="btnFilter"></a>
     <a class="btn btn-danger glyphicon glyphicon-refresh" id="btnReset"></a>
-    <span class="count" style="font-size:larger" >
-        <a class="badge">@Model.Count() </a></span>
+    <span class="count" style="font-size:larger">
+        <a class="badge">@Model.Count() </a>
+    </span>
     <hr />
 
     @*Hidden Fields*@
     <input type="hidden" name="Options" id="Options" />
 
-
     @* Render Filter box before Showing the Cards *@
-    <script> $('#multiSearch').chosen(); </script>
+    <script> $('#srvLinkedOptions').chosen(); </script>
     @* ------------------------------------------ *@
 
 
@@ -130,14 +61,11 @@
         if (!string.IsNullOrEmpty(st))
         {
             <span class="badge badge-success">@st</span>
-            @*<a href="/servers/index?sfST=@st">@st</a> <br />*@
         }
         else
         {
             <span class="badge badge-success">null</span>
-            @*<a href="/servers/index?sfST=null">null</a><br />*@
         }
-
     }
     <hr />
     <h5>Deployed Version</h5>
@@ -146,12 +74,10 @@
         if (!string.IsNullOrEmpty(ver))
         {
             <span class="badge badge-success">@ver</span>
-            @*<a href="/servers/index?dv=@ver">@ver</a> <br />*@
         }
         else
         {
             <span class="badge badge-success">null</span>
-            @*<a href="/servers/index?dv=null">null</a><br />*@
         }
     }
     <hr />
@@ -161,12 +87,10 @@
         if (!string.IsNullOrEmpty(purpose))
         {
             <span class="badge badge-success">@purpose</span>
-            @*<a href="/servers/index?rl=@purpose">@purpose</a> <br />*@
         }
         else
         {
             <span class="badge badge-success">null</span>
-            @*<a href="/servers/index?rl=null">null</a> <br />*@
         }
     }
     <hr />
@@ -176,30 +100,23 @@
         if (!string.IsNullOrEmpty(dc))
         {
             <span class="badge badge-success">@dc</span>
-            @*<a href="/servers/index?dc=@dc">@dc</a> <br />*@
         }
         else
         {
             <span class="badge badge-success">null</span>
-            @*<a href="/servers/index?dc=null">null</a><br />*@
         }
-
     }
     <hr />
-
-
     <h5>Account</h5>
     @foreach (var acc in Model.Where(x => x.account != null).OrderBy(r => r.account.Name).Select(a => a.account.Name).Distinct())
     {
         if (!string.IsNullOrEmpty(acc))
         {
             <span class="badge badge-success">@acc</span>
-            @*<a href="/servers/index?acc=@acc">@acc</a> <br />*@
         }
         else
         {
             <span class="badge badge-success">null</span>
-            @*<a href="/servers/index?acc=null">null</a><br />*@
         }
     }
 
@@ -231,7 +148,7 @@
                             </button>
 
                             <br />
-                            <a class="card-title" style="color:cornflowerblue" href="/servers/details/@item.Id" >@item.Name</a>
+                            <a class="card-title" style="color:cornflowerblue" href="/servers/details/@item.Id">@item.Name</a>
                             <div style="margin-left: 10px; margin-right: 10px;">
                                 <p class="card-text">
                                     <b>Data Center:</b><br /> @item.DataCenter <br />
@@ -248,14 +165,14 @@
 
                                     <b>Server Farm IP:</b>  @item.ServerFarmIPAddress <br />
                                     @*<b>Purpose:</b> @item.Purpose <br />
-    <b>Role:</b> @item.Role <br />
-    <b>Architecture:</b> @item.NonTypicalArchitecture <br />
-    <b>Custom SLA:</b> @item.CustomSLA <br />*@
+                                        <b>Role:</b> @item.Role <br />
+                                        <b>Architecture:</b> @item.NonTypicalArchitecture <br />
+                                        <b>Custom SLA:</b> @item.CustomSLA <br />*@
                                 </p>
                             </div>
                             <div class="text-center">
                                 <div class="card-text" style="color:coral">
-                                    <a rel="tooltip" title="Web Server URL" href="@item.WebServerURL" >
+                                    <a rel="tooltip" title="Web Server URL" href="@item.WebServerURL">
                                         <i class="glyphicon glyphicon-globe"></i>
                                     </a>
                                     <a rel="tooltip" title="Web Service Gateway URL" href="@item.WebServiceGatewayURL">
@@ -281,14 +198,14 @@
 
                             <b>Server Contacts:</b> <br />
 
-                            @foreach (var cn in @item.ServerContacts.Select( a => new { a.contact.Name, a.contact.email}).Distinct())
+                            @foreach (var cn in @item.ServerContacts.Select(a => new { a.contact.Name, a.contact.email }).Distinct())
                             {
                                 <a title="Email" href="mailto:@cn.email">
                                     <i class="glyphicon glyphicon-envelope"></i>
                                 </a>
                                 <i class="glyphicon glyphicon-phone"></i>
-                                            @cn.Name
-                                            <br />
+                                @cn.Name
+                                <br />
                             }
                             <br />
 
@@ -309,8 +226,6 @@
                                         <i class="glyphicon glyphicon-info-sign"></i>
                                     </a>
                                 }
-
-
                                 @ds.Name
                                 <br />
                             }
@@ -339,8 +254,7 @@
 
                 </div>
                 <table id="ccc" class="table table-bordered">
-                    <tr>
-                    </tr>
+                    <tr></tr>
 
                 </table>
             </div>
@@ -419,20 +333,17 @@
     $('#btnFilter').on("click", function (event, params) {
         var selectedDimensionValues = [];
         //push the selected Values to the Hidden iput tags - Softwares
-        $("#multiSearch :selected").each(function () {
-            selectedDimensionValues.push($(this).val());
+        $("#srvLinkedOptions :selected").each(function () {
+            selectedDimensionValues.push($(this).text());
         });
-
-        $("#Options").val(selectedDimensionValues);
-
-        window.location = "/servers/Index?Options=" + selectedDimensionValues;
+        window.location = "/Servers/Index?Options=" + selectedDimensionValues;
     });
 
     $('.count').each(function () {
         $(this).prop('Counter', 0).animate({
             Counter: $(this).text()
         }, {
-                duration: 4000,
+                duration: 1000,
                 easing: 'swing',
                 step: function (now) {
                     $(this).text(Math.ceil(now));
@@ -441,3 +352,72 @@
     });
 </script>
 
+
+@*<select multiple class="form-control chosen-select4" data-placeholder="Select Your Options" id="multiSearch" style="width:300px">
+        <optgroup label="Status">
+            @foreach (var st in Model.OrderBy(r => r.Status).Select(a => a.Status).Distinct())
+                {
+                    if (!string.IsNullOrEmpty(st))
+                    {
+                    <option value="sfST=@st">@st</option>
+                }
+                else
+                {
+                    <option value="sfST=null">null</option>
+                }
+            }
+        </optgroup>
+        <optgroup label="Purpose">
+            @foreach (var prp in Model.OrderBy(r => r.Purpose).Select(a => a.Purpose).Distinct())
+                {
+                    if (!string.IsNullOrEmpty(prp))
+                    {
+                    <option value="rl=@prp">@prp</option>
+                }
+                else
+                {
+                    <option value="rl=null">null</option>
+                }
+            }
+        </optgroup>
+        <optgroup label="Data Centers">
+            @foreach (var dc in Model.OrderBy(r => r.DataCenter).Select(a => a.DataCenter).Distinct())
+                {
+                    if (!string.IsNullOrEmpty(dc))
+                    {
+                    <option value="dc=@dc">@dc</option>
+                }
+                else
+                {
+                    <option value="dc=null">null</option>
+                }
+
+            }
+        </optgroup>
+        <optgroup label="Deployed Version">
+            @foreach (var ver in Model.OrderBy(r => r.DeployedVersion).Select(a => a.DeployedVersion).Distinct())
+                {
+                    if (!string.IsNullOrEmpty(ver))
+                    {
+                    <option value="dv=@ver">@ver</option>
+                }
+                else
+                {
+                    <option value="dv=null">null</option>
+                }
+            }
+        </optgroup>
+        <optgroup label="Account">
+            @foreach (var acc in Model.OrderBy(r => r.account.Name).Select(a => a.account.Name).Distinct())
+                {
+                    if (!string.IsNullOrEmpty(acc))
+                    {
+                    <option value="acc=@acc">@acc</option>
+                }
+                else
+                {
+                    <option value="acc=null">null</option>
+                }
+            }
+        </optgroup>
+    </select>*@

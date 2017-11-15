@@ -57,6 +57,106 @@ namespace CMDB01.Controllers
         [Authorize]
         public ActionResult Index(string SearchValue, string dc, string dv, string rl, string acc, string StartWith, string sfST, string Options)
         {
+            List<SelectListItem> mlist = new List<SelectListItem>();
+            SelectListGroup DCg = new SelectListGroup { Name = "Data Center" };
+            SelectListGroup STg = new SelectListGroup { Name = "Status" };
+            SelectListGroup PRg = new SelectListGroup { Name = "Purpose" };
+            SelectListGroup DVg = new SelectListGroup { Name = "Deployed Version" };
+            SelectListGroup ACCg = new SelectListGroup { Name = "Account" };
+
+            if (string.IsNullOrEmpty(Options)) { Options = ""; }
+
+            string[] STs = db.serverFarms.Select(a => a.Status).Distinct().ToArray();
+            string[] PRs = db.serverFarms.Select(a => a.Purpose).Distinct().ToArray();
+            string[] DCs = db.serverFarms.Select(a => a.DataCenter).Distinct().ToArray();
+            string[] DVs = db.serverFarms.Select(a => a.DeployedVersion).Distinct().ToArray();
+            string[] ACCs = db.serverFarms.Select(a => a.account.Name).Distinct().ToArray();
+
+            //Status             
+            foreach (var st in STs)
+            {
+                bool Sel = false;
+                string key = "null";
+                if (!string.IsNullOrEmpty(st)) { key = st; }
+                if (Options.Contains(key)) { Sel = true; }
+
+                SelectListItem li = new SelectListItem
+                {
+                    Value = key,
+                    Text = key,
+                    Selected = Sel,
+                    Group = STg
+                };
+                mlist.Add(li);
+            };
+            //Purpose             
+            foreach (var st in PRs)
+            {
+                bool Sel = false;
+                string key = "null";
+                if (!string.IsNullOrEmpty(st)) { key = st; }
+                if (Options.Contains(key)) { Sel = true; }
+
+                SelectListItem li = new SelectListItem
+                {
+                    Value = key,
+                    Text = key,
+                    Selected = Sel,
+                    Group = PRg
+                };
+                mlist.Add(li);
+            };
+            //Data Center                 
+            foreach (var st in DCs)
+            {
+                bool Sel = false;
+                string key = "null";
+                if (!string.IsNullOrEmpty(st)) { key = st; }
+                if (Options.Contains(key)) { Sel = true; }
+                SelectListItem li = new SelectListItem
+                {
+                    Value = key,
+                    Text = key,
+                    Selected = Sel,
+                    Group = DCg
+                };
+                mlist.Add(li);
+            };
+            //Deployed Version
+            foreach (var st in DVs)
+            {
+                bool Sel = false;
+                string key = "null";
+                if (!string.IsNullOrEmpty(st)) { key = st; }
+                if (Options.Contains(key)) { Sel = true; }
+                SelectListItem li = new SelectListItem
+                {
+                    Value = key,
+                    Text = key,
+                    Selected = Sel,
+                    Group = DVg
+                };
+                mlist.Add(li);
+            };
+            //Account
+            foreach (var st in ACCs)
+            {
+                bool Sel = false;
+                string key = "null";
+                if (!string.IsNullOrEmpty(st)) { key = st; }
+                if (Options.Contains(key)) { Sel = true; }
+                SelectListItem li = new SelectListItem
+                {
+                    Value = key,
+                    Text = key,
+                    Selected = Sel,
+                    Group = ACCg
+                };
+                mlist.Add(li);
+            };
+
+            ViewBag.srvLinkedOptions = mlist.ToList();
+
             List<serverFarms> lsDC = null, lsDV = null, lsACC = null, lsST = null, lsSW = null, lsSV = null, lsPRP = null;
             List<serverFarms> lsServers = new List<serverFarms>();
             if (!string.IsNullOrEmpty(Options))
@@ -66,73 +166,80 @@ namespace CMDB01.Controllers
                 {
                     foreach (string opt in ops)
                     {
-                        if (opt.StartsWith("dc"))
+                        //Process the single Option here
+                        if (DCs.Contains(opt))
                         {
                             if (!string.IsNullOrEmpty(dc))
                             {
-                                dc = dc + ',' + opt.Substring(3, opt.Length - 3);
+                                dc = dc + "," + opt;
                             }
                             else
                             {
-                                dc = opt.Substring(3, opt.Length - 3);
+                                dc = opt;
                             }
-
-
+                            continue;
                         }
-                        if (opt.StartsWith("dv"))
+                        if (DVs.Contains(opt))
                         {
                             if (!string.IsNullOrEmpty(dv))
                             {
-                                dv = dv + ',' + opt.Substring(3, opt.Length - 3);
+                                dv = dv + "," + opt;
                             }
                             else
                             {
-                                dv = opt.Substring(3, opt.Length - 3);
+                                dv = opt;
                             }
+                            continue;
                         }
-                        if (opt.StartsWith("acc"))
-                        {
-                            if (!string.IsNullOrEmpty(acc))
-                            {
-                                acc = acc + ',' + opt.Substring(4, opt.Length - 4);
-                            }
-                            else
-                            {
-                                acc = opt.Substring(4, opt.Length - 4);
-                            }
-                        }
-                        if (opt.StartsWith("sfST"))
+                        if (STs.Contains(opt))
                         {
                             if (!string.IsNullOrEmpty(sfST))
                             {
-                                sfST = sfST + ',' + opt.Substring(5, opt.Length - 5);
+                                sfST = sfST + "," + opt;
                             }
                             else
                             {
-                                sfST = opt.Substring(5, opt.Length - 5);
+                                sfST = opt;
                             }
+                            continue;
                         }
-                        if (opt.StartsWith("rl"))
+                        if (ACCs.Contains(opt))
+                        {
+                            if (!string.IsNullOrEmpty(acc))
+                            {
+                                acc = acc + "," + opt;
+                            }
+                            else
+                            {
+                                acc = opt;
+                            }
+                            continue;
+                        }
+                        if (PRs.Contains(opt))
                         {
                             if (!string.IsNullOrEmpty(rl))
                             {
-                                rl = rl + ',' + opt.Substring(3, opt.Length - 3);
+                                rl = rl + "," + opt;
                             }
                             else
                             {
-                                rl = opt.Substring(3, opt.Length - 3);
+                                rl = opt;
                             }
+                            continue;
                         }
+
                     }
                 }
 
             }
             if (!string.IsNullOrEmpty(SearchValue))
             {
-                lsSW = db.serverFarms.Where(x=>x.Name.Contains(SearchValue)).ToList();
+                List<serverFarms> ls1 = null, ls2 = null;
+                ls1 = db.serverFarms.Where(x => x.Name.Contains(SearchValue)).ToList();
                 //search in many places here
                 //----
-
+                ls2 = db.serverFarms.Where(a => a.DeployId.Contains(SearchValue)).ToList();
+                lsSW = ls1.Union(ls2).ToList();
             }
             if (!string.IsNullOrEmpty(dc))
             {
@@ -234,9 +341,9 @@ namespace CMDB01.Controllers
                 }
             }
             if (!string.IsNullOrEmpty(StartWith))
-                {
-                    lsSW = db.serverFarms.Where(x => x.Name.StartsWith(StartWith)).ToList();
-                }
+            {
+                lsSW = db.serverFarms.Where(x => x.Name.StartsWith(StartWith)).ToList();
+            }
             if (string.IsNullOrEmpty(SearchValue) && string.IsNullOrEmpty(dc) && string.IsNullOrEmpty(dv) && string.IsNullOrEmpty(acc) && string.IsNullOrEmpty(StartWith) && string.IsNullOrEmpty(sfST) && string.IsNullOrEmpty(rl))
             {
                 lsServers = db.serverFarms.ToList();
@@ -351,8 +458,8 @@ namespace CMDB01.Controllers
             //Get Server Comments --------------------------------------------------
             List<comment> cmlistSelectListItems = new List<comment>();
             foreach (comment cm in db.comments
-                .Where(a=>a.entity_Id == id && a.entity.ToLower() == "server")
-                .OrderByDescending(a=>a.featured== true).ThenByDescending(b=>b.timestamp))
+                .Where(a => a.entity_Id == id && a.entity.ToLower() == "server")
+                .OrderByDescending(a => a.featured == true).ThenByDescending(b => b.timestamp))
             {
                 cmlistSelectListItems.Add(cm);
             }
@@ -439,13 +546,13 @@ namespace CMDB01.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,DataCenter,DeployedVersion,FQDN,Architecture,Purpose,Status")] serverFarms server, string hdContactsArray, int accountId)
+        public ActionResult Create([Bind(Include = "Id,Name,DataCenter,DeployedVersion,FQDN,Architecture,Purpose,Status,DeployId")] serverFarms server, string hdContactsArray, int accountId)
         {
             if (ModelState.IsValid)
             {
                 account account = db.accounts.Where(x => x.Id == accountId).FirstOrDefault();
                 server.account = account;
-                ProcessContacts(server, hdContactsArray,"Create");
+                ProcessContacts(server, hdContactsArray, "Create");
 
                 db.serverFarms.Add(server);
                 db.SaveChanges();
@@ -528,7 +635,7 @@ namespace CMDB01.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,DataCenter,DeployedVersion,FQDN,Architecture,Purpose,Status")] serverFarms server, string hdContactsArray)
+        public ActionResult Edit([Bind(Include = "Id,Name,DataCenter,DeployedVersion,FQDN,Architecture,Purpose,Status,DeployId")] serverFarms server, string hdContactsArray)
         {
             if (ModelState.IsValid)
             {
@@ -627,6 +734,65 @@ namespace CMDB01.Controllers
             }
 
         }
-       
+
     }
 }
+
+
+//if (opt.StartsWith("dc"))
+//{
+//    if (!string.IsNullOrEmpty(dc))
+//    {
+//        dc = dc + ',' + opt.Substring(3, opt.Length - 3);
+//    }
+//    else
+//    {
+//        dc = opt.Substring(3, opt.Length - 3);
+//    }
+
+
+//}
+//if (opt.StartsWith("dv"))
+//{
+//    if (!string.IsNullOrEmpty(dv))
+//    {
+//        dv = dv + ',' + opt.Substring(3, opt.Length - 3);
+//    }
+//    else
+//    {
+//        dv = opt.Substring(3, opt.Length - 3);
+//    }
+//}
+//if (opt.StartsWith("acc"))
+//{
+//    if (!string.IsNullOrEmpty(acc))
+//    {
+//        acc = acc + ',' + opt.Substring(4, opt.Length - 4);
+//    }
+//    else
+//    {
+//        acc = opt.Substring(4, opt.Length - 4);
+//    }
+//}
+//if (opt.StartsWith("sfST"))
+//{
+//    if (!string.IsNullOrEmpty(sfST))
+//    {
+//        sfST = sfST + ',' + opt.Substring(5, opt.Length - 5);
+//    }
+//    else
+//    {
+//        sfST = opt.Substring(5, opt.Length - 5);
+//    }
+//}
+//if (opt.StartsWith("rl"))
+//{
+//    if (!string.IsNullOrEmpty(rl))
+//    {
+//        rl = rl + ',' + opt.Substring(3, opt.Length - 3);
+//    }
+//    else
+//    {
+//        rl = opt.Substring(3, opt.Length - 3);
+//    }
+//}
