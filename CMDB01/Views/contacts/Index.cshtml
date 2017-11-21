@@ -57,14 +57,12 @@
 
 <div class="row">
     <div class="col-md-3">
-
-
         <h4>Search...</h4>
         @Html.ListBox("conLinkedOptions", ViewBag.conLinkedOptions as MultiSelectList, new { @id = "conLinkedOptions", @class = "form-control chosen-select4", style = "width:300px;" })
 
-
         <a class="btn btn-warning glyphicon glyphicon-filter" id="btnFilter"></a>
         <a class="btn btn-danger glyphicon glyphicon-refresh" id="btnReset"></a>
+        <a class="btn btn-primary glyphicon glyphicon-envelope" id="btnEmail" style="width:70px"></a>
 
         <hr />
 
