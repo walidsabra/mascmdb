@@ -34,47 +34,56 @@
         @* ------------------------------------------ *@
 
         <h5>Account</h5>
-        @foreach (var item in Model)
+        @foreach (var lnk in ViewBag.conLinkedOptions)
         {
-            if (Model.Count() > 0)
+            if (lnk.Group.Name == "Accounts")
             {
-                
-
-                if (item.entityType.ToLower() == "account")
-                {
-                <span class="badge badge-success">@item.account.Name</span>
-                }
-                if (item.entityType.ToLower() == "server farm")
-                {
-                <span class="badge badge-success">@item.server.account.Name</span>
-                }
-                if (item.entityType.ToLower() == "datasource")
-                {
-                <span class="badge badge-success">@item.datasource.ServerFarm.account.Name</span>
-                }
+                <span class="badge badge-success">@lnk.Text</span>
             }
         }
         <hr />
         <h5>Data Center</h5>
+        @foreach (var lnk in ViewBag.conLinkedOptions)
+        {
+            if (lnk.Group.Name == "Data Centers")
+            {
+                <span class="badge badge-success">@lnk.Text</span>
+            }
+        }
         <hr />
         <h5>Server Farm</h5>
+        @foreach (var lnk in ViewBag.conLinkedOptions)
+        {
+            if (lnk.Group.Name == "Server Farms")
+            {
+                <span class="badge badge-success">@lnk.Text</span>
+            }
+        }
         <hr />
         <h5>Datasource</h5>
-        @foreach (var ds in Model.Where(a => a.entityType.ToLower() == "datasource").OrderBy(r => r.datasource.Name).Select(a => a.datasource.Name).Distinct())
+        @foreach (var lnk in ViewBag.conLinkedOptions)
         {
-            if (!string.IsNullOrEmpty(ds))
+            if (lnk.Group.Name == "Datasources")
             {
-                <span class="badge badge-success">@ds</span>
+                <span class="badge badge-success">@lnk.Text</span>
             }
-            else
-            {
-                <span class="badge badge-success">null</span>
-            }
-
         }
         <hr />
         <h5>Category</h5>
+        @foreach (var lnk in ViewBag.conLinkedOptions)
+        {
+            if (lnk.Group.Name == "Categories")
+            {
+                <span class="badge badge-success">@lnk.Text</span>
+            }
+        }
         <hr />
+    </div>
+    <div class="col-md-8">
+        @foreach (var item in ViewBag.cList)
+        {
+
+        }
     </div>
 </div>
 <script>
