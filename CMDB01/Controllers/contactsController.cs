@@ -198,24 +198,6 @@ namespace CMDB01.Controllers
             {
                 //Remove the Prefixes 
 
-                //string[] ops = Options.Split(',');
-                //Options = null;
-                //foreach(string str in ops)
-                //{
-                //    if (str.StartsWith(""))
-                //    {
-
-                //    }
-                //    else if (str.StartsWith(""))
-                //    {
-
-                //    }
-                //    else
-                //    {
-
-                //    }
-                //}
-
 
                 //filter the db context
             }
@@ -386,7 +368,9 @@ namespace CMDB01.Controllers
                     lstDatasources.Distinct();
 
                     //ServerFarm List
-                    List<ContactLinks> linkSF = db.contactlinks.Where(x => x.server.Name == op && x.entityType.ToLower() == "server").ToList();
+                    int opId = db.serverFarms.Where(a => a.Name == op).Select(b => b.Id).FirstOrDefault();
+                    List<ContactLinks> linkSF = db.contactlinks.Where(x => x.server.Name == op && x.entityType.ToLower() == "serverfarm").ToList();
+                    List<ContactLinks> linkSFds = db.contactlinks.Where(x => x.server.Name == op && x.entityType.ToLower() == "datasource").ToList();
                     if (lstServerFarms.Count() > 0)
                     {
                         lstServerFarms = lstServerFarms.Concat(linkSF).ToList();
@@ -465,8 +449,24 @@ namespace CMDB01.Controllers
                     lstCategories.Distinct();
                 }
 
+                IEnumerable<ContactLinks>[] lists = new[] { lstAccounts, lstDataCenters, lstDatasources, lstServerFarms, lstCategories};
 
-                lstDCs = lstCategories.Union(lstAccounts).Union(lstDataCenters).Union(lstDatasources).Union(lstServerFarms).Distinct().ToList();
+                foreach (List<ContactLinks> lst in lists)
+                {
+                    if (lst.Count > 0)
+                    {
+                        if (lstDCs.Count> 0)
+                        {
+                            lst.Intersect(lstDCs); 
+                        }
+                        else
+                        {
+                            lstDCs = lst;
+                        }
+                    }
+                }
+
+                //lstDCs = lstCategories.Union(lstAccounts).Union(lstDataCenters).Union(lstDatasources).Union(lstServerFarms).Distinct().ToList();
 
 
             }
@@ -474,6 +474,8 @@ namespace CMDB01.Controllers
             {
                 lstDCs = db.contactlinks.ToList();
             }
+
+            List<string> emails = new List<string>();
             if (lstDCs.Count() > 0)
             {
                 foreach (var cn in lstDCs)
@@ -484,14 +486,22 @@ namespace CMDB01.Controllers
                         Name = cn.contact.Name,
                         email = cn.contact.email
                     };
-                    clist.Add(li);
+                    if(!clist.Any(a=>a.Id == li.Id))
+                    {
+                        clist.Add(li);
+                    }
+                    emails.Add(cn.contact.email);
+                    
                 }
                 ViewBag.cList = clist.Distinct().ToList();
+                ViewBag.emails = string.Join("; ", emails.Distinct().ToList());
             }
 
 
             return View(lstDCs);
         }
+
+
         // GET: contacts
         public ActionResult Index(string SearchValue, string StartWith, string datacenterLst, string accountLst, string serverfarmLst, string datasourceLst, string dc, string ds, string acc, string sf, string Options)
         {

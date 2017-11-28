@@ -19,7 +19,7 @@
 
         <a class="btn btn-warning glyphicon glyphicon-filter" id="btnFilter"></a>
         <a class="btn btn-danger glyphicon glyphicon-refresh" id="btnReset"></a>
-        <a class="btn btn-primary glyphicon glyphicon-envelope" id="btnEmail" style="width:70px"></a>
+        
 
         <hr />
 
@@ -80,9 +80,33 @@
         <hr />
     </div>
     <div class="col-md-8">
-        @foreach (var item in ViewBag.cList)
-        {
+        <h5>List of contacts</h5>
+        <hr />
+        <a class="btn btn-primary glyphicon glyphicon-envelope" id="btnEmail" style="width:70px" href="mailto:@ViewBag.emails"></a>
+        <br /><br />
 
+        @if (ViewBag.cList == null)
+        {
+            <span>No contacts found.</span>
+
+        }
+        else
+        {
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <td><span style="font-weight:bold">Name</span></td>
+                    <td><span style="font-weight:bold">Email</span></td>
+                    <td><span style="font-weight:bold">Id</span></td>
+                </tr>
+                @foreach (var item in ViewBag.cList)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.email</td>
+                        <td>@item.Id</td>
+                    </tr>
+                }
+            </table>
         }
     </div>
 </div>
@@ -97,7 +121,7 @@
 
 
     $("#btnReset").click(function () {
-        window.location = "/contacts/index";
+        window.location = "/contacts/links";
     });
 
     function rotateCard(btn) {
