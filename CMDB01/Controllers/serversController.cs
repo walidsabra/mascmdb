@@ -35,11 +35,11 @@ namespace CMDB01.Controllers
         }
 
         //Get List of Offering ----------------------------------------------
-        private void GetPurpose()
+        private void GetRole()
         {
             List<SelectListItem> listSelectListItems = new List<SelectListItem>();
 
-            foreach (PickList pl in db.PickLists.Where(x => x.PickListName == "Purpose").OrderBy(a => a.PickListValue))
+            foreach (PickList pl in db.PickLists.Where(x => x.PickListName == "Role").OrderBy(a => a.PickListValue))
             {
                 SelectListItem selectList = new SelectListItem()
                 {
@@ -49,25 +49,25 @@ namespace CMDB01.Controllers
                 };
                 listSelectListItems.Add(selectList);
             }
-            ViewBag.Purpose = listSelectListItems;
+            ViewBag.Role = listSelectListItems;
             //--------------------------------------------------------------------
         }
 
         // GET: servers
-        [Authorize]
+        //[Authorize]
         public ActionResult Index(string SearchValue, string dc, string dv, string rl, string acc, string StartWith, string sfST, string Options)
         {
             List<SelectListItem> mlist = new List<SelectListItem>();
             SelectListGroup DCg = new SelectListGroup { Name = "Data Center" };
             SelectListGroup STg = new SelectListGroup { Name = "Status" };
-            SelectListGroup PRg = new SelectListGroup { Name = "Purpose" };
+            SelectListGroup PRg = new SelectListGroup { Name = "Role" };
             SelectListGroup DVg = new SelectListGroup { Name = "Deployed Version" };
             SelectListGroup ACCg = new SelectListGroup { Name = "Account" };
 
             if (string.IsNullOrEmpty(Options)) { Options = ""; }
 
             string[] STs = db.serverFarms.Select(a => a.Status).Distinct().ToArray();
-            string[] PRs = db.serverFarms.Select(a => a.Purpose).Distinct().ToArray();
+            string[] PRs = db.serverFarms.Select(a => a.Role).Distinct().ToArray();
             string[] DCs = db.serverFarms.Select(a => a.DataCenter).Distinct().ToArray();
             string[] DVs = db.serverFarms.Select(a => a.DeployedVersion).Distinct().ToArray();
             string[] ACCs = db.serverFarms.Select(a => a.account.Name).Distinct().ToArray();
@@ -238,7 +238,7 @@ namespace CMDB01.Controllers
                 ls1 = db.serverFarms.Where(x => x.Name.Contains(SearchValue)).ToList();
                 //search in many places here
                 //----
-                ls2 = db.serverFarms.Where(a => a.DeployId.Contains(SearchValue)).ToList();
+                ls2 = db.serverFarms.Where(a => a.DeploymentId.Contains(SearchValue)).ToList();
                 lsSW = ls1.Union(ls2).ToList();
             }
             if (!string.IsNullOrEmpty(dc))
@@ -306,17 +306,17 @@ namespace CMDB01.Controllers
 
                 if (rl.Count() > 1)
                 {
-                    lsPRP = db.serverFarms.Where(a => prpLst.Contains(a.Purpose)).ToList();
+                    lsPRP = db.serverFarms.Where(a => prpLst.Contains(a.Role)).ToList();
                 }
                 else
                 {
                     if (rl == "null")
                     {
-                        lsPRP = db.serverFarms.Where(a => a.Purpose.Equals(null)).ToList();
+                        lsPRP = db.serverFarms.Where(a => a.Role.Equals(null)).ToList();
                     }
                     else
                     {
-                        lsPRP = db.serverFarms.Where(a => a.Purpose.Equals(rl)).ToList();
+                        lsPRP = db.serverFarms.Where(a => a.Role.Equals(rl)).ToList();
                     }
                 }
             }
@@ -479,7 +479,7 @@ namespace CMDB01.Controllers
             GetAccounts();
             GetContacts();
             GetServerFarmEntityTypes();
-            GetPurpose();
+            GetRole();
             GetSFStatusList();
             return View();
         }
@@ -546,7 +546,7 @@ namespace CMDB01.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,DataCenter,DeployedVersion,FQDN,Architecture,Purpose,Status,DeployId")] serverFarms server, string hdContactsArray, int accountId)
+        public ActionResult Create([Bind(Include = "Id,Name,DataCenter,DeployedVersion,FQDN,Architecture,Role,Status,DeploymentId")] serverFarms server, string hdContactsArray, int accountId)
         {
             if (ModelState.IsValid)
             {
@@ -615,7 +615,7 @@ namespace CMDB01.Controllers
         {
             GetContacts();
             GetServerFarmEntityTypes();
-            GetPurpose();
+            GetRole();
             GetSFStatusList();
 
             if (id == null)
@@ -635,7 +635,7 @@ namespace CMDB01.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,DataCenter,DeployedVersion,FQDN,Architecture,Purpose,Status,DeployId")] serverFarms server, string hdContactsArray)
+        public ActionResult Edit([Bind(Include = "Id,Name,DataCenter,DeployedVersion,FQDN,Architecture,Role,Status,DeploymentId")] serverFarms server, string hdContactsArray)
         {
             if (ModelState.IsValid)
             {
@@ -723,7 +723,7 @@ namespace CMDB01.Controllers
             {
                 var comments = db.comments
                                .Where(x => x.entity_Id == ServerId && x.entity == "Server")
-                               .OrderByDescending(a => a.featured == true).ThenBy(b => b.timestamp)
+                               .OrderByDescending(a => a.featured == true).ThenByDescending(b => b.timestamp)
                                .ToList();
 
                 return Json(new { ok = true, data = comments, message = "ok" });

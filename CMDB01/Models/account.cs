@@ -24,6 +24,9 @@ namespace CMDB01.Models
         [Display(Name = "IMS")]
         public string RequestIMS { get; set; }  //yes, No, completed
 
+        [Display(Name = "Contract Type")]
+        public string ContractType { get; set; }
+
         //[Display(Name = "Success Admin Level")]
         //public string SuccessAdminLevel { get; set; }
         //[Display(Name = "Link to C4S")]

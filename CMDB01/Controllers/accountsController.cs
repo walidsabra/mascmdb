@@ -20,7 +20,7 @@ namespace CMDB01.Controllers
         {
             List<SelectListItem> listSelectListItems = new List<SelectListItem>();
 
-            foreach (PickList pl in db.PickLists.Where(x => x.PickListName == "AccountStatus").OrderBy(a => a.PickListValue))
+            foreach (PickList pl in db.PickLists.Where(x => x.PickListName.ToLower() == "accountstatus").OrderBy(a => a.PickListValue))
             {
                 SelectListItem selectList = new SelectListItem()
                 {
@@ -34,12 +34,31 @@ namespace CMDB01.Controllers
             //--------------------------------------------------------------------
         }
 
+        //Get List of AccountContractType ----------------------------------------------
+        private void GetAccountContractType()
+        {
+            List<SelectListItem> listSelectListItems = new List<SelectListItem>();
+
+            foreach (PickList pl in db.PickLists.Where(x => x.PickListName.ToLower() == "contracttype").OrderBy(a => a.PickListValue))
+            {
+                SelectListItem selectList = new SelectListItem()
+                {
+                    Text = pl.PickListValue,
+                    Value = pl.Id.ToString(),
+                    Selected = false
+                };
+                listSelectListItems.Add(selectList);
+            }
+            ViewBag.AccountContractType = listSelectListItems;
+        }
+        //--------------------------------------------------------------------
+
         //Get List of IMS --------------------------------------------------------
         private void GetIMS()
         {
             List<SelectListItem> listSelectListItems = new List<SelectListItem>();
 
-            foreach (PickList pl in db.PickLists.Where(x => x.PickListName == "IMS").OrderBy(a => a.PickListValue))
+            foreach (PickList pl in db.PickLists.Where(x => x.PickListName.ToLower() == "ims").OrderBy(a => a.PickListValue))
             {
                 SelectListItem selectList = new SelectListItem()
                 {
@@ -55,7 +74,7 @@ namespace CMDB01.Controllers
 
 
         // GET: accounts
-        [Authorize]
+        //[Authorize]
         public ActionResult Index(string SearchValue, string StartWith, string accST, string bl, string ims)
         {
             IQueryable<account> lstAccounts, lstName, lstUltimate, lstProjector, lstOpportunity;
@@ -150,6 +169,8 @@ namespace CMDB01.Controllers
             GetAccountEntityTypes();
             GetIMS();
             GetAccountStatus();
+            GetAccountContractType();
+
 
             return View();
         }
@@ -159,7 +180,7 @@ namespace CMDB01.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,UltimateId,Status,Opportunity,ProjectorProject,RequestIMS,Billable")] account account, string hdContactsArray)
+        public ActionResult Create([Bind(Include = "Id,Name,UltimateId,Status,Opportunity,ProjectorProject,RequestIMS,Billable,contracttype")] account account, string hdContactsArray)
         {
             if (ModelState.IsValid)
             {
@@ -181,6 +202,8 @@ namespace CMDB01.Controllers
             GetAccountEntityTypes();
             GetIMS();
             GetAccountStatus();
+            GetAccountContractType();
+
 
             if (id == null)
             {
@@ -199,7 +222,7 @@ namespace CMDB01.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,UltimateId,Status,Opportunity,ProjectorProject,RequestIMS,Billable")] account account, string hdContactsArray)
+        public ActionResult Edit([Bind(Include = "Id,Name,UltimateId,Status,Opportunity,ProjectorProject,RequestIMS,Billable,contracttype")] account account, string hdContactsArray)
         {
             if (ModelState.IsValid)
             {
@@ -269,7 +292,7 @@ namespace CMDB01.Controllers
             {
                 var comments = db.comments
                                .Where(x => x.entity_Id == AccountId && x.entity == "Account")
-                               .OrderByDescending(a=> a.featured == true).ThenBy(b=>b.timestamp)
+                               .OrderByDescending(a=> a.featured == true).ThenByDescending(b=>b.timestamp)
                                .ToList();
 
                 return Json(new { ok = true, data = comments, message = "ok" });

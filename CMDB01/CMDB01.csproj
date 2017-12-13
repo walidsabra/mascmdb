@@ -366,6 +366,14 @@
     <Compile Include="Migrations\201711120446069_Server.Designer.cs">
       <DependentUpon>201711120446069_Server.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712120819225_newSFFields.cs" />
+    <Compile Include="Migrations\201712120819225_newSFFields.Designer.cs">
+      <DependentUpon>201712120819225_newSFFields.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712131119178_AccountContractType.cs" />
+    <Compile Include="Migrations\201712131119178_AccountContractType.Designer.cs">
+      <DependentUpon>201712131119178_AccountContractType.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\account.cs" />
     <Compile Include="Models\AdAuthenticationService.cs" />
@@ -444,6 +452,7 @@
     <Content Include="fonts\summernote.eot" />
     <Content Include="fonts\summernote.ttf" />
     <Content Include="fonts\summernote.woff" />
+    <Content Include="ClassDiagram1.cd" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\mascmdb - FTP.pubxml" />
@@ -676,6 +685,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711120446069_Server.resx">
       <DependentUpon>201711120446069_Server.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712120819225_newSFFields.resx">
+      <DependentUpon>201712120819225_newSFFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712131119178_AccountContractType.resx">
+      <DependentUpon>201712131119178_AccountContractType.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

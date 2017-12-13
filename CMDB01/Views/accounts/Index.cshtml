@@ -52,6 +52,19 @@
         }
     }
     <hr />
+    <h4>Contract Type</h4>
+    @foreach (var ct in Model.OrderBy(r => r.ContractType).Select(a => a.ContractType).Distinct())
+    {
+        if (!string.IsNullOrEmpty(ct))
+        {
+            <a href="#">@ct</a> <br />
+        }
+        else
+        {
+            <a href="#">null</a><br />
+        }
+    }
+    <hr />
     <h4>IMS</h4>
     @foreach (var ims in Model.OrderBy(r => r.RequestIMS).Select(a => a.RequestIMS).Distinct())
     {
@@ -110,7 +123,7 @@
                                 <div>
                                     <p class="card-text">
                                         <b>Ultimate Id:</b> @item.UltimateId<br />
-                                        @*<b>Contract Date:</b> @item.ContractDate <br />*@
+                                        <b>Contract Type:</b> @item.ContractType <br />
                                         <b>Status:</b> @item.Status <br />
                                         <b>Opportunity:</b> @item.Opportunity <br />
                                         <b>Projector Project:</b> @item.ProjectorProject <br />

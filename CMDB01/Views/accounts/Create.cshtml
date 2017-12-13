@@ -36,8 +36,16 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.RequestIMS, new SelectList(ViewBag.AccountStatus, "Text", "Text"), "<<< Select >>>", new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.Status, new SelectList(ViewBag.AccountStatus, "Text", "Text"), "<<< Select >>>", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ContractType, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.ContractType, new SelectList(ViewBag.AccountContractType, "Text", "Text"), "<<< Select >>>", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ContractType, "", new { @class = "text-danger" })
             </div>
         </div>
 

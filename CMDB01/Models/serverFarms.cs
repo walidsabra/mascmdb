@@ -21,10 +21,13 @@ namespace CMDB01.Models
         //GoLiveDateSubmitted
         //public string Role { get; set; } 
         public string Architecture { get; set; }
-        public string Purpose { get; set; }  //role
+
+        public string Role { get; set; }  
         public string Status { get; set; }
         public string ServerFarmIPAddress { get; set; }
-        public string DeployId { get; set; }
+
+        [Display(Name = "Deployment Id")]
+        public string DeploymentId { get; set; }
 
 
         //Stats -----------------------------------------------------------
@@ -45,6 +48,11 @@ namespace CMDB01.Models
         public string MonitoringLink { get; set; }
         //-------------------------------------------------------------------
 
+        public string AdminServerFQDN { get; set; }
+        public string SQLServerFQDN { get; set; }
+        public string SQLServerFQDNMirror { get; set; }
+        public string Monitored { get; set; }
+        public string Provider { get; set; }
 
 
 

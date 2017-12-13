@@ -15,7 +15,7 @@ namespace CMDB01.Controllers
         private CMDB db = new CMDB();
 
         // GET: datasources
-        [Authorize]
+       // [Authorize]
         public ActionResult Index(string SearchValue, string dc, string dv, string acc, string StartWith, string dsST, string Options)
         {
 
@@ -642,7 +642,7 @@ namespace CMDB01.Controllers
             {
                 var comments = db.comments
                                .Where(x => x.entity_Id == DSId && x.entity == "Datasource")
-                               .OrderByDescending(a => a.featured == true).ThenBy(b => b.timestamp)
+                               .OrderByDescending(a => a.featured == true).ThenByDescending(b => b.timestamp)
                                .ToList();
 
                 return Json(new { ok = true, data = comments, message = "ok" });

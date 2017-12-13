@@ -81,12 +81,12 @@
         }
     }
     <hr />
-    <h5>Purpose</h5>
-    @foreach (var purpose in Model.OrderBy(r => r.Purpose).Select(a => a.Purpose).Distinct())
+    <h5>Roles</h5>
+    @foreach (var role in Model.OrderBy(r => r.Role).Select(a => a.Role).Distinct())
     {
-        if (!string.IsNullOrEmpty(purpose))
+        if (!string.IsNullOrEmpty(role))
         {
-            <span class="badge badge-success">@purpose</span>
+            <span class="badge badge-success">@role</span>
         }
         else
         {
@@ -158,9 +158,9 @@
                                     <b>Status:</b> @item.Status <br />
 
                                     <b>FQDN:</b><br /> @item.FQDN <br />
-                                    <b>Deploy Id:</b> @item.DeployId <br />
+                                    <b>Deployment Id:</b> @item.DeploymentId <br />
 
-                                    <b>Purpose:</b><br /> @item.Purpose <br />
+                                    <b>Role:</b><br /> @item.Role <br />
                                     <b>Architecture:</b><br /> @item.Architecture <br />
 
                                     <b>Server Farm IP:</b>  @item.ServerFarmIPAddress <br />
