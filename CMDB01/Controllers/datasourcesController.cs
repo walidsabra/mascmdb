@@ -15,7 +15,7 @@ namespace CMDB01.Controllers
         private CMDB db = new CMDB();
 
         // GET: datasources
-       // [Authorize]
+        [Authorize]
         public ActionResult Index(string SearchValue, string dc, string dv, string acc, string StartWith, string dsST, string Options)
         {
 

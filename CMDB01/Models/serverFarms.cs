@@ -17,6 +17,8 @@ namespace CMDB01.Models
         public string DeployedVersion { get; set; } //PW Version
         public string FQDN { get; set; }
         public string NonTypicalArchitecture { get; set; }
+        public string SLA { get; set; }
+        [Display(Name = "Custom SLA")]
         public string CustomSLA { get; set; }
         //GoLiveDateSubmitted
         //public string Role { get; set; } 

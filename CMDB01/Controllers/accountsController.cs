@@ -74,7 +74,7 @@ namespace CMDB01.Controllers
 
 
         // GET: accounts
-        //[Authorize]
+        [Authorize]
         public ActionResult Index(string SearchValue, string StartWith, string accST, string bl, string ims)
         {
             IQueryable<account> lstAccounts, lstName, lstUltimate, lstProjector, lstOpportunity;

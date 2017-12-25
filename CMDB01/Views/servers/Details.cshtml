@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2 style="color:dodgerblue">@Html.DisplayFor(model => model.Name)</h2>
+<h2 style="color:dodgerblue">@Html.DisplayFor(model => model.FQDN)</h2>
 
 <div class="row">
     <hr />
@@ -44,11 +44,11 @@
                 @Html.DisplayFor(model => model.DeploymentId)
             </dd>
             <dt>
-                @Html.DisplayNameFor(model => model.FQDN)
+                @Html.DisplayNameFor(model => model.Name)
             </dt>
 
             <dd>
-                @Html.DisplayFor(model => model.FQDN)
+                @Html.DisplayFor(model => model.Name)
             </dd>
 
             <dt>
@@ -76,11 +76,20 @@
                 @Html.DisplayFor(model => model.NonTypicalArchitecture)
             </dd>
             <dt>
-                @Html.DisplayNameFor(model => model.CustomSLA)
+                @Html.DisplayNameFor(model => model.SLA)
             </dt>
             <dd>
-                @Html.DisplayFor(model => model.CustomSLA)
+                @Html.DisplayFor(model => model.SLA)
             </dd>
+            @if (Model.SLA == "Custom")
+            {
+                <dt>
+                    @Html.DisplayNameFor(model => model.CustomSLA)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.CustomSLA)
+                </dd>
+            }
             <dt>
                 @Html.DisplayName("Account Name")
             </dt>

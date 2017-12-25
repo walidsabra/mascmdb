@@ -148,22 +148,27 @@
                             </button>
 
                             <br />
-                            <a class="card-title" style="color:cornflowerblue" href="/servers/details/@item.Id">@item.Name</a>
+                            <a class="card-title" style="color:cornflowerblue" href="/servers/details/@item.Id">@item.FQDN</a>
                             <div style="margin-left: 10px; margin-right: 10px;">
                                 <p class="card-text">
                                     <b>Data Center:</b><br /> @item.DataCenter <br />
-
                                     <b>Deployed Version:</b><br /> @item.DeployedVersion <br />
-
                                     <b>Status:</b> @item.Status <br />
-
-                                    <b>FQDN:</b><br /> @item.FQDN <br />
+                                    <b>Name:</b>@item.Name <br />
                                     <b>Deployment Id:</b> @item.DeploymentId <br />
-
-                                    <b>Role:</b><br /> @item.Role <br />
-                                    <b>Architecture:</b><br /> @item.Architecture <br />
-
+                                    <b>Role:</b> @item.Role <br />
+                                    <b>Architecture:</b> @item.Architecture <br />
                                     <b>Server Farm IP:</b>  @item.ServerFarmIPAddress <br />
+                                    <b>SLA:</b> @item.SLA 
+                                    @if (@item.SLA == "Custom")
+                                    {
+                                       <span> - </span>  @item.CustomSLA <br />
+                                    }
+                                    else
+                                    {
+                                        <br />
+                                    }
+                                    <b>Monitored:</b> @item.Monitored <br />
                                     @*<b>Purpose:</b> @item.Purpose <br />
                                         <b>Role:</b> @item.Role <br />
                                         <b>Architecture:</b> @item.NonTypicalArchitecture <br />

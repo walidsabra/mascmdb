@@ -374,6 +374,10 @@
     <Compile Include="Migrations\201712131119178_AccountContractType.Designer.cs">
       <DependentUpon>201712131119178_AccountContractType.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712250754171_SLA.cs" />
+    <Compile Include="Migrations\201712250754171_SLA.Designer.cs">
+      <DependentUpon>201712250754171_SLA.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\account.cs" />
     <Compile Include="Models\AdAuthenticationService.cs" />
@@ -691,6 +695,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712131119178_AccountContractType.resx">
       <DependentUpon>201712131119178_AccountContractType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712250754171_SLA.resx">
+      <DependentUpon>201712250754171_SLA.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

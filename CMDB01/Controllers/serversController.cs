@@ -17,7 +17,7 @@ namespace CMDB01.Controllers
 
         private void GetSFStatusList()
         {
-            //Get List of DatasourceStatus ----------------------------------------------
+            //Get List of ServerFarmStatus ----------------------------------------------
             List<SelectListItem> listSelectListItems = new List<SelectListItem>();
 
             foreach (PickList pl in db.PickLists.Where(x => x.PickListName == "ServerFarmStatus").OrderBy(a => a.PickListValue))
@@ -31,6 +31,25 @@ namespace CMDB01.Controllers
                 listSelectListItems.Add(selectList);
             }
             ViewBag.ServerFarmStatus = listSelectListItems;
+            //--------------------------------------------------------------------
+        }
+
+        private void GetSLA()
+        {
+            //Get List of ServerFarmStatus ----------------------------------------------
+            List<SelectListItem> listSelectListItems = new List<SelectListItem>();
+
+            foreach (PickList pl in db.PickLists.Where(x => x.PickListName == "SLA"))
+            {
+                SelectListItem selectList = new SelectListItem()
+                {
+                    Text = pl.PickListValue,
+                    Value = pl.Id.ToString(),
+                    Selected = false
+                };
+                listSelectListItems.Add(selectList);
+            }
+            ViewBag.SLA = listSelectListItems;
             //--------------------------------------------------------------------
         }
 
@@ -54,7 +73,7 @@ namespace CMDB01.Controllers
         }
 
         // GET: servers
-        //[Authorize]
+        [Authorize]
         public ActionResult Index(string SearchValue, string dc, string dv, string rl, string acc, string StartWith, string sfST, string Options)
         {
             List<SelectListItem> mlist = new List<SelectListItem>();
@@ -481,6 +500,7 @@ namespace CMDB01.Controllers
             GetServerFarmEntityTypes();
             GetRole();
             GetSFStatusList();
+            GetSLA();
             return View();
         }
 
@@ -546,7 +566,7 @@ namespace CMDB01.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,DataCenter,DeployedVersion,FQDN,Architecture,Role,Status,DeploymentId")] serverFarms server, string hdContactsArray, int accountId)
+        public ActionResult Create([Bind(Include = "Id,Name,DataCenter,DeployedVersion,FQDN,Architecture,Role,Status,DeploymentId,SLA,CustomSLA")] serverFarms server, string hdContactsArray, int accountId)
         {
             if (ModelState.IsValid)
             {
@@ -617,6 +637,7 @@ namespace CMDB01.Controllers
             GetServerFarmEntityTypes();
             GetRole();
             GetSFStatusList();
+            GetSLA();
 
             if (id == null)
             {
@@ -635,7 +656,7 @@ namespace CMDB01.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,DataCenter,DeployedVersion,FQDN,Architecture,Role,Status,DeploymentId")] serverFarms server, string hdContactsArray)
+        public ActionResult Edit([Bind(Include = "Id,Name,DataCenter,DeployedVersion,FQDN,Architecture,Role,Status,DeploymentId,SLA,CustomSLA")] serverFarms server, string hdContactsArray)
         {
             if (ModelState.IsValid)
             {
