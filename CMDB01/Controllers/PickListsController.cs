@@ -12,7 +12,7 @@ namespace CMDB01.Controllers
 {
     public class PickListsController : Controller
     {
-        private Models.CMDB01 db = new Models.CMDB01();
+        private Models.CMDB db = new Models.CMDB();
 
         // GET: PickLists
         public ActionResult Index()

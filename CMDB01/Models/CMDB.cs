@@ -6,7 +6,7 @@ using System.Data.Entity;
 
 namespace CMDB01.Models
 {
-    public class CMDB01:DbContext
+    public class CMDB:DbContext
     {
         public DbSet<account> accounts { get; set; }
         public DbSet<contact> contacts { get; set; }
@@ -26,6 +26,6 @@ namespace CMDB01.Models
 
         }
 
-        public System.Data.Entity.DbSet<CMDB01.Controllers.LoginViewModel> LoginViewModels { get; set; }
+        //public System.Data.Entity.DbSet<CMDB01.Controllers.LoginViewModel> LoginViewModels { get; set; }
     }
 }

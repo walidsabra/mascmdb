@@ -13,7 +13,7 @@ namespace CMDB01.Controllers
 {
     public class serversController : Controller
     {
-        private Models.CMDB01 db = new Models.CMDB01();
+        private Models.CMDB db = new Models.CMDB();
 
         private void GetSFStatusList()
         {
