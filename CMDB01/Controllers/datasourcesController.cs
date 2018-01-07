@@ -12,7 +12,7 @@ namespace CMDB01.Controllers
 {
     public class datasourcesController : Controller
     {
-        private CMDB db = new CMDB();
+        private Models.CMDB01 db = new Models.CMDB01();
 
         // GET: datasources
         [Authorize]

@@ -13,7 +13,7 @@ namespace CMDB01.Controllers
 {
     public class accountsController : Controller
     {
-        private CMDB db = new CMDB();
+        private Models.CMDB01 db = new Models.CMDB01();
 
         //Get List of AccountStatus ----------------------------------------------
         private void GetAccountStatus()

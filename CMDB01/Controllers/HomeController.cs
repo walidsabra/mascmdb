@@ -12,7 +12,7 @@ namespace CMDB01.Controllers
     
         public ActionResult Index()
         {
-            CMDB db = new CMDB();
+            Models.CMDB01 db = new Models.CMDB01();
 
             ViewBag.accounts = db.accounts.Count();
             ViewBag.datasources = db.datasources.Count();

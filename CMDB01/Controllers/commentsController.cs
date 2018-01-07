@@ -12,7 +12,7 @@ namespace CMDB01.Controllers
 {
     public class commentsController : Controller
     {
-        private CMDB db = new CMDB();
+        private Models.CMDB01 db = new Models.CMDB01();
 
         //Get List of CommentTypes --------------------------------------------------------
         private void GetCommentTypes()

@@ -6,7 +6,7 @@ using System.Data.Entity;
 
 namespace CMDB01.Models
 {
-    public class CMDB:DbContext
+    public class CMDB01:DbContext
     {
         public DbSet<account> accounts { get; set; }
         public DbSet<contact> contacts { get; set; }

@@ -12,7 +12,7 @@ namespace CMDB01.Controllers
 {
     public class contactsController : Controller
     {
-        private CMDB db = new CMDB();
+        private Models.CMDB01 db = new Models.CMDB01();
 
         //Get List of ServerFarms --------------------------------------------------------
         private void GetServerFarms(string account, string datacenter)
