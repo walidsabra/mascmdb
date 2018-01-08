@@ -8,21 +8,25 @@ namespace CMDB01
 {
     public class reportsBL
     {
-       
+        public CMDB context;
+
+        public reportsBL (CMDB _context)
+        {
+            context = _context;
+        }
 
 
         public List<account> getAccounts()
         {
-            account acc = new account
-            {
-                Name = "Walid Account",
-                Status = "ABC"
-            };
-
-            List<account> lst = new List<account>();
-            lst.Add(acc);
-
+            List<account> lst = context.accounts.ToList();
             return lst;
         }
+
+        public List<serverFarms> getServers()
+        {
+            List<serverFarms> lst = context.serverFarms.ToList();
+            return lst;
+        }
+
     }
 }

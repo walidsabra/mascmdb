@@ -96,6 +96,9 @@
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
+    <Reference Include="ReportViewerForMvc, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ReportViewerForMvc.1.1.1\lib\net45\ReportViewerForMvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.DirectoryServices.AccountManagement" />
@@ -209,6 +212,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\PickListsController.cs" />
     <Compile Include="Controllers\serversController.cs" />
+    <Compile Include="Controllers\SystemReportsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -408,6 +412,10 @@
     <Compile Include="Migrations\201801070634388_LoginViewModel.Designer.cs">
       <DependentUpon>201801070634388_LoginViewModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801080740598_systemreports.cs" />
+    <Compile Include="Migrations\201801080740598_systemreports.Designer.cs">
+      <DependentUpon>201801080740598_systemreports.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\account.cs" />
     <Compile Include="Models\AdAuthenticationService.cs" />
@@ -417,17 +425,11 @@
     <Compile Include="Models\ContactLinks.cs" />
     <Compile Include="Models\datasource.cs" />
     <Compile Include="Models\PickList.cs" />
+    <Compile Include="Models\SystemReport.cs" />
     <Compile Include="reportsBL.cs" />
     <Compile Include="Models\Server.cs" />
     <Compile Include="Models\serverFarms.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Reports.aspx.cs">
-      <DependentUpon>Reports.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Reports.aspx.designer.cs">
-      <DependentUpon>Reports.aspx</DependentUpon>
-    </Compile>
     <Compile Include="SqlServerTypes\Loader.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -487,6 +489,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="ReportViewerWebForm.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -495,8 +498,6 @@
     <Content Include="fonts\summernote.eot" />
     <Content Include="fonts\summernote.ttf" />
     <Content Include="fonts\summernote.woff" />
-    <Content Include="ClassDiagram1.cd" />
-    <Content Include="Reports.aspx" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\mascmdb - FTP.pubxml" />
@@ -590,6 +591,11 @@
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\contacts\Links.cshtml" />
+    <Content Include="Views\SystemReports\Create.cshtml" />
+    <Content Include="Views\SystemReports\Delete.cshtml" />
+    <Content Include="Views\SystemReports\Details.cshtml" />
+    <Content Include="Views\SystemReports\Edit.cshtml" />
+    <Content Include="Views\SystemReports\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -755,7 +761,12 @@
     <EmbeddedResource Include="Migrations\201801070634388_LoginViewModel.resx">
       <DependentUpon>201801070634388_LoginViewModel.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801080740598_systemreports.resx">
+      <DependentUpon>201801080740598_systemreports.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Reports\Accounts.rdlc" />
+    <EmbeddedResource Include="Reports\ServerFrams.rdlc" />
+    <EmbeddedResource Include="Reports\Servers.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

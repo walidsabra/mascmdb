@@ -26,6 +26,8 @@ namespace CMDB01.Models
 
         }
 
+        public System.Data.Entity.DbSet<CMDB01.Models.SystemReport> SystemReports { get; set; }
+
         //public System.Data.Entity.DbSet<CMDB01.Controllers.LoginViewModel> LoginViewModels { get; set; }
     }
 }

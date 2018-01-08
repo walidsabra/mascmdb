@@ -715,7 +715,7 @@
         <Top>1.91333in</Top>
         <Left>0.26333in</Left>
         <Height>0.5in</Height>
-        <Width>7.57832in</Width>
+        <Width>7.57834in</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -1100,7 +1100,7 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>CMDB Accounts List</Value>
+                  <Value>CMDB Server Farms List</Value>
                   <Style>
                     <FontFamily>Arvo</FontFamily>
                     <FontSize>18pt</FontSize>

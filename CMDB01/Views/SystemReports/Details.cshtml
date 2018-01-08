@@ -1,0 +1,90 @@
+﻿@model CMDB01.Models.SystemReport
+@using ReportViewerForMvc;
+
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">System Report</div>
+<div class="row">
+    @Html.ReportViewer(ViewBag.ReportViewer as Microsoft.Reporting.WebForms.ReportViewer)
+
+</div>
+
+@*<h2>Details</h2>
+
+    <div>
+        <h4>SystemReport</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.ReportName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ReportName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ReportPath)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ReportPath)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ReportCategory)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ReportCategory)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DS1Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DS1Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DS2Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DS2Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DS3Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DS3Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DS4Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DS4Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DS5Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DS5Name)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>*@

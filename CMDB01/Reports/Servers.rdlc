@@ -317,7 +317,7 @@
             <Position>TopLeft</Position>
           </ChartTitle>
         </ChartTitles>
-        <Palette>EarthTones</Palette>
+        <Palette>Chocolate</Palette>
         <ChartBorderSkin>
           <Style>
             <BackgroundColor>Gray</BackgroundColor>
@@ -334,11 +334,10 @@
             <VerticalAlign>Top</VerticalAlign>
           </Style>
         </ChartNoDataMessage>
-        <DataSetName>AccountsDS</DataSetName>
         <Top>0.205in</Top>
-        <Left>0.26333in</Left>
+        <Left>0.59666in</Left>
         <Height>1.38333in</Height>
-        <Width>4.15833in</Width>
+        <Width>4.6in</Width>
         <Style>
           <Border>
             <Color>LightGrey</Color>
@@ -352,19 +351,16 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>1.874in</Width>
+              <Width>1.89583in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.874in</Width>
+              <Width>1.89583in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.874in</Width>
+              <Width>1.89583in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.97817in</Width>
-            </TablixColumn>
-            <TablixColumn>
-              <Width>0.97817in</Width>
+              <Width>1.89583in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -381,9 +377,7 @@
                           <TextRuns>
                             <TextRun>
                               <Value>Name</Value>
-                              <Style>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
+                              <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -413,9 +407,7 @@
                           <TextRuns>
                             <TextRun>
                               <Value>Ultimate Id</Value>
-                              <Style>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
+                              <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -445,9 +437,7 @@
                           <TextRuns>
                             <TextRun>
                               <Value>Status</Value>
-                              <Style>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
+                              <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -469,55 +459,21 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox6">
+                    <Textbox Name="Textbox11">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Request IMS</Value>
-                              <Style>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
+                              <Value>Opportunity</Value>
+                              <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox6</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox14">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>Billable</Value>
-                              <Style>
-                                <FontWeight>Bold</FontWeight>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox14</rd:DefaultName>
+                      <rd:DefaultName>Textbox11</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -628,51 +584,21 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="RequestIMS">
+                    <Textbox Name="Opportunity">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!RequestIMS.Value</Value>
+                              <Value>=Fields!Opportunity.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>RequestIMS</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Billable">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Fields!Billable.Value</Value>
-                              <Style />
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Billable</rd:DefaultName>
+                      <rd:DefaultName>Opportunity</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -696,7 +622,6 @@
             <TablixMember />
             <TablixMember />
             <TablixMember />
-            <TablixMember />
           </TablixMembers>
         </TablixColumnHierarchy>
         <TablixRowHierarchy>
@@ -709,13 +634,11 @@
             </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
-        <RepeatColumnHeaders>true</RepeatColumnHeaders>
-        <RepeatRowHeaders>true</RepeatRowHeaders>
         <DataSetName>AccountsDS</DataSetName>
         <Top>1.91333in</Top>
-        <Left>0.26333in</Left>
+        <Left>0.59666in</Left>
         <Height>0.5in</Height>
-        <Width>7.57832in</Width>
+        <Width>7.58332in</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -723,372 +646,24 @@
           </Border>
         </Style>
       </Tablix>
-      <Chart Name="DataBar2">
-        <ChartCategoryHierarchy>
-          <ChartMembers>
-            <ChartMember>
-              <Group Name="DataBar2_CategoryGroup">
-                <GroupExpressions>
-                  <GroupExpression>=Fields!RequestIMS.Value</GroupExpression>
-                </GroupExpressions>
-              </Group>
-              <SortExpressions>
-                <SortExpression>
-                  <Value>=Fields!RequestIMS.Value</Value>
-                </SortExpression>
-              </SortExpressions>
-              <Label>=Fields!RequestIMS.Value</Label>
-            </ChartMember>
-          </ChartMembers>
-        </ChartCategoryHierarchy>
-        <ChartSeriesHierarchy>
-          <ChartMembers>
-            <ChartMember>
-              <Label>Id</Label>
-            </ChartMember>
-          </ChartMembers>
-        </ChartSeriesHierarchy>
-        <ChartData>
-          <ChartSeriesCollection>
-            <ChartSeries Name="Id">
-              <ChartDataPoints>
-                <ChartDataPoint>
-                  <ChartDataPointValues>
-                    <X>=Fields!Status.Value</X>
-                    <Y>=Count(Fields!Id.Value)</Y>
-                  </ChartDataPointValues>
-                  <ChartDataLabel>
-                    <Style />
-                    <UseValueAsLabel>true</UseValueAsLabel>
-                    <Visible>true</Visible>
-                  </ChartDataLabel>
-                  <Style />
-                  <ChartMarker>
-                    <Style />
-                  </ChartMarker>
-                  <DataElementOutput>Output</DataElementOutput>
-                </ChartDataPoint>
-              </ChartDataPoints>
-              <Type>Bar</Type>
-              <Style />
-              <ChartEmptyPoints>
-                <Style />
-                <ChartMarker>
-                  <Style />
-                </ChartMarker>
-                <ChartDataLabel>
-                  <Style />
-                </ChartDataLabel>
-              </ChartEmptyPoints>
-              <ValueAxisName>Primary</ValueAxisName>
-              <CategoryAxisName>Primary</CategoryAxisName>
-              <ChartSmartLabel>
-                <CalloutLineColor>Black</CalloutLineColor>
-                <MinMovingDistance>0pt</MinMovingDistance>
-              </ChartSmartLabel>
-            </ChartSeries>
-          </ChartSeriesCollection>
-        </ChartData>
-        <ChartAreas>
-          <ChartArea Name="Default">
-            <ChartCategoryAxes>
-              <ChartAxis Name="Primary">
-                <Style>
-                  <Border>
-                    <Color>Gainsboro</Color>
-                    <Style>None</Style>
-                  </Border>
-                  <FontSize>8pt</FontSize>
-                  <Color>#5c5c5c</Color>
-                </Style>
-                <ChartAxisTitle>
-                  <Caption />
-                  <Style>
-                    <FontSize>9pt</FontSize>
-                    <Color>#5c5c5c</Color>
-                  </Style>
-                </ChartAxisTitle>
-                <Margin>False</Margin>
-                <ChartMajorGridLines>
-                  <Enabled>False</Enabled>
-                  <Style>
-                    <Border>
-                      <Color>Gainsboro</Color>
-                    </Border>
-                  </Style>
-                </ChartMajorGridLines>
-                <ChartMinorGridLines>
-                  <Style>
-                    <Border>
-                      <Color>Gainsboro</Color>
-                      <Style>Dotted</Style>
-                    </Border>
-                  </Style>
-                </ChartMinorGridLines>
-                <ChartMajorTickMarks>
-                  <Style>
-                    <Border>
-                      <Color>Gainsboro</Color>
-                      <Style>None</Style>
-                    </Border>
-                  </Style>
-                </ChartMajorTickMarks>
-                <ChartMinorTickMarks>
-                  <Style>
-                    <Border>
-                      <Color>Gainsboro</Color>
-                    </Border>
-                  </Style>
-                  <Length>0.5</Length>
-                </ChartMinorTickMarks>
-                <CrossAt>NaN</CrossAt>
-                <Minimum>NaN</Minimum>
-                <Maximum>NaN</Maximum>
-                <ChartAxisScaleBreak>
-                  <Style />
-                </ChartAxisScaleBreak>
-              </ChartAxis>
-              <ChartAxis Name="Secondary">
-                <Visible>False</Visible>
-                <Style>
-                  <Border>
-                    <Color>Gainsboro</Color>
-                    <Style>None</Style>
-                  </Border>
-                  <FontSize>8pt</FontSize>
-                  <Color>#5c5c5c</Color>
-                </Style>
-                <ChartAxisTitle>
-                  <Caption />
-                  <Style>
-                    <FontSize>9pt</FontSize>
-                    <Color>#5c5c5c</Color>
-                  </Style>
-                </ChartAxisTitle>
-                <Margin>False</Margin>
-                <ChartMajorGridLines>
-                  <Enabled>False</Enabled>
-                  <Style>
-                    <Border>
-                      <Color>Gainsboro</Color>
-                    </Border>
-                  </Style>
-                </ChartMajorGridLines>
-                <ChartMinorGridLines>
-                  <Style>
-                    <Border>
-                      <Color>Gainsboro</Color>
-                      <Style>Dotted</Style>
-                    </Border>
-                  </Style>
-                </ChartMinorGridLines>
-                <ChartMajorTickMarks>
-                  <Style>
-                    <Border>
-                      <Color>Gainsboro</Color>
-                      <Style>None</Style>
-                    </Border>
-                  </Style>
-                </ChartMajorTickMarks>
-                <ChartMinorTickMarks>
-                  <Style>
-                    <Border>
-                      <Color>Gainsboro</Color>
-                    </Border>
-                  </Style>
-                  <Length>0.5</Length>
-                </ChartMinorTickMarks>
-                <CrossAt>NaN</CrossAt>
-                <Location>Opposite</Location>
-                <Minimum>NaN</Minimum>
-                <Maximum>NaN</Maximum>
-                <ChartAxisScaleBreak>
-                  <Style />
-                </ChartAxisScaleBreak>
-              </ChartAxis>
-            </ChartCategoryAxes>
-            <ChartValueAxes>
-              <ChartAxis Name="Primary">
-                <Style>
-                  <Border>
-                    <Color>Gainsboro</Color>
-                    <Style>None</Style>
-                  </Border>
-                  <FontSize>8pt</FontSize>
-                  <Color>#5c5c5c</Color>
-                </Style>
-                <ChartAxisTitle>
-                  <Caption />
-                  <Style>
-                    <FontSize>9pt</FontSize>
-                    <Color>#5c5c5c</Color>
-                  </Style>
-                </ChartAxisTitle>
-                <ChartMajorGridLines>
-                  <Style>
-                    <Border>
-                      <Color>Gainsboro</Color>
-                    </Border>
-                  </Style>
-                </ChartMajorGridLines>
-                <ChartMinorGridLines>
-                  <Style>
-                    <Border>
-                      <Color>Gainsboro</Color>
-                      <Style>Dotted</Style>
-                    </Border>
-                  </Style>
-                </ChartMinorGridLines>
-                <ChartMajorTickMarks>
-                  <Style>
-                    <Border>
-                      <Color>Gainsboro</Color>
-                      <Style>None</Style>
-                    </Border>
-                  </Style>
-                </ChartMajorTickMarks>
-                <ChartMinorTickMarks>
-                  <Style>
-                    <Border>
-                      <Color>Gainsboro</Color>
-                    </Border>
-                  </Style>
-                  <Length>0.5</Length>
-                </ChartMinorTickMarks>
-                <CrossAt>NaN</CrossAt>
-                <Minimum>0</Minimum>
-                <Maximum>NaN</Maximum>
-                <ChartAxisScaleBreak>
-                  <Style />
-                </ChartAxisScaleBreak>
-              </ChartAxis>
-              <ChartAxis Name="Secondary">
-                <Visible>False</Visible>
-                <Style>
-                  <Border>
-                    <Color>Gainsboro</Color>
-                    <Style>None</Style>
-                  </Border>
-                  <FontSize>8pt</FontSize>
-                  <Color>#5c5c5c</Color>
-                </Style>
-                <ChartAxisTitle>
-                  <Caption />
-                  <Style>
-                    <FontSize>9pt</FontSize>
-                    <Color>#5c5c5c</Color>
-                  </Style>
-                </ChartAxisTitle>
-                <ChartMajorGridLines>
-                  <Style>
-                    <Border>
-                      <Color>Gainsboro</Color>
-                    </Border>
-                  </Style>
-                </ChartMajorGridLines>
-                <ChartMinorGridLines>
-                  <Style>
-                    <Border>
-                      <Color>Gainsboro</Color>
-                      <Style>Dotted</Style>
-                    </Border>
-                  </Style>
-                </ChartMinorGridLines>
-                <ChartMajorTickMarks>
-                  <Style>
-                    <Border>
-                      <Color>Gainsboro</Color>
-                      <Style>None</Style>
-                    </Border>
-                  </Style>
-                </ChartMajorTickMarks>
-                <ChartMinorTickMarks>
-                  <Style>
-                    <Border>
-                      <Color>Gainsboro</Color>
-                    </Border>
-                  </Style>
-                  <Length>0.5</Length>
-                </ChartMinorTickMarks>
-                <CrossAt>NaN</CrossAt>
-                <Location>Opposite</Location>
-                <Minimum>NaN</Minimum>
-                <Maximum>NaN</Maximum>
-                <ChartAxisScaleBreak>
-                  <Style />
-                </ChartAxisScaleBreak>
-              </ChartAxis>
-            </ChartValueAxes>
-            <Style>
-              <BackgroundColor>#00ffffff</BackgroundColor>
-              <BackgroundGradientType>None</BackgroundGradientType>
-            </Style>
-          </ChartArea>
-        </ChartAreas>
-        <ChartTitles>
-          <ChartTitle Name="Default">
-            <Caption>Accounts Per IMS</Caption>
-            <Style>
-              <BackgroundGradientType>None</BackgroundGradientType>
-              <FontSize>9pt</FontSize>
-              <FontWeight>Normal</FontWeight>
-              <TextAlign>General</TextAlign>
-              <VerticalAlign>Top</VerticalAlign>
-            </Style>
-            <Position>TopLeft</Position>
-          </ChartTitle>
-        </ChartTitles>
-        <Palette>SemiTransparent</Palette>
-        <ChartBorderSkin>
-          <Style>
-            <BackgroundColor>Gray</BackgroundColor>
-            <BackgroundGradientType>None</BackgroundGradientType>
-            <Color>White</Color>
-          </Style>
-        </ChartBorderSkin>
-        <ChartNoDataMessage Name="NoDataMessage">
-          <Caption>No Data Available</Caption>
-          <Style>
-            <BackgroundGradientType>None</BackgroundGradientType>
-            <FontWeight>Bold</FontWeight>
-            <TextAlign>General</TextAlign>
-            <VerticalAlign>Top</VerticalAlign>
-          </Style>
-        </ChartNoDataMessage>
-        <DataSetName>AccountsDS</DataSetName>
-        <Top>0.205in</Top>
-        <Left>4.49111in</Left>
-        <Height>1.38333in</Height>
-        <Width>3.35054in</Width>
-        <ZIndex>2</ZIndex>
-        <Style>
-          <Border>
-            <Color>LightGrey</Color>
-            <Style>Solid</Style>
-          </Border>
-          <BackgroundColor>White</BackgroundColor>
-          <BackgroundGradientType>None</BackgroundGradientType>
-        </Style>
-      </Chart>
     </ReportItems>
-    <Height>3.68333in</Height>
+    <Height>3.925in</Height>
     <Style />
   </Body>
-  <Width>7.97998in</Width>
+  <Width>9.01667in</Width>
   <Page>
     <PageHeader>
-      <Height>0.59166in</Height>
+      <Height>0.70833in</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
         <Line Name="Line1">
-          <Top>0.52444in</Top>
-          <Left>0.125in</Left>
+          <Top>0.63in</Top>
+          <Left>0.26333in</Left>
           <Height>0in</Height>
-          <Width>7.71665in</Width>
+          <Width>8.43334in</Width>
           <Style>
             <Border>
-              <Color>CornflowerBlue</Color>
               <Style>Solid</Style>
             </Border>
           </Style>
@@ -1100,12 +675,11 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>CMDB Accounts List</Value>
+                  <Value>CMDB Servers List</Value>
                   <Style>
                     <FontFamily>Arvo</FontFamily>
-                    <FontSize>18pt</FontSize>
+                    <FontSize>30pt</FontSize>
                     <FontWeight>Bold</FontWeight>
-                    <Color>CornflowerBlue</Color>
                   </Style>
                 </TextRun>
               </TextRuns>
@@ -1113,9 +687,9 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox1</rd:DefaultName>
-          <Top>0.17666in</Top>
+          <Top>0.05778in</Top>
           <Left>1.69111in</Left>
-          <Height>0.30611in</Height>
+          <Height>0.50277in</Height>
           <Width>4.43889in</Width>
           <ZIndex>1</ZIndex>
           <Style>
@@ -1133,9 +707,9 @@
           <Value>site_logo</Value>
           <Sizing>FitProportional</Sizing>
           <Top>0.17666in</Top>
-          <Left>0.23833in</Left>
+          <Left>0.26333in</Left>
           <Height>0.30611in</Height>
-          <Width>1.25833in</Width>
+          <Width>1.35833in</Width>
           <ZIndex>2</ZIndex>
           <Style>
             <Border>
@@ -1148,209 +722,16 @@
         <Border>
           <Style>None</Style>
         </Border>
-        <BackgroundColor>LightGrey</BackgroundColor>
       </Style>
     </PageHeader>
-    <PageFooter>
-      <Height>0.39667in</Height>
-      <PrintOnFirstPage>true</PrintOnFirstPage>
-      <PrintOnLastPage>true</PrintOnLastPage>
-      <ReportItems>
-        <Textbox Name="Textbox16">
-          <CanGrow>true</CanGrow>
-          <KeepTogether>true</KeepTogether>
-          <Paragraphs>
-            <Paragraph>
-              <TextRuns>
-                <TextRun>
-                  <Value>Page: </Value>
-                  <Style>
-                    <FontSize>7pt</FontSize>
-                  </Style>
-                </TextRun>
-                <TextRun>
-                  <Value>=Globals!PageNumber</Value>
-                  <Style>
-                    <FontSize>7pt</FontSize>
-                  </Style>
-                </TextRun>
-              </TextRuns>
-              <Style />
-            </Paragraph>
-          </Paragraphs>
-          <rd:DefaultName>Textbox16</rd:DefaultName>
-          <Top>0.06944in</Top>
-          <Left>0.16333in</Left>
-          <Height>0.25in</Height>
-          <Width>0.48333in</Width>
-          <Style>
-            <Border>
-              <Style>None</Style>
-            </Border>
-            <PaddingLeft>2pt</PaddingLeft>
-            <PaddingRight>2pt</PaddingRight>
-            <PaddingTop>2pt</PaddingTop>
-            <PaddingBottom>2pt</PaddingBottom>
-          </Style>
-        </Textbox>
-        <Textbox Name="Textbox17">
-          <CanGrow>true</CanGrow>
-          <KeepTogether>true</KeepTogether>
-          <Paragraphs>
-            <Paragraph>
-              <TextRuns>
-                <TextRun>
-                  <Value>Generated on: </Value>
-                  <Style>
-                    <FontSize>7pt</FontSize>
-                  </Style>
-                </TextRun>
-                <TextRun>
-                  <Value>=Globals!ExecutionTime</Value>
-                  <Style>
-                    <FontSize>7pt</FontSize>
-                  </Style>
-                </TextRun>
-              </TextRuns>
-              <Style />
-            </Paragraph>
-          </Paragraphs>
-          <rd:DefaultName>Textbox16</rd:DefaultName>
-          <Top>0.07334in</Top>
-          <Left>0.71611in</Left>
-          <Height>0.25in</Height>
-          <Width>1.69167in</Width>
-          <ZIndex>1</ZIndex>
-          <Style>
-            <Border>
-              <Style>None</Style>
-            </Border>
-            <PaddingLeft>2pt</PaddingLeft>
-            <PaddingRight>2pt</PaddingRight>
-            <PaddingTop>2pt</PaddingTop>
-            <PaddingBottom>2pt</PaddingBottom>
-          </Style>
-        </Textbox>
-        <Textbox Name="Textbox18">
-          <CanGrow>true</CanGrow>
-          <KeepTogether>true</KeepTogether>
-          <Paragraphs>
-            <Paragraph>
-              <TextRuns>
-                <TextRun>
-                  <Value>By: </Value>
-                  <Style>
-                    <FontSize>7pt</FontSize>
-                  </Style>
-                </TextRun>
-                <TextRun>
-                  <Value>=User!UserID</Value>
-                  <Style>
-                    <FontSize>7pt</FontSize>
-                  </Style>
-                </TextRun>
-              </TextRuns>
-              <Style />
-            </Paragraph>
-          </Paragraphs>
-          <rd:DefaultName>Textbox16</rd:DefaultName>
-          <Top>0.07334in</Top>
-          <Left>2.54111in</Left>
-          <Height>0.25in</Height>
-          <Width>1.69167in</Width>
-          <ZIndex>2</ZIndex>
-          <Style>
-            <Border>
-              <Style>None</Style>
-            </Border>
-            <PaddingLeft>2pt</PaddingLeft>
-            <PaddingRight>2pt</PaddingRight>
-            <PaddingTop>2pt</PaddingTop>
-            <PaddingBottom>2pt</PaddingBottom>
-          </Style>
-        </Textbox>
-      </ReportItems>
-      <Style>
-        <Border>
-          <Style>None</Style>
-        </Border>
-        <BackgroundColor>LightGrey</BackgroundColor>
-      </Style>
-    </PageFooter>
-    <PageHeight>11.69in</PageHeight>
-    <PageWidth>8.27in</PageWidth>
+    <PageHeight>8.27in</PageHeight>
+    <PageWidth>11.69in</PageWidth>
+    <LeftMargin>1in</LeftMargin>
+    <RightMargin>1in</RightMargin>
+    <BottomMargin>1in</BottomMargin>
     <Style />
   </Page>
   <AutoRefresh>0</AutoRefresh>
-  <DataSources>
-    <DataSource Name="CMDB01">
-      <ConnectionProperties>
-        <DataProvider>System.Data.DataSet</DataProvider>
-        <ConnectString>/* Local Connection */</ConnectString>
-      </ConnectionProperties>
-      <rd:DataSourceID>e69348e0-6fe5-459a-b9f1-3c92e35025ac</rd:DataSourceID>
-    </DataSource>
-  </DataSources>
-  <DataSets>
-    <DataSet Name="AccountsDS">
-      <Query>
-        <DataSourceName>CMDB01</DataSourceName>
-        <CommandText>/* Local Query */</CommandText>
-      </Query>
-      <Fields>
-        <Field Name="Id">
-          <DataField>Id</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="Name">
-          <DataField>Name</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="UltimateId">
-          <DataField>UltimateId</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Status">
-          <DataField>Status</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Opportunity">
-          <DataField>Opportunity</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="ProjectorProject">
-          <DataField>ProjectorProject</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="RequestIMS">
-          <DataField>RequestIMS</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="ContractType">
-          <DataField>ContractType</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Billable">
-          <DataField>Billable</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="AccountContacts">
-          <DataField>AccountContacts</DataField>
-          <rd:TypeName>System.Collections.Generic.List`1[[CMDB01.Models.ContactLinks, CMDB01, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]</rd:TypeName>
-        </Field>
-        <Field Name="servers">
-          <DataField>servers</DataField>
-          <rd:TypeName>System.Collections.Generic.List`1[[CMDB01.Models.serverFarms, CMDB01, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]</rd:TypeName>
-        </Field>
-      </Fields>
-      <rd:DataSetInfo>
-        <rd:DataSetName>CMDB01</rd:DataSetName>
-        <rd:TableName>reportsBL</rd:TableName>
-        <rd:ObjectDataSourceSelectMethod>getAccounts</rd:ObjectDataSourceSelectMethod>
-        <rd:ObjectDataSourceType>CMDB01.reportsBL, CMDB01, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
-      </rd:DataSetInfo>
-    </DataSet>
-  </DataSets>
   <EmbeddedImages>
     <EmbeddedImage Name="site_logo">
       <MIMEType>image/png</MIMEType>

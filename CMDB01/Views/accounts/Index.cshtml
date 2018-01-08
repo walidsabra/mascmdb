@@ -6,8 +6,8 @@
 }
 <link href="~/Content/flipCards.css" rel="stylesheet" />
 @*<script src="~/Scripts/jquery-1.12.4.js"></script>
-<script src="~/Scripts/bootstrap.min.js"></script>
-<script src="~/Scripts/jquery-1.12.4.min.js"></script>*@
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-1.12.4.min.js"></script>*@
 
 <h2>Accounts</h2>
 
@@ -28,7 +28,7 @@
         <br />
         @foreach (var item in Model.OrderBy(x => x.Name).Select(a => a.Name.Substring(0, 1).ToUpper()).Distinct())
         {
-        <a href="/accounts/index?StartWith=@item">@item</a>
+            <a href="/accounts/index?StartWith=@item">@item</a>
         }
         <a href="/accounts/index">...</a>
     </form>
@@ -97,115 +97,117 @@
 
 
 <div class="col-md-10">
-    @foreach (var item in Model.OrderBy(a => a.Name))
-            {
-        <div>
-            <div class="col-md-3">
-                <div class="card-container manual-flip">
-                    <div class="card">
-                        <div class="front" style="overflow-y:auto">
-                            <div class="card-block" style="margin-left: 10px; margin-right: 10px; ">
-                                <button class="btn btn-simple" rel="tooltip" title="Flip Card" onclick="rotateCard(this)">
-                                    <i class="glyphicon glyphicon-refresh"></i>
-                                </button>
-                                <a class="btn btn-simple" rel="tooltip" title="Edit" href="@Url.Action("Edit", "accounts", new { id = item.Id})">
-                                    <i class="glyphicon glyphicon-edit"></i>
-                                </a>
-                                <a class="btn btn-simple" rel="tooltip" title="Delete" href="@Url.Action("Delete", "accounts", new { id = item.Id })">
-                                    <i class="glyphicon glyphicon-remove"></i>
-                                </a>
-                                <button class="btn btn-simple openComment" rel="tooltip" title="Comments" data-toggle="modal" data-target="#myModal" data-id=@item.Id data-name=@item.Name>
-                                    <i class="glyphicon glyphicon-comment"></i>
-                                </button>
+    <div class="row">
+        @foreach (var item in Model.OrderBy(a => a.Name))
+        {
+            <div>
+                <div class="col-md-3">
+                    <div class="card-container manual-flip">
+                        <div class="card">
+                            <div class="front" style="overflow-y:auto">
+                                <div class="card-block" style="margin-left: 10px; margin-right: 10px; ">
+                                    <button class="btn btn-simple" rel="tooltip" title="Flip Card" onclick="rotateCard(this)">
+                                        <i class="glyphicon glyphicon-refresh"></i>
+                                    </button>
+                                    <a class="btn btn-simple" rel="tooltip" title="Edit" href="@Url.Action("Edit", "accounts", new { id = item.Id})">
+                                        <i class="glyphicon glyphicon-edit"></i>
+                                    </a>
+                                    <a class="btn btn-simple" rel="tooltip" title="Delete" href="@Url.Action("Delete", "accounts", new { id = item.Id })">
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </a>
+                                    <button class="btn btn-simple openComment" rel="tooltip" title="Comments" data-toggle="modal" data-target="#myModal" data-id=@item.Id data-name=@item.Name>
+                                        <i class="glyphicon glyphicon-comment"></i>
+                                    </button>
+                                    <br />
+
+                                    <a class="card-title" style="color:cornflowerblue" href="/accounts/details/@item.Id">@item.Name</a>
+                                    <div>
+                                        <p class="card-text">
+                                            <b>Ultimate Id:</b> @item.UltimateId<br />
+                                            <b>Contract Type:</b> @item.ContractType <br />
+                                            <b>Status:</b> @item.Status <br />
+                                            <b>Opportunity:</b> @item.Opportunity <br />
+                                            <b>Projector Project:</b> @item.ProjectorProject <br />
+                                            <b>Billable:</b> @item.Billable <br />
+                                            <b>Request IMS:</b> @item.RequestIMS <br />
+                                            @*<b>Success Admin Level:</b> @item.SuccessAdminLevel <br />
+                                                <b>Link to C4S:</b> <a href="@item.LinktoC4S" target="_blank">click here</a> <br />*@
+                                        </p>
+                                    </div>
+                                </div>
                                 <br />
 
-                                <a class="card-title" style="color:cornflowerblue" href="/accounts/details/@item.Id" >@item.Name</a>
-                                <div>
+                                <div class="card-block" style="margin-left: 10px; margin-right: 10px">
+
                                     <p class="card-text">
-                                        <b>Ultimate Id:</b> @item.UltimateId<br />
-                                        <b>Contract Type:</b> @item.ContractType <br />
-                                        <b>Status:</b> @item.Status <br />
-                                        <b>Opportunity:</b> @item.Opportunity <br />
-                                        <b>Projector Project:</b> @item.ProjectorProject <br />
-                                        <b>Billable:</b> @item.Billable <br />
-                                        <b>Request IMS:</b> @item.RequestIMS <br />
-                                        @*<b>Success Admin Level:</b> @item.SuccessAdminLevel <br />
-                                            <b>Link to C4S:</b> <a href="@item.LinktoC4S" target="_blank">click here</a> <br />*@
+                                        <b>Account Contacts:</b> <br />
+
+                                        @foreach (var cn in @item.AccountContacts)
+                                        {
+                                            <span></span>
+                                            <a title="Email" href="mailto:@cn.contact.email">
+                                                <i class="glyphicon glyphicon-envelope"></i>
+                                            </a>
+                                            <i class="glyphicon glyphicon-phone"></i>
+                                            @cn.contact.Name
+                                            <br />
+                                        }
+
                                     </p>
                                 </div>
                             </div>
-                            <br />
-
-                            <div class="card-block" style="margin-left: 10px; margin-right: 10px">
-
-                                <p class="card-text">
-                                    <b>Account Contacts:</b> <br />
-
-                                    @foreach (var cn in @item.AccountContacts)
-                                    {
-                                        <span></span>
-                                        <a title="Email" href="mailto:@cn.contact.email">
-                                            <i class="glyphicon glyphicon-envelope"></i>
-                                        </a>
-                                        <i class="glyphicon glyphicon-phone"></i>
-                                        @cn.contact.Name
-                                        <br />
-                                    }
-
-                                </p>
-                            </div>
-                        </div>
-                        <div class="back" style="overflow-y:auto">
-                            <button class="btn btn-simple" rel="tooltip" title="Flip Card" onclick="rotateCard(this)">
-                                <i class="glyphicon glyphicon-refresh"></i>
-                            </button>
+                            <div class="back" style="overflow-y:auto">
+                                <button class="btn btn-simple" rel="tooltip" title="Flip Card" onclick="rotateCard(this)">
+                                    <i class="glyphicon glyphicon-refresh"></i>
+                                </button>
 
 
-                            <div>
-                                <p class="card-text" style="margin-left: 10px; margin-right: 10px;">
-                                    <b>Account Server Farms:</b>
-                                </p>
-                                <p class="card-text" style="margin-left: 10px; margin-right: 10px;  padding-left:0.5em">
-                                    @if(@item.servers.Count > 0)
-                                    {
-
-                                    
-                                    foreach (var srv in @item.servers)
-                                    {
-
-                                        <a class="glyphicon glyphicon-th-large" href="/servers/details/@srv.Id"></a> <b>@srv.Name</b> <br />
-                                        if (@srv.datasources.Count > 0)
+                                <div>
+                                    <p class="card-text" style="margin-left: 10px; margin-right: 10px;">
+                                        <b>Account Server Farms:</b>
+                                    </p>
+                                    <p class="card-text" style="margin-left: 10px; margin-right: 10px;  padding-left:0.5em">
+                                        @if (@item.servers.Count > 0)
                                         {
-                                            foreach (var ds in @srv.datasources)
+
+
+                                            foreach (var srv in @item.servers)
                                             {
 
-                                                if (ds.Status == "Decommissioned" )
+                                                <a class="glyphicon glyphicon-th-large" href="/servers/details/@srv.Id"></a> <b>@srv.Name</b> <br />
+                                                if (@srv.datasources.Count > 0)
                                                 {
-                                                <a style="color:red; padding-left:1em" class="glyphicon glyphicon-list-alt" href="/datasources/details/@ds.Id"></a>  @ds.Name <br />
-                                                    }
-                                                    else
+                                                    foreach (var ds in @srv.datasources)
                                                     {
-                                                        <a style="padding-left:1em" class="glyphicon glyphicon-list-alt" href="/datasources/details/@ds.Id"></a>  @ds.Name <br />
+
+                                                        if (ds.Status == "Decommissioned")
+                                                        {
+                                                            <a style="color:red; padding-left:1em" class="glyphicon glyphicon-list-alt" href="/datasources/details/@ds.Id"></a> @ds.Name <br />
+                                                        }
+                                                        else
+                                                        {
+                                                            <a style="padding-left:1em" class="glyphicon glyphicon-list-alt" href="/datasources/details/@ds.Id"></a> @ds.Name <br />
+
+                                                        }
 
                                                     }
-
                                                 }
                                             }
-                                        }
-                                    
-                                        <br />
-                                    }
-                                    <br />
-                                </p>
 
+                                            <br />
+                                        }
+                                        <br />
+                                    </p>
+
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <br />
                 </div>
-                <br />
             </div>
-        </div>
-    }
+        }
+    </div>
 </div>
 
 <!-- Modal -->
@@ -222,9 +224,7 @@
                 <div id="aaa">
 
                 </div>
-                <table id="ccc" class="table table-bordered table-striped"  >
-
-                </table>
+                <table id="ccc" class="table table-bordered table-striped"></table>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
