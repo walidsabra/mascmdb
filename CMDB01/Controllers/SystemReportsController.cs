@@ -35,7 +35,7 @@ namespace CMDB01.Controllers
                 return HttpNotFound();
             }
 
-            reportsBL rBL = new reportsBL(db);
+            //reportsBL rBL = new reportsBL(db);
 
             ReportViewer reportViewer = new ReportViewer();
             reportViewer.ProcessingMode = ProcessingMode.Local;
@@ -50,8 +50,8 @@ namespace CMDB01.Controllers
             switch (systemReport.ReportName)
             {
                 case "Accounts Report":
-                    List<account> lstAcc = rBL.getAccounts();
-                    reportViewer.LocalReport.DataSources.Add(new ReportDataSource(systemReport.DS1Name, lstAcc));
+                    //List<account> lstAcc = rBL.getAccounts();
+                    //reportViewer.LocalReport.DataSources.Add(new ReportDataSource(systemReport.DS1Name, lstAcc));
                     break;
             }
 

@@ -26,7 +26,8 @@ namespace CMDB01
         {
             List<serverFarms> lst = context.serverFarms.ToList();
             return lst;
+            
         }
-
+        
     }
 }

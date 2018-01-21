@@ -6,10 +6,11 @@
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="row">System Report</div>
+<h2>System Report</h2>
 <div class="row">
-    @Html.ReportViewer(ViewBag.ReportViewer as Microsoft.Reporting.WebForms.ReportViewer)
-
+    <div class="col-lg-10">
+        @Html.ReportViewer(ViewBag.ReportViewer as Microsoft.Reporting.WebForms.ReportViewer)
+    </div>
 </div>
 
 @*<h2>Details</h2>

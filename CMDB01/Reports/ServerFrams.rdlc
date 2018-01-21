@@ -334,7 +334,6 @@
             <VerticalAlign>Top</VerticalAlign>
           </Style>
         </ChartNoDataMessage>
-        <DataSetName>AccountsDS</DataSetName>
         <Top>0.205in</Top>
         <Left>0.26333in</Left>
         <Height>1.38333in</Height>
@@ -1055,7 +1054,6 @@
             <VerticalAlign>Top</VerticalAlign>
           </Style>
         </ChartNoDataMessage>
-        <DataSetName>AccountsDS</DataSetName>
         <Top>0.205in</Top>
         <Left>4.49111in</Left>
         <Height>1.38333in</Height>
@@ -1291,66 +1289,6 @@
       <rd:DataSourceID>e69348e0-6fe5-459a-b9f1-3c92e35025ac</rd:DataSourceID>
     </DataSource>
   </DataSources>
-  <DataSets>
-    <DataSet Name="AccountsDS">
-      <Query>
-        <DataSourceName>CMDB01</DataSourceName>
-        <CommandText>/* Local Query */</CommandText>
-      </Query>
-      <Fields>
-        <Field Name="Id">
-          <DataField>Id</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="Name">
-          <DataField>Name</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="UltimateId">
-          <DataField>UltimateId</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Status">
-          <DataField>Status</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Opportunity">
-          <DataField>Opportunity</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="ProjectorProject">
-          <DataField>ProjectorProject</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="RequestIMS">
-          <DataField>RequestIMS</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="ContractType">
-          <DataField>ContractType</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Billable">
-          <DataField>Billable</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="AccountContacts">
-          <DataField>AccountContacts</DataField>
-          <rd:TypeName>System.Collections.Generic.List`1[[CMDB01.Models.ContactLinks, CMDB01, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]</rd:TypeName>
-        </Field>
-        <Field Name="servers">
-          <DataField>servers</DataField>
-          <rd:TypeName>System.Collections.Generic.List`1[[CMDB01.Models.serverFarms, CMDB01, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]</rd:TypeName>
-        </Field>
-      </Fields>
-      <rd:DataSetInfo>
-        <rd:DataSetName>CMDB01</rd:DataSetName>
-        <rd:TableName>reportsBL</rd:TableName>
-        <rd:ObjectDataSourceSelectMethod>getAccounts</rd:ObjectDataSourceSelectMethod>
-        <rd:ObjectDataSourceType>CMDB01.reportsBL, CMDB01, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
-      </rd:DataSetInfo>
-    </DataSet>
-  </DataSets>
   <EmbeddedImages>
     <EmbeddedImage Name="site_logo">
       <MIMEType>image/png</MIMEType>
