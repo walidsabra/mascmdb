@@ -11,13 +11,16 @@
 
 <h2>Accounts</h2>
 
-
 <div class="row">
-    <form class="navbar-form navbar-left">
-        <p>
-            @Html.ActionLink("Create New", "Create")
-        </p>
-    </form>
+    
+
+        <form class="navbar-form navbar-left">
+            <p>
+                @Html.ActionLink("Create New", "Create")
+            </p>
+        </form>
+    
+
     <form class="navbar-form navbar-right" role="search">
         <div class="form-group form-inline">
             <input type="text" id="txtSearch" class="form-control" placeholder="Search ...">
@@ -140,18 +143,22 @@
                                 <div class="card-block" style="margin-left: 10px; margin-right: 10px">
 
                                     <p class="card-text">
-                                        <b>Account Contacts:</b> <br />
+
+                                        <a title="Account contacts including Server frams and datasources" href="mailto:@item.accountEmailsAll"><i class="glyphicon glyphicon-bullhorn" style="color:red"> </i></a>
+                                        <a title="Account contacts" href="mailto:@item.accountEmails"><i class="glyphicon glyphicon-bullhorn" style="color:forestgreen"> </i></a>
+
+                                        <b> Account Contacts:</b> <br />
 
                                         @foreach (var cn in @item.AccountContacts)
-                                        {
-                                            <span></span>
-                                            <a title="Email" href="mailto:@cn.contact.email">
-                                                <i class="glyphicon glyphicon-envelope"></i>
-                                            </a>
-                                            <i class="glyphicon glyphicon-phone"></i>
-                                            @cn.contact.Name
-                                            <br />
-                                        }
+    {
+                                    <span></span>
+                                    <a title="Email" href="mailto:@cn.contact.email">
+                                        <i class="glyphicon glyphicon-envelope"></i>
+                                    </a>
+                                    <i class="glyphicon glyphicon-phone"></i>
+                                    @cn.contact.Name
+                                    <br />
+}
 
                                     </p>
                                 </div>

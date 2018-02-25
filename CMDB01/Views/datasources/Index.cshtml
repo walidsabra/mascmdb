@@ -166,18 +166,21 @@
                             <br />
                             <div class="card-block" style="margin-left: 10px; margin-right: 10px; overflow-y:auto">
                                 <p class="card-text" style="padding:1em">
+                                    
+                                    <a title="Datasource Contacts" href="mailto:@item.datasourceEmails"><i class="glyphicon glyphicon-bullhorn" style="color:forestgreen"> </i></a>
+
                                     <b>Datasource Contacts:</b> <br />
 
                                     @foreach (var cn in @item.DatasourceContacts.Select(a => new { a.contact.Name, a.contact.email }).Distinct())
-                                    {
-                                        <span></span>
-                                        <a title="Email" href="mailto:@cn.email">
-                                            <i class="glyphicon glyphicon-envelope"></i>
-                                        </a>
-                                        <i class="glyphicon glyphicon-phone"></i>
-                                        @cn.Name
-                                        <br />
-                                    }
+    {
+                                <span></span>
+                                <a title="Email" href="mailto:@cn.email">
+                                    <i class="glyphicon glyphicon-envelope"></i>
+                                </a>
+                                <i class="glyphicon glyphicon-phone"></i>
+                                @cn.Name
+                                <br />
+}
 
                                 </p>
                             </div>

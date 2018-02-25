@@ -74,7 +74,7 @@ namespace CMDB01.Controllers
 
 
         // GET: accounts
-        [Authorize]
+        //[Authorize]
         public ActionResult Index(string SearchValue, string StartWith, string accST, string bl, string ims)
         {
             IQueryable<account> lstAccounts, lstName, lstUltimate, lstProjector, lstOpportunity;
@@ -163,6 +163,7 @@ namespace CMDB01.Controllers
         }
 
         // GET: accounts/Create
+        [Authorize]
         public ActionResult Create()
         {
             GetContacts();
@@ -180,8 +181,13 @@ namespace CMDB01.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Create([Bind(Include = "Id,Name,UltimateId,Status,Opportunity,ProjectorProject,RequestIMS,Billable,contracttype")] account account, string hdContactsArray)
         {
+            if (!(bool)Session["EditData"])
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (ModelState.IsValid)
             {
                 processContacts(account, hdContactsArray, "Create");
@@ -195,8 +201,14 @@ namespace CMDB01.Controllers
         }
 
         // GET: accounts/Edit/5
+        [Authorize]
         public ActionResult Edit(int? id)
         {
+            if (!(bool)Session["EditData"])
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             GetContacts();
             GetServers();
             GetAccountEntityTypes();
@@ -222,8 +234,14 @@ namespace CMDB01.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Edit([Bind(Include = "Id,Name,UltimateId,Status,Opportunity,ProjectorProject,RequestIMS,Billable,contracttype")] account account, string hdContactsArray)
         {
+            if (!(bool)Session["EditData"])
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (ModelState.IsValid)
             {
                 processContacts(account, hdContactsArray, "Edit");
@@ -237,8 +255,14 @@ namespace CMDB01.Controllers
         }
 
         // GET: accounts/Delete/5
+        [Authorize]
         public ActionResult Delete(int? id)
         {
+            if (!(bool) Session?["EditData"])
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

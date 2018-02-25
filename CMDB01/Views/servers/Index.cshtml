@@ -201,39 +201,42 @@
                             <a href="/accounts/details/@item.account.Id">@item.account.Name<br /></a>
                             <br />
 
+                            <a title="Server Farms Contacts & Datasources Contacts" href="mailto:@item.SFramEmailsAll"><i class="glyphicon glyphicon-bullhorn" style="color:red"> </i></a>
+                            <a title="Server Farms Contacts" href="mailto:@item.SFramEmails"><i class="glyphicon glyphicon-bullhorn" style="color:forestgreen"> </i></a>
+
                             <b>Server Contacts:</b> <br />
 
                             @foreach (var cn in @item.ServerContacts.Select(a => new { a.contact.Name, a.contact.email }).Distinct())
-                            {
-                                <a title="Email" href="mailto:@cn.email">
-                                    <i class="glyphicon glyphicon-envelope"></i>
-                                </a>
-                                <i class="glyphicon glyphicon-phone"></i>
-                                @cn.Name
-                                <br />
-                            }
+    {
+                        <a title="Email" href="mailto:@cn.email">
+                            <i class="glyphicon glyphicon-envelope"></i>
+                        </a>
+                        <i class="glyphicon glyphicon-phone"></i>
+                        @cn.Name
+                        <br />
+}
                             <br />
 
                             <b>Server Data Sources:</b> <br />
 
                             @foreach (var ds in @item.datasources)
 
-                            {
-                                if (ds.Status == "Decommissioned")
-                                {
-                                    <a style="color:red" title="Datasource Details" href="datasources/details/@ds.Id">
-                                        <i class="glyphicon glyphicon-info-sign"></i>
-                                    </a>
-                                }
-                                else
-                                {
-                                    <a title="Datasource Details" href="datasources/details/@ds.Id">
-                                        <i class="glyphicon glyphicon-info-sign"></i>
-                                    </a>
-                                }
-                                @ds.Name
-                                <br />
-                            }
+    {
+        if (ds.Status == "Decommissioned")
+        {
+                        <a style="color:red" title="Datasource Details" href="/datasources/details/@ds.Id">
+                            <i class="glyphicon glyphicon-info-sign"></i>
+                        </a>
+}
+else
+{
+                        <a title="Datasource Details" href="/datasources/details/@ds.Id">
+                            <i class="glyphicon glyphicon-info-sign"></i>
+                        </a>
+}
+                        @ds.Name
+                        <br />
+}
                         </p>
                     </div>
                 </div>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
 using CMDB01.Models;
@@ -35,6 +36,9 @@ namespace CMDB01.Controllers
             if (authenticationResult.IsSuccess)
             {
                 // we are in!
+                //Fill viewbag with ability to edit yes/know
+                Session["EditData"] = checkGroup("MASOPS ProjectWise");
+
                 return RedirectToLocal(returnUrl);
             }
 
@@ -61,6 +65,14 @@ namespace CMDB01.Controllers
 
             return RedirectToAction("Index");
         }
+
+        private static bool checkGroup(string group)
+        {
+            WindowsIdentity identity = WindowsIdentity.GetCurrent();
+            WindowsPrincipal principal = new WindowsPrincipal(identity);
+            return principal.IsInRole(group);
+        }
+
     }
 
 

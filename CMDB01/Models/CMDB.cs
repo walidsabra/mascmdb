@@ -45,31 +45,35 @@ namespace CMDB01.Models
                 var primaryKey = GetPrimaryKeyValue(change);
 
                 CMDB _db = new CMDB();
-                account originalValues = _db.accounts.Where(x => x.Id.ToString() == primaryKey.ToString()).FirstOrDefault();
+                //account originalValues = _db.accounts.Where(x => x.Id.ToString() == primaryKey.ToString()).FirstOrDefault();
 
                 foreach (var prop in change.OriginalValues.PropertyNames)
                 {
-                    var originalValue = change.OriginalValues[prop].ToString();
-                    var currentValue = change.CurrentValues[prop].ToString();
-                    
-                    if (true)//originalValue != currentValue)
+                    if (change.OriginalValues[prop] !=null)
                     {
-                        changelog log = new changelog()
+                        var originalValue = change.GetDatabaseValues().GetValue<object>(prop)?.ToString();                        
+                        var currentValue = change.CurrentValues[prop].ToString();
+                        if (originalValue != currentValue)
                         {
-                            EntityName = entityName,
-                            PrimaryKeyValue = primaryKey.ToString(),
-                            PropertyName = prop,
-                            OldValue = originalValue,
-                            NewValue = currentValue,
-                            DateChanged = now,
-                            UserName = HttpContext.Current.User.Identity.Name
-                        };
-                        ChangeLogs.Add(log);
-                    }
+                            changelog log = new changelog()
+                            {
+                                EntityName = entityName,
+                                PrimaryKeyValue = primaryKey.ToString(),
+                                PropertyName = prop,
+                                OldValue = originalValue,
+                                NewValue = currentValue,
+                                DateChanged = now,
+                                UserName = HttpContext.Current.User.Identity.Name
+                            };
+                            ChangeLogs.Add(log);
+                        }
+                   }
                 }
             }
             return base.SaveChanges();
         }
+
+
         public System.Data.Entity.DbSet<CMDB01.Models.SystemReport> SystemReports { get; set; }
 
         //public System.Data.Entity.DbSet<CMDB01.Controllers.LoginViewModel> LoginViewModels { get; set; }

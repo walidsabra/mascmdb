@@ -8,6 +8,10 @@ namespace CMDB01.Models
 {
     public class account
     {
+
+        private string _accountEmails;
+        private string _accountEmailsAll;
+        
         public int Id { get; set; } //Account Id
         [Display(Name="Account Name")]
         [Required]
@@ -37,5 +41,68 @@ namespace CMDB01.Models
         public virtual List<serverFarms> servers { get; set; }
 
         //public virtual List<comment> comments { get; set; }
+
+        public virtual string accountEmails { get
+            {
+                string emails = string.Empty;
+                if (AccountContacts == null)
+                {
+                    emails = string.Empty;
+                }
+                else
+                {
+                    foreach (ContactLinks mail in AccountContacts)
+                    {
+                        emails = emails + mail.contact.email + ";";
+                    }
+                }
+                return emails;
+            }
+        }
+
+        public virtual string accountEmailsAll
+        {
+            get
+            {
+                string emails = string.Empty;
+                if (servers == null)
+                {
+                    emails = string.Empty;
+                }
+                else
+                {
+                    foreach (serverFarms SF in servers)
+                    {
+                        foreach (ContactLinks mail in SF.ServerContacts)
+                        {
+                            emails = emails + mail.contact.email + ";";
+                        }
+                        if (SF.datasources != null)
+                        {
+                            foreach (datasource ds in SF.datasources)
+                            {
+                                if (ds.DatasourceContacts != null)
+                                {
+                                    foreach (ContactLinks mail in ds.DatasourceContacts)
+                                    {
+                                        emails = emails + mail.contact.email + ";";
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+                }
+
+                if (AccountContacts != null)
+                {
+                    foreach (ContactLinks mail in AccountContacts)
+                    {
+                        emails = emails + mail?.contact.email + ";";
+                    }
+                }
+                return emails;
+            }
+        }
     }
 }

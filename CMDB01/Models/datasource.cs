@@ -33,6 +33,22 @@ namespace CMDB01.Models
         // public virtual List<comment> comments { get; set; }
         public virtual serverFarms ServerFarm { get; set; }
 
+        public virtual string datasourceEmails
+        {
+            get
+            {
+                string emails = string.Empty;
+                if (DatasourceContacts != null)
+                {
+                    foreach (ContactLinks mail in DatasourceContacts)
+                    {
+                        emails = emails + mail.contact.email + ";";
+                    }
+                }
+                return emails;
+            }
+        }
+
         //public string serverName
         //{
         //    get

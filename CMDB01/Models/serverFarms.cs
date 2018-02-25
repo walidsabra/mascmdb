@@ -68,6 +68,51 @@ namespace CMDB01.Models
 
         public virtual account account { get; set; }
 
+        public virtual string SFramEmails
+        {
+            get
+            {
+                string emails = string.Empty;
+                if (ServerContacts != null)
+                {
+                    foreach (ContactLinks mail in ServerContacts)
+                    {
+                        emails = emails + mail.contact.email + ";";
+                    }
+                }
+                return emails;
+            }
+        }
+        public virtual string SFramEmailsAll
+        {
+            get
+            {
+                string emails = string.Empty;
+                if (datasources !=null)
+                {
+                    foreach (datasource ds in datasources)
+                    {
+                        if (ds.DatasourceContacts !=null)
+                        {
+                            foreach (ContactLinks mail in ds.DatasourceContacts)
+                            {
+                                emails = emails + mail.contact.email + ";";
+                            }
+                        }
+                    }
+                }
+
+                if (ServerContacts != null)
+                {
+                    foreach (ContactLinks mail in ServerContacts)
+                    {
+                        emails = emails + mail.contact.email + ";";
+                    }
+                }
+                return emails;
+            }
+        }
+
         //public List<comment> comments
         //{
         //    get
