@@ -55,6 +55,7 @@ namespace CMDB01.Controllers
         }
 
         // GET: comments/Create
+        [Authorize]
         public ActionResult Create(int entity_id, string entity)
         {
             GetCommentTypes();
@@ -67,8 +68,13 @@ namespace CMDB01.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Create(string user, string comment, int entity_id, string entity, bool featured, string type, string Link)
         {
+            if (!(bool)Session["EditData"])
+            {
+                return RedirectToAction("Index", "Home");
+            }
             comment cm = new comment();
             cm.entity_Id = entity_id;
             cm.timestamp = DateTime.Now;

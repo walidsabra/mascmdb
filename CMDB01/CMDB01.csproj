@@ -426,6 +426,10 @@
     <Compile Include="Migrations\201801210948516_changelog2.Designer.cs">
       <DependentUpon>201801210948516_changelog2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201802260433024_removeName.cs" />
+    <Compile Include="Migrations\201802260433024_removeName.Designer.cs">
+      <DependentUpon>201802260433024_removeName.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\account.cs" />
     <Compile Include="Models\AdAuthenticationService.cs" />
@@ -780,6 +784,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801210948516_changelog2.resx">
       <DependentUpon>201801210948516_changelog2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802260433024_removeName.resx">
+      <DependentUpon>201802260433024_removeName.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\Accounts.rdlc" />
     <EmbeddedResource Include="Reports\ServerFrams.rdlc" />

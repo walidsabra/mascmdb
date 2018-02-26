@@ -56,7 +56,7 @@
             @Html.DisplayName("Server Farm")
         </dt>
         <dd>
-            <a href="/servers/details/@Html.DisplayFor(model => model.ServerFarm.Id)">  @Html.DisplayFor(model => model.ServerFarm.Name)</a>
+            <a href="/servers/details/@Html.DisplayFor(model => model.ServerFarm.Id)">  @Html.DisplayFor(model => model.ServerFarm.FQDN)</a>
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.ServerFarm.DeployedVersion)

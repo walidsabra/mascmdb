@@ -123,7 +123,16 @@
                                     </button>
                                     <br />
 
-                                    <a class="card-title" style="color:cornflowerblue" href="/accounts/details/@item.Id">@item.Name</a>
+                                    <a class="card-title" style="color:cornflowerblue" href="/accounts/details/@item.Id">
+                                        @if (@item.Name.Length >= 30)
+    {
+                                    @item.Name.Substring(0, 25) <span> ...</span>
+}
+else
+{
+                                    @item.Name
+}
+                                    </a>
                                     <div>
                                         <p class="card-text">
                                             <b>Ultimate Id:</b> @item.UltimateId<br />
@@ -134,7 +143,7 @@
                                             <b>Billable:</b> @item.Billable <br />
                                             <b>Request IMS:</b> @item.RequestIMS <br />
                                             @*<b>Success Admin Level:</b> @item.SuccessAdminLevel <br />
-                                                <b>Link to C4S:</b> <a href="@item.LinktoC4S" target="_blank">click here</a> <br />*@
+                <b>Link to C4S:</b> <a href="@item.LinktoC4S" target="_blank">click here</a> <br />*@
                                         </p>
                                     </div>
                                 </div>
@@ -181,7 +190,7 @@
                                             foreach (var srv in @item.servers)
                                             {
 
-                                                <a class="glyphicon glyphicon-th-large" href="/servers/details/@srv.Id"></a> <b>@srv.Name</b> <br />
+                                                <a class="glyphicon glyphicon-th-large" href="/servers/details/@srv.Id"></a> <b>@srv.FQDN</b> <br />
                                                 if (@srv.datasources.Count > 0)
                                                 {
                                                     foreach (var ds in @srv.datasources)

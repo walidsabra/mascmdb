@@ -15,7 +15,7 @@ namespace CMDB01.Controllers
         private Models.CMDB db = new Models.CMDB();
 
         // GET: datasources
-        [Authorize]
+     
         public ActionResult Index(string SearchValue, string dc, string dv, string acc, string StartWith, string dsST, string Options)
         {
 
@@ -377,6 +377,7 @@ namespace CMDB01.Controllers
         }
 
         // GET: datasources/Create
+        [Authorize]
         public ActionResult Create()
         {
 
@@ -393,8 +394,13 @@ namespace CMDB01.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Create([Bind(Include = "Id,Name,Description,GUID,Monitored,Status")] datasource datasource, int serverId, string hdContactsArray)
         {
+            if (!(bool)Session["EditData"])
+            {
+                return RedirectToAction("Index");
+            }
             serverFarms server = db.serverFarms.Where(x => x.Id == serverId).FirstOrDefault();
             datasource.ServerFarm = server;
 
@@ -421,6 +427,7 @@ namespace CMDB01.Controllers
         }
 
         // GET: datasources/Edit/5
+        [Authorize]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -443,8 +450,13 @@ namespace CMDB01.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Edit([Bind(Include = "Id,Name,Description,GUID,Monitored,Status")] datasource datasource, string hdContactsArray)
         {
+            if (!(bool)Session["EditData"])
+            {
+                return RedirectToAction("Index");
+            }
             if (ModelState.IsValid)
             {
                 processcontacts(datasource, hdContactsArray, "Edit");
@@ -456,6 +468,7 @@ namespace CMDB01.Controllers
         }
 
         // GET: datasources/Delete/5
+        [Authorize]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -473,8 +486,13 @@ namespace CMDB01.Controllers
         // POST: datasources/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (!(bool)Session["EditData"])
+            {
+                return RedirectToAction("Index");
+            }
             db.contactlinks.RemoveRange(db.contactlinks.Where(a => a.datasource.Id == id));
 
             datasource datasource = db.datasources.Find(id);
@@ -493,6 +511,7 @@ namespace CMDB01.Controllers
         }
 
         // GET: accounts/Delete/5
+        [Authorize]
         public ActionResult DeleteDatasourceContact(int? id)
         {
 
@@ -501,8 +520,13 @@ namespace CMDB01.Controllers
         // POST: accounts/Delete/5
         [HttpPost, ActionName("DeleteDatasourceContact")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult DeleteDatasourceContact(int dsId, int contactId)
         {
+            if (!(bool)Session["EditData"])
+            {
+                return RedirectToAction("Index");
+            }
             try
             {
                 db.contactlinks.RemoveRange(db.contactlinks.Where(a => a.datasource.Id == dsId && a.contact.Id == contactId));
@@ -574,7 +598,7 @@ namespace CMDB01.Controllers
                 {
                     SelectListItem selectList = new SelectListItem()
                     {
-                        Text = server.Name,
+                        Text = server.FQDN,
                         Value = server.Id.ToString(),
                         Selected = false
                     };

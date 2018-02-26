@@ -9,13 +9,16 @@ namespace CMDB01.Models
     public class serverFarms
     {
         public int Id { get; set; } //Server Id
-        [Required]
-        public string Name { get; set; } //Server Name
+        //[Required]
+        //public string Name { get; set; } //Server Name
         [Display(Name = "Data Center")]
         public string DataCenter { get; set; } //Data Source Location
         [Display(Name = "Deployed Version")]
         public string DeployedVersion { get; set; } //PW Version
+        [Required]
         public string FQDN { get; set; }
+
+        [Display(Name = "Non-Typical Architecture")]
         public string NonTypicalArchitecture { get; set; }
         public string SLA { get; set; }
         [Display(Name = "Custom SLA")]

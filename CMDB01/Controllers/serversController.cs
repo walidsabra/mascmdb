@@ -72,8 +72,27 @@ namespace CMDB01.Controllers
             //--------------------------------------------------------------------
         }
 
+        //Get List of DataCenters ----------------------------------------------
+        private void GetDataCenters()
+        {
+            List<SelectListItem> listSelectListItems = new List<SelectListItem>();
+
+            foreach (PickList pl in db.PickLists.Where(x => x.PickListName == "DataCenter").OrderBy(a => a.PickListValue))
+            {
+                SelectListItem selectList = new SelectListItem()
+                {
+                    Text = pl.PickListValue,
+                    Value = pl.Id.ToString(),
+                    Selected = false
+                };
+                listSelectListItems.Add(selectList);
+            }
+            ViewBag.DataCenter = listSelectListItems;
+            //--------------------------------------------------------------------
+        }
+
         // GET: servers
-        [Authorize]
+        
         public ActionResult Index(string SearchValue, string dc, string dv, string rl, string acc, string StartWith, string sfST, string Options)
         {
             List<SelectListItem> mlist = new List<SelectListItem>();
@@ -254,7 +273,7 @@ namespace CMDB01.Controllers
             if (!string.IsNullOrEmpty(SearchValue))
             {
                 List<serverFarms> ls1 = null, ls2 = null;
-                ls1 = db.serverFarms.Where(x => x.Name.Contains(SearchValue)).ToList();
+                ls1 = db.serverFarms.Where(x => x.FQDN.Contains(SearchValue)).ToList();
                 //search in many places here
                 //----
                 ls2 = db.serverFarms.Where(a => a.DeploymentId.Contains(SearchValue)).ToList();
@@ -361,7 +380,7 @@ namespace CMDB01.Controllers
             }
             if (!string.IsNullOrEmpty(StartWith))
             {
-                lsSW = db.serverFarms.Where(x => x.Name.StartsWith(StartWith)).ToList();
+                lsSW = db.serverFarms.Where(x => x.FQDN.StartsWith(StartWith)).ToList();
             }
             if (string.IsNullOrEmpty(SearchValue) && string.IsNullOrEmpty(dc) && string.IsNullOrEmpty(dv) && string.IsNullOrEmpty(acc) && string.IsNullOrEmpty(StartWith) && string.IsNullOrEmpty(sfST) && string.IsNullOrEmpty(rl))
             {
@@ -493,12 +512,14 @@ namespace CMDB01.Controllers
         }
 
         // GET: servers/Create
+        [Authorize]
         public ActionResult Create()
         {
             GetAccounts();
             GetContacts();
             GetServerFarmEntityTypes();
             GetRole();
+            GetDataCenters();
             GetSFStatusList();
             GetSLA();
             return View();
@@ -566,8 +587,13 @@ namespace CMDB01.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,DataCenter,DeployedVersion,FQDN,Architecture,Role,Status,DeploymentId,SLA,CustomSLA")] serverFarms server, string hdContactsArray, int accountId)
+        [Authorize]
+        public ActionResult Create([Bind(Include = "Id,DataCenter,DeployedVersion,FQDN,Architecture,Role,Status,DeploymentId,SLA,CustomSLA,NonTypicalArchitecture")] serverFarms server, string hdContactsArray, int accountId)
         {
+            if (!(bool)Session["EditData"])
+            {
+                return RedirectToAction("Index");
+            }
             if (ModelState.IsValid)
             {
                 account account = db.accounts.Where(x => x.Id == accountId).FirstOrDefault();
@@ -631,11 +657,14 @@ namespace CMDB01.Controllers
         }
 
         // GET: servers/Edit/5
+        [Authorize]
         public ActionResult Edit(int? id)
         {
             GetContacts();
             GetServerFarmEntityTypes();
             GetRole();
+            GetDataCenters();
+
             GetSFStatusList();
             GetSLA();
 
@@ -656,8 +685,13 @@ namespace CMDB01.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,DataCenter,DeployedVersion,FQDN,Architecture,Role,Status,DeploymentId,SLA,CustomSLA")] serverFarms server, string hdContactsArray)
+        [Authorize]
+        public ActionResult Edit([Bind(Include = "Id,DataCenter,DeployedVersion,FQDN,Architecture,Role,Status,DeploymentId,SLA,CustomSLA,NonTypicalArchitecture")] serverFarms server, string hdContactsArray)
         {
+            if (!(bool)Session["EditData"])
+            {
+                return RedirectToAction("Index");
+            }
             if (ModelState.IsValid)
             {
                 ProcessContacts(server, hdContactsArray, "Edit");
@@ -669,8 +703,13 @@ namespace CMDB01.Controllers
         }
 
         // GET: servers/Delete/5
+        [Authorize]
         public ActionResult Delete(int? id)
         {
+            if (!(bool)Session["EditData"])
+            {
+                return RedirectToAction("Index");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -686,6 +725,7 @@ namespace CMDB01.Controllers
         // POST: servers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult DeleteConfirmed(int id)
         {
             try
@@ -715,6 +755,7 @@ namespace CMDB01.Controllers
 
 
         // GET: accounts/Delete/5
+        [Authorize]
         public ActionResult DeleteServerFarmContact(int? id)
         {
 
@@ -723,8 +764,13 @@ namespace CMDB01.Controllers
         // POST: accounts/Delete/5
         [HttpPost, ActionName("DeleteServerFarmContact")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult DeleteServerFarmContact(int srvId, int contactId)
         {
+            if (!(bool)Session["EditData"])
+            {
+                return RedirectToAction("Index");
+            }
             try
             {
                 db.contactlinks.RemoveRange(db.contactlinks.Where(a => a.server.Id == srvId && a.contact.Id == contactId));

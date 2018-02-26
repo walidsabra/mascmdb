@@ -186,7 +186,7 @@ namespace CMDB01.Controllers
         {
             if (!(bool)Session["EditData"])
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index");
             }
             if (ModelState.IsValid)
             {
@@ -206,7 +206,7 @@ namespace CMDB01.Controllers
         {
             if (!(bool)Session["EditData"])
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index");
             }
 
             GetContacts();
@@ -239,7 +239,7 @@ namespace CMDB01.Controllers
         {
             if (!(bool)Session["EditData"])
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index");
             }
 
             if (ModelState.IsValid)
@@ -258,9 +258,9 @@ namespace CMDB01.Controllers
         [Authorize]
         public ActionResult Delete(int? id)
         {
-            if (!(bool) Session?["EditData"])
+            if (!(bool)Session["EditData"])
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index");
             }
 
             if (id == null)
@@ -330,6 +330,7 @@ namespace CMDB01.Controllers
 
 
         // GET: accounts/Delete/5
+        [Authorize]
         public ActionResult DeleteAccountContact(int? id)
         {
 
@@ -338,8 +339,13 @@ namespace CMDB01.Controllers
         // POST: accounts/Delete/5
         [HttpPost, ActionName("DeleteAccountContact")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult DeleteAccountContact(int accId, int contactId)
         {
+            if (!(bool)Session["EditData"])
+            {
+                return RedirectToAction("Index");
+            }
             try
             {
                 db.contactlinks.RemoveRange(db.contactlinks.Where(a => a.account.Id == accId && a.contact.Id == contactId));
@@ -425,11 +431,11 @@ namespace CMDB01.Controllers
             //Get List of Contacts ----------------------------------------------
             List<SelectListItem> listSelectListItems = new List<SelectListItem>();
 
-            foreach (serverFarms server in db.serverFarms.OrderBy(a => a.Name))
+            foreach (serverFarms server in db.serverFarms.OrderBy(a => a.FQDN))
             {
                 SelectListItem selectList = new SelectListItem()
                 {
-                    Text = server.Name,
+                    Text = server.FQDN,
                     Value = server.Id.ToString(),
                     Selected = false
                 };

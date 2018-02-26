@@ -30,25 +30,25 @@ namespace CMDB01.Controllers
             if (string.IsNullOrEmpty(account) && string.IsNullOrEmpty(datacenter))
             {
                 lstFarms = db.serverFarms
-                    .OrderBy(a => a.Name).ToList();
+                    .OrderBy(a => a.FQDN).ToList();
             }
             else if (!string.IsNullOrEmpty(account) && !string.IsNullOrEmpty(datacenter))
             {
                 lstFarms = db.serverFarms
                     .Where(x => x.DataCenter.ToLower() == datacenter.ToLower() && x.account.Name.ToLower() == account.ToLower())
-                    .OrderBy(a => a.Name).ToList();
+                    .OrderBy(a => a.FQDN).ToList();
             }
             else if (!string.IsNullOrEmpty(account) && string.IsNullOrEmpty(datacenter))
             {
                 lstFarms = db.serverFarms
                     .Where(x => x.account.Name.ToLower() == account.ToLower())
-                    .OrderBy(a => a.Name).ToList();
+                    .OrderBy(a => a.FQDN).ToList();
             }
             else if (string.IsNullOrEmpty(account) && !string.IsNullOrEmpty(datacenter))
             {
                 lstFarms = db.serverFarms
                     .Where(x => x.DataCenter.ToLower() == datacenter.ToLower())
-                    .OrderBy(a => a.Name).ToList();
+                    .OrderBy(a => a.FQDN).ToList();
             }
             List<SelectListItem> listSelectListItems = new List<SelectListItem>();
 
@@ -56,7 +56,7 @@ namespace CMDB01.Controllers
             {
                 SelectListItem selectList = new SelectListItem()
                 {
-                    Text = pl.Name,
+                    Text = pl.FQDN,
                     Value = pl.Id.ToString(),
                     Selected = false
                 };
@@ -88,7 +88,7 @@ namespace CMDB01.Controllers
             else if (!string.IsNullOrEmpty(serverfarm) && !string.IsNullOrEmpty(account))
             {
                 lstDatasources = db.datasources
-                 .Where(x => x.ServerFarm.account.Name.ToLower() == account.ToLower() && x.ServerFarm.Name.ToLower() == serverfarm.ToLower())
+                 .Where(x => x.ServerFarm.account.Name.ToLower() == account.ToLower() && x.ServerFarm.FQDN.ToLower() == serverfarm.ToLower())
                  .OrderBy(a => a.Name).ToList();
             }
             else if (string.IsNullOrEmpty(serverfarm) && !string.IsNullOrEmpty(account))
@@ -100,7 +100,7 @@ namespace CMDB01.Controllers
             else if (!string.IsNullOrEmpty(serverfarm) && string.IsNullOrEmpty(account))
             {
                 lstDatasources = db.datasources
-                 .Where(x => x.ServerFarm.Name.ToLower() == serverfarm.ToLower())
+                 .Where(x => x.ServerFarm.FQDN.ToLower() == serverfarm.ToLower())
                  .OrderBy(a => a.Name).ToList();
             }
 
@@ -134,13 +134,13 @@ namespace CMDB01.Controllers
             if (string.IsNullOrEmpty(account))
             {
                 lstDataCenters = db.serverFarms
-                    .OrderBy(a => a.Name).ToList();
+                    .OrderBy(a => a.FQDN).ToList();
             }
             else
             {
                 lstDataCenters = db.serverFarms
                     .Where(x => x.account.Name.ToLower() == account.ToLower())
-                    .OrderBy(a => a.Name).ToList();
+                    .OrderBy(a => a.FQDN).ToList();
             }
             List<SelectListItem> listSelectListItems = new List<SelectListItem>();
 
@@ -222,10 +222,10 @@ namespace CMDB01.Controllers
 
             List<string> sfLST = (from cl in db.contactlinks
                                   join cc in db.serverFarms on cl.server.Id equals cc.Id
-                                  select cc.Name).Distinct().ToList();
+                                  select cc.FQDN).Distinct().ToList();
             foreach (string str1 in dsLST)
             {
-                string srvFarm = db.datasources.Where(a => a.Name == str1).Select(b => b.ServerFarm.Name).FirstOrDefault();
+                string srvFarm = db.datasources.Where(a => a.Name == str1).Select(b => b.ServerFarm.FQDN).FirstOrDefault();
                 if (!sfLST.Contains(srvFarm))
                 {
                     sfLST.Add(srvFarm);
@@ -234,7 +234,7 @@ namespace CMDB01.Controllers
             List<string> dcLST = new List<string>();
             foreach (string str2 in sfLST)
             {
-                string sfDC = db.serverFarms.Where(a => a.Name == str2).Select(b => b.DataCenter).FirstOrDefault();
+                string sfDC = db.serverFarms.Where(a => a.FQDN == str2).Select(b => b.DataCenter).FirstOrDefault();
                 if (!string.IsNullOrEmpty(sfDC))
                 {
                     dcLST.Add(sfDC);
@@ -246,7 +246,7 @@ namespace CMDB01.Controllers
                                    select cc.Name).Distinct().ToList();
             foreach (string str3 in sfLST)
             {
-                string sfACC = db.serverFarms.Where(a => a.Name == str3).Select(b => b.account.Name).FirstOrDefault();
+                string sfACC = db.serverFarms.Where(a => a.FQDN == str3).Select(b => b.account.Name).FirstOrDefault();
                 if (!accLST.Contains(sfACC))
                 {
                     accLST.Add(sfACC);
@@ -368,9 +368,9 @@ namespace CMDB01.Controllers
                     lstDatasources.Distinct();
 
                     //ServerFarm List
-                    int opId = db.serverFarms.Where(a => a.Name == op).Select(b => b.Id).FirstOrDefault();
-                    List<ContactLinks> linkSF = db.contactlinks.Where(x => x.server.Name == op && x.entityType.ToLower() == "serverfarm").ToList();
-                    List<ContactLinks> linkSFds = db.contactlinks.Where(x => x.server.Name == op && x.entityType.ToLower() == "datasource").ToList();
+                    int opId = db.serverFarms.Where(a => a.FQDN == op).Select(b => b.Id).FirstOrDefault();
+                    List<ContactLinks> linkSF = db.contactlinks.Where(x => x.server.FQDN == op && x.entityType.ToLower() == "serverfarm").ToList();
+                    List<ContactLinks> linkSFds = db.contactlinks.Where(x => x.server.FQDN == op && x.entityType.ToLower() == "datasource").ToList();
                     if (lstServerFarms.Count() > 0)
                     {
                         lstServerFarms = lstServerFarms.Concat(linkSF).ToList();
@@ -537,7 +537,7 @@ namespace CMDB01.Controllers
 
             string[] sfLST = (from cl in db.contactlinks
                               join cc in db.serverFarms on cl.server.Id equals cc.Id
-                              select cc.Name).Distinct().ToArray();
+                              select cc.FQDN).Distinct().ToArray();
 
             string[] dcLST = (from cl in db.contactlinks
                               join cc in db.serverFarms on cl.server.Id equals cc.Id
@@ -653,7 +653,7 @@ namespace CMDB01.Controllers
                 //first 
                 lstDCs = new List<contact>();
                 IQueryable<ContactLinks> lstlnks1 = db.contactlinks.Where(x => Options.Contains(x.datasource.Name) && x.entityType.ToLower() == "datasource").AsQueryable();
-                IQueryable<ContactLinks> lstlnks2 = db.contactlinks.Where(x => Options.Contains(x.server.Name) && x.entityType.ToLower() == "server farm").AsQueryable();
+                IQueryable<ContactLinks> lstlnks2 = db.contactlinks.Where(x => Options.Contains(x.server.FQDN) && x.entityType.ToLower() == "server farm").AsQueryable();
                 IQueryable<ContactLinks> lstlnks3 = db.contactlinks.Where(x => Options.Contains(x.server.DataCenter) && x.entityType.ToLower() == "server farm").AsQueryable();
                 IQueryable<ContactLinks> lstlnks4 = db.contactlinks.Where(x => Options.Contains(x.account.Name) && x.entityType.ToLower() == "account").AsQueryable();
                 IQueryable<ContactLinks> lstlnks5 = db.contactlinks.Where(x => Options.Contains(x.entityCategory)).AsQueryable();
@@ -774,6 +774,7 @@ namespace CMDB01.Controllers
         }
 
         // GET: contacts/Create
+        [Authorize]
         public ActionResult Create()
         {
             return View();
@@ -784,8 +785,13 @@ namespace CMDB01.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Create([Bind(Include = "Id,Name,email,phone,company")] contact contact)
         {
+            if (!(bool)Session["EditData"])
+            {
+                return RedirectToAction("Index");
+            }
             if (ModelState.IsValid)
             {
                 db.contacts.Add(contact);
@@ -797,6 +803,7 @@ namespace CMDB01.Controllers
         }
 
         // GET: contacts/Edit/5
+        [Authorize]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -816,8 +823,13 @@ namespace CMDB01.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Edit([Bind(Include = "Id,Name,email,phone,company")] contact contact)
         {
+            if (!(bool)Session["EditData"])
+            {
+                return RedirectToAction("Index");
+            }
             if (ModelState.IsValid)
             {
                 db.Entry(contact).State = EntityState.Modified;
@@ -828,6 +840,7 @@ namespace CMDB01.Controllers
         }
 
         // GET: contacts/Delete/5
+        [Authorize]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -845,8 +858,13 @@ namespace CMDB01.Controllers
         // POST: contacts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (!(bool)Session["EditData"])
+            {
+                return RedirectToAction("Index");
+            }
             contact contact = db.contacts.Find(id);
             db.contacts.Remove(contact);
             db.SaveChanges();
