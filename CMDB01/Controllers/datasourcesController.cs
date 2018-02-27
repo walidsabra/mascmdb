@@ -594,7 +594,7 @@ namespace CMDB01.Controllers
             {
                 List<SelectListItem> SlistSelectListItems = new List<SelectListItem>();
 
-                foreach (serverFarms server in db.serverFarms)
+                foreach (serverFarms server in db.serverFarms.OrderBy(a=>a.FQDN))
                 {
                     SelectListItem selectList = new SelectListItem()
                     {
@@ -670,6 +670,25 @@ namespace CMDB01.Controllers
                                .ToList();
 
                 return Json(new { ok = true, data = comments, message = "ok" });
+            }
+            else
+            {
+                return null;
+            }
+
+        }
+
+        [HttpPost]
+        public JsonResult GetHistory(int DSId)
+        {
+            if (DSId > 0)
+            {
+                var history = db.ChangeLogs.AsEnumerable()
+                               .Where(x => int.Parse(x.PrimaryKeyValue) == DSId && x.EntityName.ToLower() == "datasource")
+                               .OrderByDescending(a => a.Id ).ThenByDescending(b => b.DateChanged)
+                               .ToList();
+
+                return Json(new { ok = true, data = history, message = "ok" });
             }
             else
             {

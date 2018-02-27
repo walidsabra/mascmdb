@@ -6,8 +6,8 @@
 }
 <link href="~/Content/flipCards.css" rel="stylesheet" />
 @*<script src="~/Scripts/jquery-1.12.4.js"></script>
-<script src="~/Scripts/bootstrap.min.js"></script>
-<script src="~/Scripts/jquery-1.12.4.min.js"></script>*@
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-1.12.4.min.js"></script>*@
 
 <link href="~/Content/chosen.min.css" rel="stylesheet" />
 <script src="~/Scripts/chosen.jquery.min.js"></script>
@@ -24,7 +24,7 @@
             <input type="text" id="txtSearch" class="form-control" placeholder="Text Search ...">
         </div>
         <a class="btn btn-primary glyphicon glyphicon-search" id="btnSearch"></a>
-        
+
         <br />
         <br />
         @foreach (var item in Model.OrderBy(x => x.Name).Select(a => a.Name.Substring(0, 1).ToUpper()).Distinct())
@@ -48,16 +48,16 @@
     <a class="btn btn-danger glyphicon glyphicon-refresh" id="btnReset"></a>
 
     <hr />
-    
-@*Hidden Fields*@
-<input type="hidden" name="Options" id="Options" />
+
+    @*Hidden Fields*@
+    <input type="hidden" name="Options" id="Options" />
     @*<input type="hidden" name="OptionsIds" id="OptionsIds" />*@
 
 
-	@* Render Filter box before Showing the Cards *@
-    <script> $('#LinkedOptions').chosen(); </script>
-	@*<script> $('#multiSearch').chosen(); </script>*@
-	@* ------------------------------------------ *@
+    @* Render Filter box before Showing the Cards *@
+    <script>    $('#LinkedOptions').chosen();</script>
+    @*<script> $('#multiSearch').chosen(); </script>*@
+    @* ------------------------------------------ *@
 
 
     <h5>Data Center</h5>
@@ -128,59 +128,64 @@
 
 <div class="col-md-8">
     @foreach (var item in Model.OrderBy(a => a.Name))
-            {
+    {
         <div>
             <div class="col-md-4">
                 <div class="card-container manual-flip">
                     <div class="card">
                         <div class="front" style="overflow-y:auto">
-                            <div class="card-block" style="margin-left: 10px; margin-right: 10px;" >
+                            <div class="card-block" style="margin-left: 10px; margin-right: 10px;">
                                 @if (@item.Status != null && @item.Status.ToLower() == "decommissioned")
                                 {
                                     <a class="btn-danger"><<  @item.Status.ToUpper() >></a> <br />
                                 }
-                                <button class="btn btn-simple" rel="tooltip" title="Flip Card" onclick="rotateCard(this)">
+
+                                <button class="btn btn-xs btn-simple" rel="tooltip" title="Flip Card" onclick="rotateCard(this)">
                                     <i class="glyphicon glyphicon-refresh"></i>
                                 </button>
-                                <a class="btn btn-simple" rel="tooltip" title="Edit" href="@Url.Action("Edit", "datasources", new { id = item.Id})">
+                                <a class="btn btn-simple btn-xs" rel="tooltip" title="Edit" href="@Url.Action("Edit", "datasources", new { id = item.Id})">
                                     <i class="glyphicon glyphicon-edit"></i>
                                 </a>
-                                <a class="btn btn-simple" rel="tooltip" title="Delete" href="@Url.Action("Delete", "datasources", new { id = item.Id })">
+                                <a class="btn btn-simple btn-xs" rel="tooltip" title="Delete" href="@Url.Action("Delete", "datasources", new { id = item.Id })">
                                     <i class="glyphicon glyphicon-remove"></i>
                                 </a>
-                                <button class="btn btn-simple openComment" rel="tooltip" title="Comments" data-toggle="modal" data-target="#myModal" data-id=@item.Id data-name=@item.Name>
+                                <button class="btn btn-simple btn-xs openComment" rel="tooltip" title="Comments" data-toggle="modal" data-target="#myModal" data-id=@item.Id data-name=@item.Name>
                                     <i class="glyphicon glyphicon-comment"></i>
                                 </button>
+                                <button class="btn btn-simple btn-xs openHistory" rel="tooltip" title="History" data-toggle="modal" data-target="#histModal" data-id=@item.Id data-name=@item.Name>
+                                    <i class="glyphicon glyphicon-time"></i>
+                                </button>
+
                                 <br />
                                 @*target="_blank"*@
-                                <a class="card-title" style="color:cornflowerblue" href="/datasources/details/@item.Id" >@item.Name</a>
+                                <a class="card-title" style="color:cornflowerblue" href="/datasources/details/@item.Id">@item.Name</a>
                                 <p class="card-text">
                                     @item.Description <br />
                                     @*<b>GUID:</b> <br /> @item.GUID <br />*@
                                     <b>Status:</b> @item.Status <br />
                                     <b>Purpose:</b> @item.Purpose <br />
                                     <b>Monitored?:</b> @item.Monitored <br />
-                                    
+
                                 </p>
                             </div>
                             <br />
                             <div class="card-block" style="margin-left: 10px; margin-right: 10px; overflow-y:auto">
                                 <p class="card-text" style="padding:1em">
-                                    
+
                                     <a title="Datasource Contacts" href="mailto:@item.datasourceEmails"><i class="glyphicon glyphicon-bullhorn" style="color:forestgreen"> </i></a>
 
                                     <b>Datasource Contacts:</b> <br />
 
                                     @foreach (var cn in @item.DatasourceContacts.Select(a => new { a.contact.Name, a.contact.email }).Distinct())
-    {
-                                <span></span>
-                                <a title="Email" href="mailto:@cn.email">
-                                    <i class="glyphicon glyphicon-envelope"></i>
-                                </a>
-                                <i class="glyphicon glyphicon-phone"></i>
-                                @cn.Name
-                                <br />
-}
+                                    {
+                                        <span></span>
+                                        <a title="Email" href="mailto:@cn.email">
+                                            <i class="glyphicon glyphicon-envelope"></i>
+                                        </a>
+                                        <i class="glyphicon glyphicon-phone"></i>
+                                        @cn.Name
+                                        <br />
+                                    }
 
                                 </p>
                             </div>
@@ -250,6 +255,38 @@
     </div>
 </div>
 
+<div id="histModal" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="width:850px">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Datasource History</h4>
+            </div>
+            <div class="modal-body">
+                <div id="bbb">
+
+                </div>
+                <table id="records" class="table table-bordered">
+                    <tr>
+                        <th>Time</th>
+                        <th>User</th>
+                        <th>Property</th>
+                        <th>From</th>
+                        <th>To</th>
+                    </tr>
+
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
 <script>
     $("#btnSearch").click(function () {
         window.location = "/datasources/index?SearchValue=" + $("#txtSearch").val();
@@ -315,6 +352,53 @@
 
     });
 
+
+    $(document).on("click", ".openHistory", function () {
+        var DSId = $(this).data('id');
+        var DSName = $(this).data('name');
+
+        $(".modal-title").text("Datasource " + DSName + " History");
+
+        $.ajax({
+            datatype: 'json',
+            type: "POST",
+            url: '@Url.Action("GetHistory")',
+            data: { DSId: DSId },
+            success: function (returndata) {
+                if (returndata.ok) {
+                    //debugger;
+                    var items = "";
+                    items += "<tr><th>Time</th><th>User</th><th>Property</th><th>From</th><th>To</th></tr>";
+                    $.each(returndata.data, function (i, itemdata) {
+                        var date = new Date(parseInt(itemdata.DateChanged.substr(6))).toLocaleDateString();
+
+                        var user = "";
+                        if (itemdata.UserName) {
+                            user = itemdata.UserName;
+                        }
+                        var prop = "";
+                        if (itemdata.PropertyName) {
+                            prop = itemdata.PropertyName;
+                        }
+                        var old = "";
+                        if (itemdata.OldValue) {
+                            old = itemdata.OldValue;
+                        }
+                        var newVal = "";
+                        if (itemdata.NewValue) {
+                            newVal = itemdata.NewValue;
+                        }
+
+                        items += '<tr> <td>' + date + '</td> <td>' + user + "</td> <td>" + prop + "</td> <td>" + old + "</td> <td>" + newVal + "</td>";
+                    });
+                    $("#records").empty();
+                    $("#records").append(items);
+
+                }
+            }
+        });
+
+    });
 
 
     $('#btnFilter').on("click", function (event, params) {

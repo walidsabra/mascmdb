@@ -113,8 +113,8 @@
 
             <div class="col-md-10">
                 <form class="form-inline">
-                    @Html.DropDownList("contactId", (List<SelectListItem>)ViewBag.contacts, htmlAttributes: new { @class = "btn btn-success" })
-                    <a class="btn btn-success" onclick="AddRecord()">+</a>
+                    @Html.DropDownList("contactId", (List<SelectListItem>)ViewBag.contacts, htmlAttributes: new { @class = "form-inline" })
+                    <a class="" onclick="AddRecord()"><span class="glyphicon glyphicon-insert">+</span></a>
                 </form>
             </div>
             <table id="myTable" class="table table-bordered table-striped">
@@ -185,7 +185,7 @@
 
         $('#cntRows').append('<tr>' +
             "<td><label id='lblContactName'>" + selectedContactName + "</label><input type='hidden' id='hdnContactID' value=" + selectedContactId + "></td>" +
-            "<td>" + ddl + "</td><td></td></tr>");
+            "<td>" + ddl + "</td><td><a style='color:red' class='tblRmv' href='javascript:void(0)'><i class='glyphicon glyphicon-remove tblRmv'></i></a></td></tr>");
 
         //"<td><input type=\"radio\" name=\"" + radioNam + "\" id='allComms'>All Comms &nbsp;</input><input type=\"radio\" name=\"" + radioNam + "\"id='informOnly'>Inform Only</input></td><td></td></tr>");
     }
@@ -214,4 +214,9 @@
             $('#hdContactsArray').val(JSON.stringify(contacts));
         });
     });
+
+    $(document).on("click", ".tblRmv", function () {
+        $(this).closest('tr').remove();
+    });
+
 </script>

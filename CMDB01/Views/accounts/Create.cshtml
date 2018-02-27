@@ -81,12 +81,10 @@
         <div class="form-group">
             @Html.Label("Account Contacts", htmlAttributes: new { @class = "control-label col-md-2" })
 
-            <div class="col-md-10">
+            <div class="">
                 <form class="form-inline">
-
-                    @Html.DropDownList("contactId", (List<SelectListItem>)ViewBag.contacts, htmlAttributes: new { @class = "form-control", @onchange = "AddRecord()" })
-
-                    @* <input type="button"  onclick="AddRecord()" name="add" value="Add" />*@
+                    @Html.DropDownList("contactId", (List<SelectListItem>)ViewBag.contacts, htmlAttributes: new { @class = "form-inline" })
+                    <a class="" onclick="AddRecord()"><span class="glyphicon glyphicon-plus"></span></a>
                 </form>
 
                 <table id="myTable" class="table-bordered table-striped">
@@ -94,6 +92,7 @@
                         <tr>
                             <th>Contact Name</th>
                             <th>Category</th>
+                            <th style="width:8px"></th>
                         </tr>
                     </thead>
                     <tbody id="cntRows"></tbody>
@@ -135,7 +134,7 @@
 
         $('#cntRows').append('<tr>' +
             "<td><label id='lblContactName'>" + selectedContactName + "</label><input type='hidden' id='hdnContactID' value=" + selectedContactId + "></td>" +
-            "<td>" + ddl + "</td></tr>");
+            "<td>" + ddl + "</td><td><a style='color:red' class='tblRmv' href='javascript:void(0)'><i class='glyphicon glyphicon-remove tblRmv'></i></a></td></tr>");
             //"<td><input type=\"radio\" name=\"" + radioNam + "\" id='allComms'>All Comms &nbsp;</input><input type=\"radio\" name=\"" + radioNam + "\"id='informOnly'>Inform Only</input></td></tr>");
 
 
@@ -163,6 +162,12 @@
             $('#hdContactsArray').val(JSON.stringify(contacts));
         });
     });
+
+
+    $(document).on("click", ".tblRmv", function () {
+        $(this).closest('tr').remove();
+    });
+
 
     //$(function () {
     //    $("#contrDate").datepicker();
